@@ -18,7 +18,6 @@ class BoardTestExp {
 	public void setUp() {
 		board = new TestBoard();
 	}
-	
 	@Test
 	public void testAdjacency() {
 		//testing adjacency for cell (0,0)
