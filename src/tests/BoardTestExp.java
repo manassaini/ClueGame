@@ -13,7 +13,7 @@ import experiment.TestBoardCell;
 
 class BoardTestExp {
 	TestBoard board;
-	
+
 	@BeforeEach
 	public void setUp() {
 		board = new TestBoard();
@@ -26,7 +26,7 @@ class BoardTestExp {
 		Assert.assertTrue(testList.contains(board.getCell(1, 0)));
 		Assert.assertTrue(testList.contains(board.getCell(0, 1)));
 		Assert.assertEquals(2, testList.size());
-		
+
 		//testing adjacency for cell (1,3)
 		TestBoardCell cell2 = board.getCell(1, 3);
 		Set<TestBoardCell> testList2 = cell.getAdjList();
@@ -34,21 +34,21 @@ class BoardTestExp {
 		Assert.assertTrue(testList2.contains(board.getCell(1, 2)));
 		Assert.assertTrue(testList2.contains(board.getCell(2, 3)));
 		Assert.assertEquals(3, testList2.size());
-		
+
 		//testing adjacency for cell (3,3)
 		TestBoardCell cell3 = board.getCell(3, 3);
 		Set<TestBoardCell> testList3 = cell.getAdjList();
 		Assert.assertTrue(testList3.contains(board.getCell(2, 3)));
 		Assert.assertTrue(testList3.contains(board.getCell(3, 2)));
 		Assert.assertEquals(2, testList3.size());
-		
+
 		//testing adjacency for cell (3,0)
 		TestBoardCell cell4 = board.getCell(3, 0);
 		Set<TestBoardCell> testList4 = cell.getAdjList(); 
 		Assert.assertTrue(testList4.contains(board.getCell(2, 0)));
 		Assert.assertTrue(testList4.contains(board.getCell(3, 1)));
 		Assert.assertEquals(2, testList4.size());
-		
+
 		//testing adjacency for cell (2,2)
 		TestBoardCell cell5 = board.getCell(2, 2);
 		Set<TestBoardCell> testList5 = cell.getAdjList(); 
@@ -59,8 +59,66 @@ class BoardTestExp {
 		Assert.assertEquals(4, testList5.size());
 		//add comment
 	}
-	
 
-	
+	@Test
+	public void testTargetsNormal() {
+		
+		//test targets for cell (2,2) with a dice roll of 2
+		//initializing the starting cell
+		TestBoardCell cell = board.getCell(2, 2);
+		//passing in start cell and path length
+		board.calcTargets(cell, 2);
+		//creating a set to pass all targets in
+		Set<TestBoardCell> targets = board.getTargets();
+		//checking to see if the number of targets is equal to the size of the set
+		Assert.assertEquals(6, targets.size());
+		//checking if targets2 contains the valid target locations
+		Assert.assertTrue(targets.contains(board.getCell(2, 0)));
+		Assert.assertTrue(targets.contains(board.getCell(3, 1)));
+		Assert.assertTrue(targets.contains(board.getCell(1, 1)));
+		Assert.assertTrue(targets.contains(board.getCell(0, 2)));
+		Assert.assertTrue(targets.contains(board.getCell(1, 3)));
+		Assert.assertTrue(targets.contains(board.getCell(3, 3)));
+
+		//test targets for cell (0,0) with a dice roll of 3
+		//initializing the starting cell
+		TestBoardCell cell2 = board.getCell(0, 0);
+		//passing in start cell and path length
+		board.calcTargets(cell2, 3);
+		//creating a set to pass all targets in
+		Set<TestBoardCell> targets2 = board.getTargets();
+		//checking to see if the number of targets is equal to the size of the set
+		Assert.assertEquals(6, targets.size());
+		//checking if targets2 contains the valid target locations
+		Assert.assertTrue(targets2.contains(board.getCell(3, 0)));
+		Assert.assertTrue(targets2.contains(board.getCell(2, 1)));
+		Assert.assertTrue(targets2.contains(board.getCell(0, 1)));
+		Assert.assertTrue(targets2.contains(board.getCell(1, 2)));
+		Assert.assertTrue(targets2.contains(board.getCell(0, 3)));
+		Assert.assertTrue(targets2.contains(board.getCell(1, 0)));
+
+		
+		//test targets for cell (0,1) with a dice roll of 2
+		//initializing the starting cell
+		TestBoardCell cell3 = board.getCell(0, 1);
+		//passing in start cell and path length
+		board.calcTargets(cell3, 2);
+		//creating a set to pass all targets in
+		Set<TestBoardCell> targets3 = board.getTargets();
+		//checking to see if the number of targets is equal to the size of the set
+		Assert.assertEquals(4, targets3.size());
+		//checking if targets3 contains the valid target locations
+		Assert.assertTrue(targets3.contains(board.getCell(2, 1)));
+		Assert.assertTrue(targets3.contains(board.getCell(1, 2)));
+		Assert.assertTrue(targets3.contains(board.getCell(0, 3)));
+		Assert.assertTrue(targets3.contains(board.getCell(1, 0)));
+
+	}
+
+
+
+
+
+
 
 }
