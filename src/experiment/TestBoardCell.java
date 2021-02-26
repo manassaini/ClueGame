@@ -13,6 +13,8 @@ public class TestBoardCell {
 	
 	public TestBoardCell(int row, int col) {
 		super();
+		this.row = row;
+		this.col = col;
 	}
 	
 	public void addAdjacency(TestBoardCell cell) {
@@ -20,20 +22,23 @@ public class TestBoardCell {
 	}
 	
 	public Set<TestBoardCell> getAdjList() {
-		Set<TestBoardCell> adjList = Collections.EMPTY_SET;
-		return adjList;
+		return this.adjList;
 	}
 	
-	public void setRoom(boolean isRoom) {}
+	public void setRoom(boolean isRoom) {
+		this.isRoom = isRoom;
+	}
 		
-	public void setIsOccupied(boolean isOccupied) {}
+	public void setIsOccupied(boolean isOccupied) {
+		this.isOccupied = isOccupied;
+	}
 	
 	public boolean getIsOccupied() {
-		return false;
+		return this.isOccupied;
 	}
 	
 	public boolean getIsRoom() {
-		return false;
+		return this.isRoom;
 	}
 	
 	

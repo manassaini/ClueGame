@@ -17,7 +17,17 @@ public class TestBoard {
 		Set<TestBoardCell> visited = new HashSet<TestBoardCell>();
 	}
 	
-	public void calcTargets(TestBoardCell startCell, int pathlength) {}
+	public void calcTargets(TestBoardCell startCell, int pathlength) {
+		for (TestBoardCell adjCell: startCell.getAdjList()) {
+			if (!visited.contains(adjCell)) {
+				visited.add(adjCell);
+				if (pathlength == 1) {
+					calcTargets(adjCell, pathlength - 1);
+				}
+			}
+				visited.remove(adjCell);
+		}
+	}
 	
 	public Set<TestBoardCell> getTargets(){
 		return this.targets;
