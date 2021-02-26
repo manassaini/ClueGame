@@ -1,22 +1,31 @@
 package experiment;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class TestBoard {
+	private TestBoardCell[][] grid;
+	private Set<TestBoardCell> targets;
+	private Set<TestBoardCell> visited;
+	final static int ROWS = 4;
+	final static int COLS = 4;
 	
-	public TestBoard() {}
+	public TestBoard() {
+		TestBoardCell[][] grid = new TestBoardCell[ROWS][COLS];
+		Set<TestBoardCell> targets = new HashSet<TestBoardCell>();
+		Set<TestBoardCell> visited = new HashSet<TestBoardCell>();
+	}
 	
 	public void calcTargets(TestBoardCell startCell, int pathlength) {}
 	
 	public Set<TestBoardCell> getTargets(){
-		Set<TestBoardCell> getTargets = Collections.EMPTY_SET;
-		return getTargets;
+		return this.targets;
 	}
 	
 	public TestBoardCell getCell(int row, int col) {
-		TestBoardCell getCell = new TestBoardCell(row, col);
-		return getCell;
+		return grid[row][col];
 	}
 	
 }
+	
