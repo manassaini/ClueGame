@@ -10,6 +10,7 @@ public class TestBoardCell {
 	private boolean isRoom;
 	boolean isOccupied;
 	
+	
 	public TestBoardCell(int row, int col) {
 		super();
 	}
