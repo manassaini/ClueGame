@@ -16,7 +16,7 @@ public class TestBoardCell {
 		this.row = row;
 		this.col = col;
 	}
-	
+	//hello
 	public void addAdjacency(TestBoardCell cell) {
 		adjList.add(cell);
 	}
