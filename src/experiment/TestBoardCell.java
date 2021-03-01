@@ -16,7 +16,7 @@ public class TestBoardCell {
 		super();
 		this.row = row;
 		this.col = col;
-		Set<TestBoardCell> adjList = new HashSet<TestBoardCell>();
+		this.adjList = new HashSet<TestBoardCell>();
 	}
 	
 	public int getRow() {
@@ -26,9 +26,9 @@ public class TestBoardCell {
 	public int getCol() {
 		return this.col;
 	}
-	//hello
+
 	public void addAdjacency(TestBoardCell cell) {
-		adjList.add(cell);
+		this.adjList.add(cell);
 	}
 	
 	public Set<TestBoardCell> getAdjList() {
@@ -49,10 +49,6 @@ public class TestBoardCell {
 	
 	public boolean getIsRoom() {
 		return this.isRoom;
-	}
-	
-	public String toString() {
-		return "exists";
 	}
 	
 }

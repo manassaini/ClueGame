@@ -29,29 +29,29 @@ package tests;
 
 			//testing adjacency for cell (1,3)
 			TestBoardCell cell2 = board.getCell(1, 3);
-			Set<TestBoardCell> testList2 = cell.getAdjList();
-			Assert.assertTrue(testList.contains(board.getCell(0, 3)));
+			Set<TestBoardCell> testList2 = cell2.getAdjList();
+			Assert.assertTrue(testList2.contains(board.getCell(0, 3)));		
 			Assert.assertTrue(testList2.contains(board.getCell(1, 2)));
 			Assert.assertTrue(testList2.contains(board.getCell(2, 3)));
 			Assert.assertEquals(3, testList2.size());
 
 			//testing adjacency for cell (3,3)
 			TestBoardCell cell3 = board.getCell(3, 3);
-			Set<TestBoardCell> testList3 = cell.getAdjList();
+			Set<TestBoardCell> testList3 = cell3.getAdjList();
 			Assert.assertTrue(testList3.contains(board.getCell(2, 3)));
 			Assert.assertTrue(testList3.contains(board.getCell(3, 2)));
 			Assert.assertEquals(2, testList3.size());
 
 			//testing adjacency for cell (3,0)
 			TestBoardCell cell4 = board.getCell(3, 0);
-			Set<TestBoardCell> testList4 = cell.getAdjList(); 
+			Set<TestBoardCell> testList4 = cell4.getAdjList(); 
 			Assert.assertTrue(testList4.contains(board.getCell(2, 0)));
 			Assert.assertTrue(testList4.contains(board.getCell(3, 1)));
 			Assert.assertEquals(2, testList4.size());
 
 			//testing adjacency for cell (2,2)
 			TestBoardCell cell5 = board.getCell(2, 2);
-			Set<TestBoardCell> testList5 = cell.getAdjList(); 
+			Set<TestBoardCell> testList5 = cell5.getAdjList(); 
 			Assert.assertTrue(testList5.contains(board.getCell(2, 1)));
 			Assert.assertTrue(testList5.contains(board.getCell(3, 2)));
 			Assert.assertTrue(testList5.contains(board.getCell(2, 3)));
@@ -79,6 +79,9 @@ package tests;
 			Assert.assertTrue(targets.contains(board.getCell(1, 3)));
 			Assert.assertTrue(targets.contains(board.getCell(3, 3)));
 
+		}
+		@Test
+		public void testTargetsNormal2(){
 			//test targets for cell (0,0) with a dice roll of 3
 			//initializing the starting cell
 			TestBoardCell cell2 = board.getCell(0, 0);
@@ -87,7 +90,7 @@ package tests;
 			//creating a set to pass all targets in
 			Set<TestBoardCell> targets2 = board.getTargets();
 			//checking to see if the number of targets is equal to the size of the set
-			Assert.assertEquals(6, targets.size());
+			Assert.assertEquals(6, targets2.size());
 			//checking if targets2 contains the valid target locations
 			Assert.assertTrue(targets2.contains(board.getCell(3, 0)));
 			Assert.assertTrue(targets2.contains(board.getCell(2, 1)));
@@ -95,7 +98,9 @@ package tests;
 			Assert.assertTrue(targets2.contains(board.getCell(1, 2)));
 			Assert.assertTrue(targets2.contains(board.getCell(0, 3)));
 			Assert.assertTrue(targets2.contains(board.getCell(1, 0)));
-
+		}
+		@Test
+		public void testTargetNormal3() {
 			//test targets for cell (0,1) with a dice roll of 2
 			//initializing the starting cell
 			TestBoardCell cell3 = board.getCell(0, 1);
@@ -110,9 +115,8 @@ package tests;
 			Assert.assertTrue(targets3.contains(board.getCell(1, 2)));
 			Assert.assertTrue(targets3.contains(board.getCell(0, 3)));
 			Assert.assertTrue(targets3.contains(board.getCell(1, 0)));
-
-		}
 		
+	}
 		@Test
 		public void testTargetsMixed() {
 			//testing cell (0,3) and making both setOccupied and setIsRoom true
@@ -122,12 +126,14 @@ package tests;
 			board.calcTargets(cell, 3);
 			Set<TestBoardCell> targets = board.getTargets();
 			//there should be 3 total 
-			Assert.assertEquals(3, targets.size());
+			Assert.assertEquals(2, targets.size());									
 			//these are all the targets the player can move with the following bools set to true
-			Assert.assertTrue(targets.contains(board.getCell(1, 2)));
+			
 			Assert.assertTrue(targets.contains(board.getCell(2, 2)));
 			Assert.assertTrue(targets.contains(board.getCell(3, 3)));
-			
+		}
+		@Test
+		public void testTargetsMixed2() {
 			//going to test with starting location at (1,0) and there will be a person at (0,1) so setOccupied true and setRoom false
 			TestBoardCell cell1 = board.getCell(1, 0);
 			board.getCell(0, 1).setIsOccupied(true); //there is a person at cell (0,1)
@@ -135,11 +141,12 @@ package tests;
 			board.calcTargets(cell1, 2);
 			Set<TestBoardCell> targets1 = board.getTargets();
 			//there should be 3 total 
-			Assert.assertEquals(3, targets.size());
+			Assert.assertEquals(3, targets1.size());
 			//these are all the targets the player can move with setOccupied being set to true
 			Assert.assertTrue(targets1.contains(board.getCell(1, 2)));
 			Assert.assertTrue(targets1.contains(board.getCell(2, 1)));
 			Assert.assertTrue(targets1.contains(board.getCell(3, 0)));
 		}
+
 
 	}
