@@ -1,0 +1,24 @@
+commit 13c4e6410186ed326b17442c42a1298c747edc9c (HEAD -> master, origin/master)
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 17:16:36 2021 -0700
+
+    All tests pass
+
+commit 80c34fb831f5b5f4d0cfecbf78983c243866ebdf
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 16:53:33 2021 -0700
+
+    4/6 Tests Pass
+
+commit f084dc596ee438eece50da0fab5c13b006390bfd
+Merge: 39939c7 ecda9c3
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Sun Feb 28 21:30:08 2021 -0700
+
+    Merge branch 'master' of https://github.com/manassaini/ClueGame.git
+
+commit 39939c77a418a7f5860bc7307ae7a8d78c2485ff
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Sun Feb 28 21:28:25 2021 -0700
+
+:

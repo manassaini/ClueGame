@@ -12,7 +12,18 @@ public class Room {
 		this.centerCell = centerCell;
 		this.labelCell = labelCell;
 	}
-//:D
+	
+	public String getName() {
+		return this.name;
+	}
+
+	public BoardCell getLabelCell() {
+		return this.labelCell;
+	}
+	
+	public BoardCell getCenterCell() {
+		return this.centerCell;
+	}
 	
 	
 }

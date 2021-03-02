@@ -14,14 +14,37 @@ public class BoardCell {
 	private char secretPassage;
 	private Set<BoardCell> adjList;
 	private boolean isRoom;
-	boolean isOccupied;
+	private boolean isOccupied;
+	private boolean isDoorway;
+	private DoorDirection direction;
 	
-	private BoardCell() {
+	public BoardCell() {
 		super();
+		this.isDoorway = false;
 	}
 	
 	public void addAdj (BoardCell cell) {
 		adjList.add(cell);
+	}
+	
+	public boolean isRoomCenter() {
+		return this.roomCenter;
+	}
+	
+	public boolean isDoorway() {
+		return this.isDoorway;
+	}
+	
+	public DoorDirection getDoorDirection() {
+		return this.direction;
+	}
+	
+	public boolean isLabel() {
+		return this.roomLabel;
+	}
+	
+	public char getSecretPassage() {
+		return this.secretPassage;
 	}
 	
 }

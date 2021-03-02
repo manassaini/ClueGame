@@ -1,0 +1,13 @@
+// Rooms and room cards
+Room, Balcony, B
+Room, Washroom, W
+Room, Trophy Room, T
+Room, Museum, M
+Room, Armory, A
+Room, Dungeon, D
+Room, Hall, H
+Room, Zoo, Z
+Room, Secret Base, S
+// other spaces on board
+Space, Unused, X
+Space, Walkway, W
