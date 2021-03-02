@@ -9,5 +9,6 @@ Room, Hall, H
 Room, Zoo, Z
 Room, Secret Base, S
 // other spaces on board
+
 Space, Unused, X
 Space, Walkway, W

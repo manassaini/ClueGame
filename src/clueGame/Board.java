@@ -6,6 +6,8 @@ import java.util.Map;
 import experiment.TestBoardCell;
 
 public class Board {
+	
+	// the one board
 
     private static Board theInstance = new Board();
     private int numRows;

@@ -129,7 +129,7 @@ public class FileInitTests306 {
 		// test a walkway
 		cell = board.getCell(5, 0);
 //		room = board.getRoom( cell ) ;
-		// Note for our purposes, walkways and closets are rooms
+//		// Note for our purposes, walkways and closets are rooms
 //		assertTrue( room != null );
 //		assertEquals( room.getName(), "Walkway" ) ;
 		assertFalse( cell.isRoomCenter() );

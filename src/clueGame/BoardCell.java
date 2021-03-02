@@ -6,7 +6,7 @@ import java.util.Set;
 import experiment.TestBoardCell;
 
 public class BoardCell {
-	// board cell class
+	// board cell
 	
 	private int row;
 	private int col;
