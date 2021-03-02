@@ -41,11 +41,15 @@ public class FileInitTests306 {
 	public void testRoomLabels() {
 		// To ensure data is correctly loaded, test retrieving a few rooms
 		// from the hash, including the first and last in the file and a few others
-		assertEquals("Conservatory", board.getRoom('C').getName() );
-		assertEquals("Ballroom", board.getRoom('B').getName() );
-		assertEquals("Billiard Room", board.getRoom('R').getName() );
-		assertEquals("Dining Room", board.getRoom('D').getName() );
-		assertEquals("Walkway", board.getRoom('W').getName() );
+		assertEquals("Balcony", board.getRoom('B').getName() );
+		assertEquals("Washroom", board.getRoom('W').getName() );
+		assertEquals("Trophy Room", board.getRoom('T').getName() );
+		assertEquals("Museum", board.getRoom('M').getName() );
+		assertEquals("Armory", board.getRoom('A').getName() );
+		assertEquals("Dungeon", board.getRoom('D').getName() );
+		assertEquals("Hall", board.getRoom('H').getName() );
+		assertEquals("Zoo", board.getRoom('Z').getName() );
+		assertEquals("Secret Base", board.getRoom('S').getName() );
 	}
 
 	@Test
@@ -60,18 +64,19 @@ public class FileInitTests306 {
 	// These cells are white on the planning spreadsheet
 	@Test
 	public void FourDoorDirections() {
-		BoardCell cell = board.getCell(8, 7);
+		BoardCell cell = board.getCell(4, 3);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.LEFT, cell.getDoorDirection());
-		cell = board.getCell(7, 12);
-		assertTrue(cell.isDoorway());
-		assertEquals(DoorDirection.UP, cell.getDoorDirection());
-		cell = board.getCell(4, 8);
+		cell = board.getCell(2, 6);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.RIGHT, cell.getDoorDirection());
-		cell = board.getCell(16, 9);
+		cell = board.getCell(5, 10);
+		assertTrue(cell.isDoorway());
+		assertEquals(DoorDirection.UP, cell.getDoorDirection());
+		cell = board.getCell(22, 7);
 		assertTrue(cell.isDoorway());
 		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
+		
 		// Test that walkways are not doors
 		cell = board.getCell(12, 14);
 		assertFalse(cell.isDoorway());
