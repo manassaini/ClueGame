@@ -126,9 +126,10 @@ package tests;
 			board.calcTargets(cell, 3);
 			Set<TestBoardCell> targets = board.getTargets();
 			//there should be 3 total 
-			Assert.assertEquals(2, targets.size());									
+			Assert.assertEquals(3, targets.size());									
 			//these are all the targets the player can move with the following bools set to true
 			
+			Assert.assertTrue(targets.contains(board.getCell(1, 1)));
 			Assert.assertTrue(targets.contains(board.getCell(2, 2)));
 			Assert.assertTrue(targets.contains(board.getCell(3, 3)));
 		}

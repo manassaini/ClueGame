@@ -37,7 +37,7 @@ public class TestBoard {
 		
 		for (TestBoardCell adjCell: startCell.getAdjList()) {
 			
-			if (!this.visited.contains(adjCell)) {
+			if (!this.visited.contains(adjCell) && !adjCell.getIsOccupied()) {
 				this.visited.add(adjCell);
 				
 				if (pathlength == 1) {
@@ -59,21 +59,17 @@ public class TestBoard {
 	}
 	
 	public void calcAdjacencies(TestBoardCell cell) {
-		if (cell.getCol() > 0 && !(grid[cell.getRow()][cell.getCol() - 1].getIsOccupied())) {
+		if (cell.getCol() > 0) {
 			cell.addAdjacency(grid[cell.getRow()][cell.getCol() - 1]);
 		}
-		if (cell.getRow() > 0 && !(grid[cell.getRow() - 1][cell.getCol()].getIsOccupied())) {
+		if (cell.getRow() > 0) {
 			cell.addAdjacency(grid[cell.getRow() - 1][cell.getCol()]);
 		}
 		if (cell.getCol() < (COLS-1)) {
-			if (!grid[cell.getRow()][cell.getCol() + 1].getIsOccupied()) {
-				cell.addAdjacency(grid[cell.getRow()][cell.getCol() + 1]);	
-			}
+			cell.addAdjacency(grid[cell.getRow()][cell.getCol() + 1]);	
 		}
 		if (cell.getRow() < (ROWS-1)) {
-			if (!grid[cell.getRow() + 1][cell.getCol()].getIsOccupied()) {
-				cell.addAdjacency(grid[cell.getRow() + 1][cell.getCol()]);
-			}
+			cell.addAdjacency(grid[cell.getRow() + 1][cell.getCol()]);
 		}	
 	}
 	
