@@ -1,6 +1,7 @@
 package clueGame;
 
 public class Room {
+	// generic room class
 	
 	private String name;
 	private BoardCell centerCell;

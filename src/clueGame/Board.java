@@ -28,7 +28,7 @@ public class Board {
            return theInstance;
     }
     
-    // initialize the instance
+    // initialize the instance.
     public void initialize(){
     	theInstance.numRows = 26;
     	theInstance.numColumns = 21;

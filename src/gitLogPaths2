@@ -1,24 +1,24 @@
-commit 13c4e6410186ed326b17442c42a1298c747edc9c (HEAD -> master, origin/master)
+commit e1b5d1a96d6b56bc9e57ae7b53ff570ff4ce0bc0 (HEAD -> master)
 Author: tgeis1 <tgeis@mymail.mines.edu>
-Date:   Mon Mar 1 17:16:36 2021 -0700
+Date:   Mon Mar 1 21:53:07 2021 -0700
 
-    All tests pass
+    Init 1 Finished
 
-commit 80c34fb831f5b5f4d0cfecbf78983c243866ebdf
+commit 2d10601bac769db2c25e2973af35252944ee61fd
 Author: tgeis1 <tgeis@mymail.mines.edu>
-Date:   Mon Mar 1 16:53:33 2021 -0700
+Date:   Mon Mar 1 18:29:41 2021 -0700
 
-    4/6 Tests Pass
+    Clue Init 1 Started, most stubs filled
 
-commit f084dc596ee438eece50da0fab5c13b006390bfd
-Merge: 39939c7 ecda9c3
+commit ce3713bf1e855b3ea0d12a7de0c12ce454a7d6d2
 Author: tgeis1 <tgeis@mymail.mines.edu>
-Date:   Sun Feb 28 21:30:08 2021 -0700
+Date:   Mon Mar 1 17:24:17 2021 -0700
 
-    Merge branch 'master' of https://github.com/manassaini/ClueGame.git
+    Just moved gitLog and readme to src
 
-commit 39939c77a418a7f5860bc7307ae7a8d78c2485ff
+commit 8efdee92414f41b32dcc8c55b481d01bd984915b
 Author: tgeis1 <tgeis@mymail.mines.edu>
-Date:   Sun Feb 28 21:28:25 2021 -0700
+Date:   Mon Mar 1 17:17:29 2021 -0700
 
-:
+    Git log done
+

@@ -6,6 +6,8 @@ import java.util.Set;
 import experiment.TestBoardCell;
 
 public class BoardCell {
+	// board cell class
+	
 	private int row;
 	private int col;
 	private char initial;
@@ -20,7 +22,6 @@ public class BoardCell {
 	
 	public BoardCell() {
 		super();
-		this.isDoorway = false;
 	}
 	
 	public void addAdj (BoardCell cell) {
