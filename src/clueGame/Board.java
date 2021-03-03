@@ -1,7 +1,10 @@
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import experiment.TestBoardCell;
 
@@ -32,8 +35,37 @@ public class Board {
     
     // initialize the instance.
     public void initialize(){
-    	theInstance.numRows = 26;
-    	theInstance.numColumns = 21;
+    	String inputFile = "ClueLayout.csv";
+    	
+
+    	//getting number of rows
+		Scanner scan = new Scanner(inputFile);
+		int rows = 0;
+		while (scan.hasNextLine()) {
+			rows++;
+			scan.nextLine();
+		}
+		
+		//getting number of cols
+		Scanner scan2 = new Scanner(inputFile);
+		int cols = 0;
+		String line = scan2.nextLine();
+		String[] colNum = line.split(",");
+		cols = colNum.length;
+		
+		
+		
+		
+		
+		/*
+		String str = "hello, my, name, is, manas";
+		String[] stringWithoutCommas = str.split(",", 20);
+		*/
+		
+		
+				
+    	theInstance.numRows = rows;
+    	theInstance.numColumns = cols;
     	theInstance.grid = new BoardCell[numRows][numColumns];
     	theInstance.LayoutConfigFile = "";
     	theInstance.roomMap = new HashMap<Character, Room>();
@@ -103,6 +135,11 @@ public class Board {
    
    public int getNumColumns() {
 	   return theInstance.numColumns;
+   }
+   
+   public static void main(String[] args) {
+	   theInstance.initialize();
+	   System.out.println(theInstance.numRows + " " + theInstance.numColumns);
    }
 
 }
