@@ -48,4 +48,29 @@ public class BoardCell {
 		return this.secretPassage;
 	}
 	
+	public void setInitial(char c) {
+		this.initial = c;
+		
+	}
+	
+	public void setIsDoorway(boolean isDoorway) {
+		this.isDoorway = isDoorway;
+	}
+	
+	public void setDoorDirection(DoorDirection direction) {
+		this.direction = direction;
+	}
+	
+	public void setRoomLabel(boolean label) {
+		this.roomLabel = label;
+	}
+	
+	public void setRoomCenter(boolean center) {
+		this.roomCenter = center;
+	}
+	
+	public void setSecretPassage(char c) {
+		this.secretPassage = c;
+	}
+	
 }

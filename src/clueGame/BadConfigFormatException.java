@@ -1,6 +1,17 @@
 package clueGame;
 
 public class BadConfigFormatException extends Exception {
-	// exception
+	
+	private String message;
+
+	public BadConfigFormatException() {
+		super();
+		this.message = "Bad Config Format Exception";
+	}
+
+	public BadConfigFormatException(String message) {
+		super();
+		this.message = message;
+	}
 
 }

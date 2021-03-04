@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
@@ -20,8 +21,8 @@ import clueGame.Room;
 public class FileInitTest {
 	// Constants that I will use to test whether the file was loaded correctly
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 25;
-	public static final int NUM_COLUMNS = 24;
+	public static final int NUM_ROWS = 26;
+	public static final int NUM_COLUMNS = 21;
 
 	// NOTE: I made Board static because I only want to set it up one
 	// time (using @BeforeAll), no need to do setup before each test
@@ -32,7 +33,7 @@ public class FileInitTest {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		// Initialize will load BOTH config files
 		board.initialize();
 	}
@@ -113,9 +114,9 @@ public class FileInitTest {
 
 		// this is a label cell to test
 		cell = board.getCell(22, 8);
-		room = board.getRoom('A') ;
+		room = board.getRoom('H') ;
 		assertTrue( room != null );
-		assertEquals( room.getName(), "Armory" ) ;
+		assertEquals( room.getName(), "Hall" ) ;
 		assertTrue( cell.isLabel() );
 		assertTrue( room.getLabelCell() == cell );
 		
@@ -132,7 +133,7 @@ public class FileInitTest {
 		room = board.getRoom('Z') ;
 		assertTrue( room != null );
 		assertEquals( room.getName(), "Zoo" ) ;
-		assertTrue( cell.getSecretPassage() == 'Z' );
+		assertTrue( cell.getSecretPassage() == 'S' );
 		
 		// test a walkway
 		cell = board.getCell(7, 0);

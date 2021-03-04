@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
@@ -18,6 +19,8 @@ public class Board {
     private BoardCell[][] grid;
     private String LayoutConfigFile;
     private Map<Character, Room> roomMap;
+    private String inputBoard;
+    private String roomFile;
     
     /*
     * COPIED AND PASTED FROM ASSIGNMENT DESCRIPTION
@@ -35,73 +38,99 @@ public class Board {
     
     // initialize the instance.
     public void initialize(){
-    	String inputFile = "ClueLayout.csv";
     	
-
-    	//getting number of rows
-		Scanner scan = new Scanner(inputFile);
-		int rows = 0;
-		while (scan.hasNextLine()) {
-			rows++;
-			scan.nextLine();
-		}
-		
-		//getting number of cols
-		Scanner scan2 = new Scanner(inputFile);
-		int cols = 0;
-		String line = scan2.nextLine();
-		String[] colNum = line.split(",");
-		cols = colNum.length;
-		
-		
-		
-		
-		
-		/*
-		String str = "hello, my, name, is, manas";
-		String[] stringWithoutCommas = str.split(",", 20);
-		*/
-		
-		
-				
-    	theInstance.numRows = rows;
-    	theInstance.numColumns = cols;
-    	theInstance.grid = new BoardCell[numRows][numColumns];
     	theInstance.LayoutConfigFile = "";
     	theInstance.roomMap = new HashMap<Character, Room>();
+
     	
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numColumns; j++) {
-				BoardCell cell = new BoardCell();
-				this.grid[i][j] = cell;
-			}
+    	try {													// scan txt file and create room map
+			Scanner scanRoom = new Scanner(new File(roomFile));
+			while (scanRoom.hasNextLine()) {
+				String line = scanRoom.nextLine();
+				String[] lineA = line.split(", ");
+				if (lineA[0].charAt(0) != '/') {				// exclude if comment
+					theInstance.roomMap.put(lineA[2].charAt(0), new Room(lineA[1]));	// lineA[2] is room initial, cast to char; lineA[1] is room name		
+				}	
+			}		
+		} catch (FileNotFoundException e) {
+			System.out.println("Room file not found");
 		}
     	
-    	Room Balcony = new Room("Balcony", grid[3][1], grid[2][1]);
-    	Room Washroom = new Room("Washroom", grid[16][12], grid[14][12]);
-    	Room TrophyRoom = new Room("Trophy Room", grid[23][16], grid[21][16]);
-    	Room Museum = new Room("Museum", grid[13][2], grid[11][1]);
-    	Room Armory = new Room("Armory", grid[13][19], grid[12][19]);
-    	Room Dungeon = new Room("Dungeon", grid[2][9], grid[1][9]);
-    	Room Hall = new Room("Hall", grid[24][8], grid[22][8]);
-    	Room Zoo = new Room("Zoo", grid[3][18], grid[2][18]);
-    	Room SecretBase = new Room("Secret Base", grid[22][1], grid[21][1]);
-    	Room Unused = new Room("Unused", grid[13][8], grid[12][8]);
-    	Room Walkway = new Room("Walkway", grid[13][10], grid[12][10]);
+
+		Scanner scan;											
+		try {
+			scan = new Scanner(new File(this.inputBoard));				// scan for number of rows by counting lines
+			
+			int rows = 0;										
+			while (scan.hasNextLine()) {
+				scan.nextLine();
+				rows++;
+			}
+			theInstance.numRows = rows;
+			
+			
+			
+			Scanner scan2 = new Scanner(new File(this.inputBoard));		//getting number of cols by counting length of line array
+			String line = scan2.nextLine();
+			String[] colNum = line.split(",");
+			theInstance.numColumns = colNum.length;
+			
+			Scanner scan3 = new Scanner(new File(this.inputBoard));
+			String[] chars = new String[numColumns];
+			
+			
+			grid = new BoardCell[numRows][numColumns];				// create grid
+ 			
+			
+			for (int r = 0; r < theInstance.numRows; r++ ) {		// gets line one row at a time
+				chars = scan3.nextLine().split(",");
+				for (int c = 0; c < theInstance.numColumns; c++) {
+					grid[r][c] = new BoardCell();					// creates new board cell for each spot
+					BoardCell thisCell = grid[r][c];
+					
+					char initial = chars[c].charAt(0);				// first character in item, initial of room
+					thisCell.setInitial(initial);		
+					
+					if (chars[c].length() > 1) {
+						char specialChar = chars[c].charAt(1);		// second character in item, "special"
+						if (specialChar == '#') {					// room label
+							thisCell.setRoomLabel(true);
+							roomMap.get(initial).setLabel(thisCell);
+						}
+						else if (specialChar == '*') { 				// room center
+							thisCell.setRoomCenter(true);
+							roomMap.get(initial).setCenter(thisCell);
+						}
+						else if (specialChar == '^') {				// up door
+							thisCell.setIsDoorway(true);
+							thisCell.setDoorDirection(DoorDirection.UP);
+						}
+						else if (specialChar == 'v') {				// down door
+							thisCell.setIsDoorway(true);
+							thisCell.setDoorDirection(DoorDirection.DOWN);
+							
+						}
+						else if (specialChar == '>') {				// right door
+							thisCell.setIsDoorway(true);
+							thisCell.setDoorDirection(DoorDirection.RIGHT);
+							
+						}
+						else if (specialChar == '<') {				// left door
+							thisCell.setIsDoorway(true);
+							thisCell.setDoorDirection(DoorDirection.LEFT); 
+						} 
+						else {										// secret passage
+							thisCell.setSecretPassage(specialChar);
+						}
+					}
+					
+				}
+			}
+		
+		} catch (FileNotFoundException e) {
+			System.out.println("Board file not found");
+		}
     	
-    	
-    	theInstance.roomMap.put('B', Balcony);
-    	theInstance.roomMap.put('R', Washroom);
-    	theInstance.roomMap.put('T', TrophyRoom);
-    	theInstance.roomMap.put('M', Museum);
-    	theInstance.roomMap.put('A', Armory);
-    	theInstance.roomMap.put('D', Dungeon);
-    	theInstance.roomMap.put('H', Hall);
-    	theInstance.roomMap.put('Z', Zoo);
-    	theInstance.roomMap.put('S', SecretBase);
-    	
-    	theInstance.roomMap.put('X', Unused);
-    	theInstance.roomMap.put('W', Walkway);
     }
     
     
@@ -117,8 +146,9 @@ public class Board {
 	   
    }
    
-   public void setConfigFiles(String csvFile, String xlFile) {
-	   
+   public void setConfigFiles(String csvFile, String txtFile) {
+	   this.inputBoard = csvFile;
+	   this.roomFile = txtFile;
    }
 
    public Room getRoom(char c) {
@@ -135,11 +165,6 @@ public class Board {
    
    public int getNumColumns() {
 	   return theInstance.numColumns;
-   }
-   
-   public static void main(String[] args) {
-	   theInstance.initialize();
-	   System.out.println(theInstance.numRows + " " + theInstance.numColumns);
    }
 
 }
