@@ -17,14 +17,9 @@ public class Board {
     private int numRows;
     private int numColumns;
     private BoardCell[][] grid;
-    private String LayoutConfigFile;
+    private String layoutConfigFile;
+    private String setupConfigFile;
     private Map<Character, Room> roomMap;
-    private String inputBoard;
-    private String roomFile;
-    
-    /*
-    * COPIED AND PASTED FROM ASSIGNMENT DESCRIPTION
-    */
     
     // constructor is private to ensure only one can be created
     private Board() {
@@ -37,68 +32,107 @@ public class Board {
     }
     
     // initialize the instance.
-    public void initialize(){
+    public void initialize() throws BadConfigFormatException {
+    	theInstance.loadConfigFiles();
     	
-    	theInstance.LayoutConfigFile = "";
-    	theInstance.roomMap = new HashMap<Character, Room>();
+    }
+    
+    
+   public void loadConfigFiles() throws BadConfigFormatException {
+	  loadSetupConfig();
+	  loadLayoutConfig();
+   }
+   
+   
+   
+   public void loadSetupConfig() throws BadConfigFormatException {
+	   	theInstance.roomMap = new HashMap<Character, Room>();
 
-    	
-    	try {													// scan txt file and create room map
-			Scanner scanRoom = new Scanner(new File(roomFile));
-			while (scanRoom.hasNextLine()) {
-				String line = scanRoom.nextLine();
-				String[] lineA = line.split(", ");
-				if (lineA[0].charAt(0) != '/') {				// exclude if comment
-					theInstance.roomMap.put(lineA[2].charAt(0), new Room(lineA[1]));	// lineA[2] is room initial, cast to char; lineA[1] is room name		
-				}	
-			}		
+	   	try {													// scan txt file and create room map
+				Scanner scanRoom = new Scanner(new File(theInstance.setupConfigFile));
+				while (scanRoom.hasNextLine()) {
+					String line = scanRoom.nextLine();
+					String[] lineA = line.split(", ");
+					if (lineA[0].charAt(0) != '/') {											// exclude comments
+						if (lineA[0].contentEquals("Room") || lineA[0].contentEquals("Space")) {
+							theInstance.roomMap.put(lineA[2].charAt(0), new Room(lineA[1]));	// lineA[2] is room initial, cast to char; lineA[1] is room name
+						} else {
+							throw new BadConfigFormatException("Layout Config error");
+						}
+								
+					}	
+				}		
 		} catch (FileNotFoundException e) {
-			System.out.println("Room file not found");
+				System.out.println("Room file not found");
 		}
-    	
-
+	   
+   }
+    
+   public void loadLayoutConfig() throws BadConfigFormatException {
 		Scanner scan;											
 		try {
-			scan = new Scanner(new File(this.inputBoard));				// scan for number of rows by counting lines
+			scan = new Scanner(new File(this.layoutConfigFile));				// scan for number of rows by counting lines
 			
 			int rows = 0;										
 			while (scan.hasNextLine()) {
 				scan.nextLine();
 				rows++;
 			}
-			theInstance.numRows = rows;
+			theInstance.numRows = rows;	
 			
-			
-			
-			Scanner scan2 = new Scanner(new File(this.inputBoard));		//getting number of cols by counting length of line array
+			Scanner scan2 = new Scanner(new File(this.layoutConfigFile));		//getting number of cols by counting length of line array
 			String line = scan2.nextLine();
 			String[] colNum = line.split(",");
 			theInstance.numColumns = colNum.length;
+		
+		} catch (FileNotFoundException e) {
+			System.out.println("Board file not found");
+		}
+	   
+		Scanner scan3;
+		try {
+			scan3 = new Scanner(new File(this.layoutConfigFile));
 			
-			Scanner scan3 = new Scanner(new File(this.inputBoard));
 			String[] chars = new String[numColumns];
 			
 			
 			grid = new BoardCell[numRows][numColumns];				// create grid
- 			
-			
-			for (int r = 0; r < theInstance.numRows; r++ ) {		// gets line one row at a time
+		   
+		   
+		   for (int r = 0; r < theInstance.numRows; r++ ) {		// gets line one row at a time
 				chars = scan3.nextLine().split(",");
 				for (int c = 0; c < theInstance.numColumns; c++) {
+					
+					if (c > chars.length - 1) {
+						throw new BadConfigFormatException();
+					}
+					
 					grid[r][c] = new BoardCell();					// creates new board cell for each spot
 					BoardCell thisCell = grid[r][c];
 					
 					char initial = chars[c].charAt(0);				// first character in item, initial of room
-					thisCell.setInitial(initial);		
+					thisCell.setInitial(initial);	
+					
 					
 					if (chars[c].length() > 1) {
 						char specialChar = chars[c].charAt(1);		// second character in item, "special"
 						if (specialChar == '#') {					// room label
-							thisCell.setRoomLabel(true);
-							roomMap.get(initial).setLabel(thisCell);
+							if (roomMap.containsKey(initial)) {
+								thisCell.setRoomLabel(true);
+								roomMap.get(initial).setLabel(thisCell);
+							} else {
+								throw new BadConfigFormatException();
+							}
+							
 						}
 						else if (specialChar == '*') { 				// room center
-							thisCell.setRoomCenter(true);
+							if (roomMap.containsKey(initial)) {
+								thisCell.setRoomCenter(true);
+								roomMap.get(initial).setCenter(thisCell);
+							} else {
+								throw new BadConfigFormatException();
+							}
+							
 							roomMap.get(initial).setCenter(thisCell);
 						}
 						else if (specialChar == '^') {				// up door
@@ -125,32 +159,21 @@ public class Board {
 					}
 					
 				}
-			}
-		
+			
+		   }
+			
 		} catch (FileNotFoundException e) {
-			System.out.println("Board file not found");
+			e.printStackTrace();
 		}
-    	
-    }
-    
-    
-   public void loadConfigFiles() {
-	   
    }
    
-   public void loadSetupConfig() {
-	   
-   }
-    
-   public void loadLayoutConfig() {
-	   
-   }
    
    public void setConfigFiles(String csvFile, String txtFile) {
-	   this.inputBoard = csvFile;
-	   this.roomFile = txtFile;
+	   this.layoutConfigFile = csvFile;
+	   this.setupConfigFile = txtFile;
    }
 
+   
    public Room getRoom(char c) {
 	   return roomMap.get(c);
    }
