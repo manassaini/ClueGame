@@ -73,4 +73,8 @@ public class BoardCell {
 		this.secretPassage = c;
 	}
 	
+	public void setOccupied(boolean occupied) {
+		this.isOccupied = occupied;
+	}
+	
 }

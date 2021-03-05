@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import experiment.TestBoardCell;
 
@@ -176,9 +178,23 @@ public class Board {
 	   this.layoutConfigFile = csvFile;
 	   this.setupConfigFile = txtFile;
    }
-
    
-   public Room getRoom(char c) {
+    public void calcTargets(BoardCell cell, int moves) {
+	   
+   }
+    
+    public Set<BoardCell> getTargets() {
+    	Set<BoardCell> returnVal = new HashSet<>();
+ 	   return returnVal;
+    }
+  
+   public Set<BoardCell> getAdjList(int row, int col) {
+	   Set<BoardCell> returnVal = new HashSet<>();
+	   return returnVal;
+   }
+   
+   
+   public Room getRoom(char c) {								// getters and setters
 	   return roomMap.get(c);
    }
    
@@ -186,6 +202,7 @@ public class Board {
 	   return theInstance.grid[row][col];
    }
    
+  
    public int getNumRows() {
 	   return theInstance.numRows;
    }
