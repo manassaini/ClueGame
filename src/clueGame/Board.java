@@ -103,7 +103,7 @@ public class Board {
 				chars = scan3.nextLine().split(",");
 				for (int c = 0; c < theInstance.numColumns; c++) {
 					
-					if (c > chars.length - 1) {
+					if (c > chars.length - 1) {						// checks to make sure column number is within width
 						throw new BadConfigFormatException();
 					}
 					
@@ -111,6 +111,11 @@ public class Board {
 					BoardCell thisCell = grid[r][c];
 					
 					char initial = chars[c].charAt(0);				// first character in item, initial of room
+					
+					if (!roomMap.containsKey(initial)) {			// checks for valid initial
+						throw new BadConfigFormatException();
+					}
+					
 					thisCell.setInitial(initial);	
 					
 					
