@@ -45,17 +45,17 @@ public class Board {
    
    
    
-   public void loadSetupConfig() throws BadConfigFormatException {
+   public void loadSetupConfig() throws BadConfigFormatException {	// Creates room map
 	   	theInstance.roomMap = new HashMap<Character, Room>();
 
 	   	try {													// scan txt file and create room map
 				Scanner scanRoom = new Scanner(new File(theInstance.setupConfigFile));
 				while (scanRoom.hasNextLine()) {
-					String line = scanRoom.nextLine();
-					String[] lineA = line.split(", ");
-					if (lineA[0].charAt(0) != '/') {											// exclude comments
-						if (lineA[0].contentEquals("Room") || lineA[0].contentEquals("Space")) {
-							theInstance.roomMap.put(lineA[2].charAt(0), new Room(lineA[1]));	// lineA[2] is room initial, cast to char; lineA[1] is room name
+					String lineS = scanRoom.nextLine();
+					String[] line = lineS.split(", ");
+					if (line[0].charAt(0) != '/') {											// exclude comments
+						if (line[0].contentEquals("Room") || line[0].contentEquals("Space")) {
+							theInstance.roomMap.put(line[2].charAt(0), new Room(line[1]));	// line[2] is room initial, cast to char; lineA[1] is room name
 						} else {
 							throw new BadConfigFormatException("Layout Config error");
 						}
@@ -68,8 +68,9 @@ public class Board {
 	   
    }
     
-   public void loadLayoutConfig() throws BadConfigFormatException {
-		Scanner scan;											
+   public void loadLayoutConfig() throws BadConfigFormatException {			// Calcs rows and columns, creates grid
+		Scanner scan;		
+		
 		try {
 			scan = new Scanner(new File(this.layoutConfigFile));				// scan for number of rows by counting lines
 			
@@ -89,17 +90,16 @@ public class Board {
 			System.out.println("Board file not found");
 		}
 	   
+		
+		
 		Scanner scan3;
 		try {
-			scan3 = new Scanner(new File(this.layoutConfigFile));
-			
-			String[] chars = new String[numColumns];
-			
-			
+			scan3 = new Scanner(new File(this.layoutConfigFile));	// scanner
+			String[] chars = new String[numColumns];				// creates array for reading in each row, one at a time
 			grid = new BoardCell[numRows][numColumns];				// create grid
 		   
 		   
-		   for (int r = 0; r < theInstance.numRows; r++ ) {		// gets line one row at a time
+		   for (int r = 0; r < theInstance.numRows; r++ ) {			// gets line one row at a time
 				chars = scan3.nextLine().split(",");
 				for (int c = 0; c < theInstance.numColumns; c++) {
 					
@@ -116,11 +116,10 @@ public class Board {
 						throw new BadConfigFormatException();
 					}
 					
-					thisCell.setInitial(initial);	
-					
+					thisCell.setInitial(initial);					// gives BoardCell its initial
 					
 					if (chars[c].length() > 1) {
-						char specialChar = chars[c].charAt(1);		// second character in item, "special"
+						char specialChar = chars[c].charAt(1);		// second character in item, "special"; either door, label, center, secret passage
 						if (specialChar == '#') {					// room label
 							if (roomMap.containsKey(initial)) {
 								thisCell.setRoomLabel(true);
@@ -173,7 +172,7 @@ public class Board {
    }
    
    
-   public void setConfigFiles(String csvFile, String txtFile) {
+   public void setConfigFiles(String csvFile, String txtFile) {		// takes in files to read
 	   this.layoutConfigFile = csvFile;
 	   this.setupConfigFile = txtFile;
    }
