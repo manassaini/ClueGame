@@ -252,7 +252,7 @@ public class Board {
 			
 			if (room.hasSecret()) {
 				cell.addAdj(room.getSecretPassage());
-			}
+			}//
 			
 		}	
 		else if (cell.isLabel() || cell.getInitial()!= 'W') {
