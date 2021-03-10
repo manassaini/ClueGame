@@ -216,10 +216,22 @@ public class Board {
 
 
 	public void calcAdjacencies(BoardCell cell) {
+		if (cell.getInitial() == 'W' && !cell.isDoorway()) {
+			if (cell.getRow() >= 0 && grid[cell.getRow()-1][cell.getCol()].getInitial() == 'W') {
+				cell.addAdj(grid[cell.getRow()-1][cell.getCol()]);
+			}
+			if (cell.getCol() >= 0 && grid[cell.getRow()][cell.getCol()-1].getInitial() == 'W') {
+				cell.addAdj(grid[cell.getRow()][cell.getCol()-1]);
+			}
+			if (cell.getRow() < numRows-1 && grid[cell.getRow()+1][cell.getCol()].getInitial() == 'W') {
+				cell.addAdj(grid[cell.getRow()+1][cell.getCol()]);
+			}
+			if (cell.getCol() < numColumns-1 && grid[cell.getRow()][cell.getCol()+1].getInitial() == 'W') {
+				cell.addAdj(grid[cell.getRow()][cell.getCol()+1]);
+			}
+		}
 		
-
-		
-		if (cell.getIsSecretPassage()) {					// secret passage
+		else if (cell.getIsSecretPassage()) {					// secret passage
 			
 			Room room = roomMap.get(cell.getInitial());		// add room center
 			BoardCell roomCenter = room.getCenterCell();
