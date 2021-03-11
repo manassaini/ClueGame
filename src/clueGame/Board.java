@@ -229,33 +229,32 @@ public class Board {
 		
 	}
 	
+	
 	public void recursivePart(BoardCell startCell, int pathlength) {
 		calcAdjacencies(startCell);
 		theInstance.visited.add(startCell);
 		
 		for (BoardCell adjCell: startCell.getAdjList()) {
-			if (!theInstance.visited.contains(adjCell)) {
-				if((!adjCell.getIsOccupied() || (adjCell.getIsOccupied() && adjCell.isRoomCenter())) && adjCell.getInitial() != 'X') {
-					
-					theInstance.visited.add(adjCell);
-					
-					if (pathlength == 1 || startCell.getInitial() !='W') {
-						theInstance.targets.add(adjCell);
-					} else {
-						recursivePart(adjCell, pathlength - 1);
-					}
-					theInstance.visited.remove(adjCell);
+			
+			if (!visited.contains(adjCell)) {
+				theInstance.visited.add(adjCell);
+				
+				if (adjCell.getIsOccupied() && !adjCell.isRoomCenter()) {
+					continue;
 				}
+				else if (pathlength == 1 || adjCell.isRoomCenter()) {
+					theInstance.targets.add(adjCell);
+				} else if (pathlength != 1){
+					recursivePart(adjCell, pathlength - 1);
+				}
+				theInstance.visited.remove(adjCell);
 			}	
+			else if ((visited.contains(adjCell))) {
+				continue;
+			}
 		}
 	}
-
-
 	
-	
-	
-	
-
 	public void calcAdjacencies(BoardCell cell) {
 		
 		if (cell.getInitial() == 'W' && !cell.isDoorway()) {
