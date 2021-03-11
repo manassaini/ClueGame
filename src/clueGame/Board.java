@@ -1,5 +1,6 @@
 package clueGame;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,7 +10,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import experiment.TestBoardCell;
 
 public class Board {
 
@@ -54,6 +54,7 @@ public class Board {
 
 	public void loadSetupConfig() throws BadConfigFormatException {	// Creates room map
 		theInstance.roomMap = new HashMap<Character, Room>();
+		System.out.print();
 
 		try {													// scan txt file and create room map
 			Scanner scanRoom = new Scanner(new File(theInstance.setupConfigFile));
