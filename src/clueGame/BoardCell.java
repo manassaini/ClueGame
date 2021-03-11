@@ -100,4 +100,24 @@ public class BoardCell {
 		return this.initial;
 	}
 	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void setCol(int col) {
+		this.col = col;
+	}
+	
+	public boolean getIsOccupied() {
+		return this.isOccupied;
+	}
+	
+	public boolean isUnused() {
+		if (this.initial == 'X') {
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

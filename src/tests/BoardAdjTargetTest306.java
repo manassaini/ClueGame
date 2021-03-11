@@ -40,7 +40,7 @@ public class BoardAdjTargetTest306 {
 	{
 		// we want to test a couple of different rooms.
 		// First, the study that only has a single door but a secret room
-		Set<BoardCell> testList = board.getAdjList(2, 2);
+		Set<BoardCell> testList = board.getAdjList(2, 2);				// 20,19 is not the center cell...
 		assertEquals(2, testList.size());
 		assertTrue(testList.contains(board.getCell(4, 6)));
 		assertTrue(testList.contains(board.getCell(20, 19)));
@@ -51,7 +51,7 @@ public class BoardAdjTargetTest306 {
 		assertTrue(testList.contains(board.getCell(16, 9)));
 		
 		// one more room, the kitchen
-		testList = board.getAdjList(20, 19);
+		testList = board.getAdjList(20, 19);					// 20,19 is not the center cell...
 		assertEquals(2, testList.size());
 		assertTrue(testList.contains(board.getCell(17, 18)));
 		assertTrue(testList.contains(board.getCell(2, 2)));
@@ -221,6 +221,7 @@ public class BoardAdjTargetTest306 {
 		board.calcTargets(board.getCell(11, 2), 3);
 		targets= board.getTargets();
 		assertEquals(3, targets.size());
+		
 		assertTrue(targets.contains(board.getCell(14, 2)));
 		assertTrue(targets.contains(board.getCell(8, 2)));
 		assertTrue(targets.contains(board.getCell(11, 5)));	

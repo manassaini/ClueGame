@@ -22,6 +22,9 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
+	private Set<BoardCell> targets;
+	private Set<BoardCell> visited;
+	private boolean inRoom;
 
 	// constructor is private to ensure only one can be created
 	private Board() {
@@ -36,7 +39,9 @@ public class Board {
 	// initialize the instance.
 	public void initialize() throws BadConfigFormatException {
 		theInstance.loadConfigFiles();
-
+		
+		theInstance.targets = new HashSet<BoardCell>();
+		theInstance.visited = new HashSet<BoardCell>();
 	}
 
 
@@ -111,6 +116,9 @@ public class Board {
 
 					grid[r][c] = new BoardCell();					// creates new board cell for each spot
 					BoardCell thisCell = grid[r][c];
+					
+					thisCell.setRow(r);
+					thisCell.setCol(c);
 
 					char initial = chars[c].charAt(0);				// first character in item, initial of room
 
@@ -210,37 +218,79 @@ public class Board {
 		this.setupConfigFile = txtFile;
 	}
 
-	public void calcTargets(BoardCell cell, int moves) {
-
+	public void calcTargets(BoardCell startCell, int pathlength) {
+		
+		theInstance.inRoom = false;
+		theInstance.targets.clear();
+		theInstance.visited.clear();
+		
+		recursivePart(startCell, pathlength);
+		
+		
+	}
+	
+	public void recursivePart(BoardCell startCell, int pathlength) {
+		calcAdjacencies(startCell);
+		theInstance.visited.add(startCell);
+		
+		for (BoardCell adjCell: startCell.getAdjList()) {
+			if (!theInstance.visited.contains(adjCell)) {
+				if((!adjCell.getIsOccupied() || (adjCell.getIsOccupied() && adjCell.isRoomCenter())) && adjCell.getInitial() != 'X') {
+					
+					theInstance.visited.add(adjCell);
+					
+					if (pathlength == 1 || startCell.getInitial() !='W') {
+						theInstance.targets.add(adjCell);
+					} else {
+						recursivePart(adjCell, pathlength - 1);
+					}
+					theInstance.visited.remove(adjCell);
+				}
+			}	
+		}
 	}
 
 
+	
+	
+	
+	
+
 	public void calcAdjacencies(BoardCell cell) {
+		
 		if (cell.getInitial() == 'W' && !cell.isDoorway()) {
-			if (cell.getRow() >= 0 && grid[cell.getRow()-1][cell.getCol()].getInitial() == 'W') {
+			if (cell.getRow() > 0) {
+				if (grid[cell.getRow()-1][cell.getCol()].getInitial() == 'W') {
 				cell.addAdj(grid[cell.getRow()-1][cell.getCol()]);
+				}
 			}
-			if (cell.getCol() >= 0 && grid[cell.getRow()][cell.getCol()-1].getInitial() == 'W') {
-				cell.addAdj(grid[cell.getRow()][cell.getCol()-1]);
+			if (cell.getCol() > 0) {
+				if (grid[cell.getRow()][cell.getCol()-1].getInitial() == 'W') {
+					cell.addAdj(grid[cell.getRow()][cell.getCol()-1]);
+				}
 			}
-			if (cell.getRow() < numRows-1 && grid[cell.getRow()+1][cell.getCol()].getInitial() == 'W') {
-				cell.addAdj(grid[cell.getRow()+1][cell.getCol()]);
+			if (cell.getRow() < numRows-1) {
+				if (grid[cell.getRow()+1][cell.getCol()].getInitial() == 'W') {
+				cell.addAdj(grid[cell.getRow()+1][cell.getCol()]);	
+				}	
 			}
-			if (cell.getCol() < numColumns-1 && grid[cell.getRow()][cell.getCol()+1].getInitial() == 'W') {
-				cell.addAdj(grid[cell.getRow()][cell.getCol()+1]);
+			if (cell.getCol() < numColumns-1) {
+				if (grid[cell.getRow()][cell.getCol()+1].getInitial() == 'W') {
+				cell.addAdj(grid[cell.getRow()][cell.getCol()+1]);	
+				}	
 			}
 		}
 		
 		else if (cell.getIsSecretPassage()) {					// secret passage
 			
-			Room room = roomMap.get(cell.getInitial());		// add room center
-			BoardCell roomCenter = room.getCenterCell();
-			cell.addAdj(roomCenter);
-			
-			char passageTo = cell.getSecretPassage();		// add adj secret passage
-			room = roomMap.get(passageTo);
-			BoardCell roomSecret = room.getSecretPassage();
-			cell.addAdj(roomSecret);
+//			Room room = roomMap.get(cell.getInitial());		// add room center
+//			BoardCell roomCenter = room.getCenterCell();
+//			cell.addAdj(roomCenter);
+//			
+//			char passageTo = cell.getSecretPassage();		// add passage room center
+//			room = roomMap.get(passageTo);
+//			BoardCell passage = room.getCenterCell();
+//			cell.addAdj(roomCenter);
 			
 		}
 		else if (cell.isRoomCenter()) {
@@ -251,8 +301,14 @@ public class Board {
 			}
 			
 			if (room.hasSecret()) {
-				cell.addAdj(room.getSecretPassage());
-			}//
+				char initial = cell.getInitial();
+				Room current = roomMap.get(initial);
+				BoardCell sp = current.getSecretPassage();
+				char nextInitial = sp.getSecretPassage();
+				Room next = roomMap.get(nextInitial);
+				cell.addAdj(next.getCenterCell());
+				
+			}
 			
 		}	
 		else if (cell.isLabel() || cell.getInitial()!= 'W') {
@@ -274,9 +330,34 @@ public class Board {
 						room = roomMap.get(initial);
 						cell.addAdj(room.getCenterCell());
 					}
+					
+					if (cell.getRow() > 0) {
+						BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+						if (upCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(upCell);
+						}
+					}
+					
+					if (cell.getCol() < (theInstance.numColumns-1)) {
+						BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+						if (rightCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(rightCell);
+						}
+					}
+					
+					if (cell.getCol() > 0) {
+						BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+						if (leftCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(leftCell);
+						}
+					}
+					
 				} 
 				
+				
+				
 				else if (cell.getDoorDirection() == DoorDirection.UP) {
+					
 					BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
 					if (cell.getInitial() == upCell.getInitial()) {
 						cell.addAdj(upCell);
@@ -286,7 +367,31 @@ public class Board {
 						room = roomMap.get(initial);
 						cell.addAdj(room.getCenterCell());
 					}
+					
+					if (cell.getCol() > 0) {
+						BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+						if (leftCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(leftCell);
+						}
+					}
+					
+					if (cell.getCol() < (theInstance.numColumns-1)) {
+						BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+						if (rightCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(rightCell);
+						}
+					}
+					
+					if (cell.getRow() < (theInstance.numRows-1)) {
+						BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+						if (downCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(downCell);
+						}
+					}
+					
 				}
+				
+				
 				else if (cell.getDoorDirection() == DoorDirection.LEFT) {
 					BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
 					if (cell.getInitial() == leftCell.getInitial()) {
@@ -297,6 +402,29 @@ public class Board {
 						room = roomMap.get(initial);
 						cell.addAdj(room.getCenterCell());
 					}
+					
+					if (cell.getRow() > 0) {
+						BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+						if (upCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(upCell);
+						}
+					}
+					
+					if (cell.getCol() < (theInstance.numColumns-1)) {
+						BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+						if (rightCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(rightCell);
+						}
+					}
+					
+					if (cell.getRow() < (theInstance.numRows-1)) {
+						BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+						if (downCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(downCell);
+						}
+					}
+					
+					
 				}
 				else if (cell.getDoorDirection() == DoorDirection.RIGHT) {
 					BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
@@ -308,6 +436,29 @@ public class Board {
 						room = roomMap.get(initial);
 						cell.addAdj(room.getCenterCell());
 					}
+					
+					if (cell.getCol() > 0) {
+						BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+						if (leftCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(leftCell);
+						}
+					}
+					
+					if (cell.getRow() > 0) {
+						BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+						if (upCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(upCell);
+						}
+					}
+					
+					if (cell.getRow() < (theInstance.numRows-1)) {
+						BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+						if (downCell.getInitial() == cell.getInitial()) {
+							cell.addAdj(downCell);
+						}
+					}
+					
+					
 				}
 			}
 			else {
@@ -342,8 +493,7 @@ public class Board {
 
 
 	public Set<BoardCell> getTargets() {
-		Set<BoardCell> returnVal = new HashSet<>();
-		return returnVal;
+		return this.targets;
 	}
 
 	public Set<BoardCell> getAdjList(int row, int col) {
