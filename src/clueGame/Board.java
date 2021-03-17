@@ -54,7 +54,6 @@ public class Board {
 
 	public void loadSetupConfig() throws BadConfigFormatException {	// Creates room map
 		theInstance.roomMap = new HashMap<Character, Room>();
-		System.out.print();
 
 		try {													// scan txt file and create room map
 			Scanner scanRoom = new Scanner(new File(theInstance.setupConfigFile));
