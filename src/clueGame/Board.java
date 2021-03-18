@@ -25,7 +25,7 @@ public class Board {
 	private Map<Character, Room> roomMap;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	private boolean inRoom;
+	
 
 	// constructor is private to ensure only one can be created
 	private Board() {
