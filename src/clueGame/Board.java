@@ -193,25 +193,30 @@ public class Board {
 					if (cell.isDoorway()) {
 						char initial;
 						Room room;
-						if (cell.getDoorDirection() == DoorDirection.DOWN) {
+						switch(cell.getDoorDirection()) {
+						case DOWN:
 							initial = grid[r+1][c].getInitial();
 							room = roomMap.get(initial);
 							room.addDoor(cell);
-						} 
-						else if (cell.getDoorDirection() == DoorDirection.UP) {
+							break;
+						
+						case UP:
 							initial = grid[r-1][c].getInitial();
 							room = roomMap.get(initial);
 							room.addDoor(cell);
-						}
-						else if (cell.getDoorDirection() == DoorDirection.LEFT) {
+							break;
+						
+						case LEFT:
 							initial = grid[r][c-1].getInitial();
 							room = roomMap.get(initial);
 							room.addDoor(cell);
-						}
-						else if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+							break;
+						
+						case RIGHT:
 							initial = grid[r][c+1].getInitial();
 							room = roomMap.get(initial);
 							room.addDoor(cell);
+							break;
 						}
 					}
 				}
