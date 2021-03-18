@@ -271,27 +271,36 @@ public class Board {
 		}
 	}
 	
+	//I AM THINKING THIS CAN BE OUR BIG CHANGE WHERE WE SHOW A BEFORE AND AFTER
 	public void calcAdjacencies(BoardCell cell) {
 		
+		int row = cell.getRow();
+		int RowMinusOne = row-1; 
+		int plusRow = row+1;
+		
+		int column = cell.getCol();
+		int minusColumn = column-1; 
+		int plusColumn = column+1;
+		
 		if (cell.getInitial() == 'W' && !cell.isDoorway()) {
-			if (cell.getRow() > 0) {
-				if (grid[cell.getRow()-1][cell.getCol()].getInitial() == 'W') {
-				cell.addAdj(grid[cell.getRow()-1][cell.getCol()]);
+			if (row > 0) {
+				if (grid[RowMinusOne][column].getInitial() == 'W') {
+				cell.addAdj(grid[RowMinusOne][column]);
 				}
 			}
-			if (cell.getCol() > 0) {
-				if (grid[cell.getRow()][cell.getCol()-1].getInitial() == 'W') {
-					cell.addAdj(grid[cell.getRow()][cell.getCol()-1]);
+			if (column > 0) {
+				if (grid[row][minusColumn].getInitial() == 'W') {
+					cell.addAdj(grid[row][minusColumn]);
 				}
 			}
-			if (cell.getRow() < numRows-1) {
-				if (grid[cell.getRow()+1][cell.getCol()].getInitial() == 'W') {
-				cell.addAdj(grid[cell.getRow()+1][cell.getCol()]);	
+			if (row < numRows-1) {
+				if (grid[plusRow][column].getInitial() == 'W') {
+				cell.addAdj(grid[plusRow][column]);	
 				}	
 			}
-			if (cell.getCol() < numColumns-1) {
-				if (grid[cell.getRow()][cell.getCol()+1].getInitial() == 'W') {
-				cell.addAdj(grid[cell.getRow()][cell.getCol()+1]);	
+			if (column < numColumns-1) {
+				if (grid[row][plusColumn].getInitial() == 'W') {
+				cell.addAdj(grid[row][plusColumn]);	
 				}	
 			}
 		}
@@ -336,7 +345,7 @@ public class Board {
 				Room room;
 				
 				if (cell.getDoorDirection() == DoorDirection.DOWN) {
-					BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+					BoardCell downCell = grid[plusRow][column];
 					if (cell.getInitial() == downCell.getInitial()) {
 						cell.addAdj(downCell);
 					} 
@@ -346,22 +355,22 @@ public class Board {
 						cell.addAdj(room.getCenterCell());
 					}
 					
-					if (cell.getRow() > 0) {
-						BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+					if (row > 0) {
+						BoardCell upCell = grid[RowMinusOne][column];
 						if (upCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(upCell);
 						}
 					}
 					
-					if (cell.getCol() < (theInstance.numColumns-1)) {
-						BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+					if (column < (theInstance.numColumns-1)) {
+						BoardCell rightCell = grid[row][plusColumn];
 						if (rightCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(rightCell);
 						}
 					}
 					
-					if (cell.getCol() > 0) {
-						BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+					if (column > 0) {
+						BoardCell leftCell = grid[row][minusColumn];
 						if (leftCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(leftCell);
 						}
@@ -373,7 +382,7 @@ public class Board {
 				
 				else if (cell.getDoorDirection() == DoorDirection.UP) {
 					
-					BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+					BoardCell upCell = grid[RowMinusOne][column];
 					if (cell.getInitial() == upCell.getInitial()) {
 						cell.addAdj(upCell);
 					} 
@@ -383,22 +392,22 @@ public class Board {
 						cell.addAdj(room.getCenterCell());
 					}
 					
-					if (cell.getCol() > 0) {
-						BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+					if (column > 0) {
+						BoardCell leftCell = grid[row][minusColumn];
 						if (leftCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(leftCell);
 						}
 					}
 					
-					if (cell.getCol() < (theInstance.numColumns-1)) {
-						BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+					if (column < (theInstance.numColumns-1)) {
+						BoardCell rightCell = grid[row][plusColumn];
 						if (rightCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(rightCell);
 						}
 					}
 					
-					if (cell.getRow() < (theInstance.numRows-1)) {
-						BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+					if (row < (theInstance.numRows-1)) {
+						BoardCell downCell = grid[plusRow][column];
 						if (downCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(downCell);
 						}
@@ -408,7 +417,7 @@ public class Board {
 				
 				
 				else if (cell.getDoorDirection() == DoorDirection.LEFT) {
-					BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+					BoardCell leftCell = grid[row][minusColumn];
 					if (cell.getInitial() == leftCell.getInitial()) {
 						cell.addAdj(leftCell);
 					}
@@ -418,22 +427,22 @@ public class Board {
 						cell.addAdj(room.getCenterCell());
 					}
 					
-					if (cell.getRow() > 0) {
-						BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+					if (row > 0) {
+						BoardCell upCell = grid[RowMinusOne][column];
 						if (upCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(upCell);
 						}
 					}
 					
-					if (cell.getCol() < (theInstance.numColumns-1)) {
-						BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+					if (column < (theInstance.numColumns-1)) {
+						BoardCell rightCell = grid[row][plusColumn];
 						if (rightCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(rightCell);
 						}
 					}
 					
-					if (cell.getRow() < (theInstance.numRows-1)) {
-						BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+					if (row < (theInstance.numRows-1)) {
+						BoardCell downCell = grid[plusRow][column];
 						if (downCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(downCell);
 						}
@@ -442,7 +451,7 @@ public class Board {
 					
 				}
 				else if (cell.getDoorDirection() == DoorDirection.RIGHT) {
-					BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+					BoardCell rightCell = grid[row][plusColumn];
 					if (cell.getInitial() == rightCell.getInitial()) {
 						cell.addAdj(rightCell);
 					}
@@ -452,22 +461,22 @@ public class Board {
 						cell.addAdj(room.getCenterCell());
 					}
 					
-					if (cell.getCol() > 0) {
-						BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+					if (column > 0) {
+						BoardCell leftCell = grid[row][minusColumn];
 						if (leftCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(leftCell);
 						}
 					}
 					
-					if (cell.getRow() > 0) {
-						BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+					if (row > 0) {
+						BoardCell upCell = grid[RowMinusOne][column];
 						if (upCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(upCell);
 						}
 					}
 					
-					if (cell.getRow() < (theInstance.numRows-1)) {
-						BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+					if (row < (theInstance.numRows-1)) {
+						BoardCell downCell = grid[plusRow][column];
 						if (downCell.getInitial() == cell.getInitial()) {
 							cell.addAdj(downCell);
 						}
@@ -477,26 +486,26 @@ public class Board {
 				}
 			}
 			else {
-				if (cell.getCol() > 0) {
-					BoardCell leftCell = grid[cell.getRow()][cell.getCol()-1];
+				if (column > 0) {
+					BoardCell leftCell = grid[row][minusColumn];
 					if (leftCell.getInitial() == cell.getInitial()) {
 						cell.addAdj(leftCell);
 					}
 				}
-				if (cell.getRow() > 0) {
-					BoardCell upCell = grid[cell.getRow()-1][cell.getCol()];
+				if (row > 0) {
+					BoardCell upCell = grid[RowMinusOne][column];
 					if (upCell.getInitial() == cell.getInitial()) {
 						cell.addAdj(upCell);
 					}
 				}
-				if (cell.getCol() < (theInstance.numColumns-1)) {
-					BoardCell rightCell = grid[cell.getRow()][cell.getCol()+1];
+				if (column < (theInstance.numColumns-1)) {
+					BoardCell rightCell = grid[row][plusColumn];
 					if (rightCell.getInitial() == cell.getInitial()) {
 						cell.addAdj(rightCell);
 					}
 				}
-				if (cell.getRow() < (theInstance.numRows-1)) {
-					BoardCell downCell = grid[cell.getRow()+1][cell.getCol()];
+				if (row < (theInstance.numRows-1)) {
+					BoardCell downCell = grid[plusRow][column];
 					if (downCell.getInitial() == cell.getInitial()) {
 						cell.addAdj(downCell);
 					}
