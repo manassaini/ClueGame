@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class Board {
 
+	private static final int MIN_DICE_ROLL = 1;
 	// the one board
 
 	private static Board theInstance = new Board();
@@ -132,7 +133,6 @@ public class Board {
 						char specialChar = chars[c].charAt(1);		// second character in item, "special"; either door, label, center, secret passage
 						
 						switch(specialChar) {
-						
 						case '#':										// room label
 							if (roomMap.containsKey(initial)) {
 								thisCell.setRoomLabel(true);
@@ -193,6 +193,7 @@ public class Board {
 					if (cell.isDoorway()) {
 						char initial;
 						Room room;
+						
 						switch(cell.getDoorDirection()) {
 						case DOWN:
 							initial = grid[r+1][c].getInitial();
@@ -257,9 +258,9 @@ public class Board {
 				if (adjCell.getIsOccupied() && !adjCell.isRoomCenter()) {
 					continue;
 				}
-				else if (pathlength == 1 || adjCell.isRoomCenter()) {
+				else if (pathlength == MIN_DICE_ROLL || adjCell.isRoomCenter()) {
 					theInstance.targets.add(adjCell);
-				} else if (pathlength != 1){
+				} else if (pathlength != MIN_DICE_ROLL){
 					recursivePart(adjCell, pathlength - 1);
 				}
 				theInstance.visited.remove(adjCell);
