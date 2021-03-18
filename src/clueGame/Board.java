@@ -239,7 +239,6 @@ public class Board {
 
 	public void calcTargets(BoardCell startCell, int pathlength) {
 		
-		theInstance.inRoom = false;
 		theInstance.targets.clear();
 		theInstance.visited.clear();
 		
