@@ -307,17 +307,8 @@ public class Board {
 			}
 		}
 		
-		else if (cell.getIsSecretPassage()) {					// secret passage
-			
-//			Room room = roomMap.get(cell.getInitial());		// add room center
-//			BoardCell roomCenter = room.getCenterCell();
-//			cell.addAdj(roomCenter);
-//			
-//			char passageTo = cell.getSecretPassage();		// add passage room center
-//			room = roomMap.get(passageTo);
-//			BoardCell passage = room.getCenterCell();
-//			cell.addAdj(roomCenter);
-			
+		else if (cell.getIsSecretPassage() || cell.isLabel() || cell.getInitial()!= 'W') {					// secret passage, label, or non-walkway
+			// nothing
 		}
 		else if (cell.isRoomCenter()) {
 			
@@ -337,9 +328,6 @@ public class Board {
 			}
 			
 		}	
-		else if (cell.isLabel() || cell.getInitial()!= 'W') {
-			// nothing
-		}
 		else {
 			
 			if (cell.isDoorway()) {
