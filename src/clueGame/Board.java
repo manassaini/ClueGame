@@ -130,16 +130,19 @@ public class Board {
 
 					if (chars[c].length() > 1) {
 						char specialChar = chars[c].charAt(1);		// second character in item, "special"; either door, label, center, secret passage
-						if (specialChar == '#') {					// room label
+						
+						switch(specialChar) {
+						
+						case '#':										// room label
 							if (roomMap.containsKey(initial)) {
 								thisCell.setRoomLabel(true);
 								roomMap.get(initial).setLabel(thisCell);
 							} else {
 								throw new BadConfigFormatException();
 							}
-
-						}
-						else if (specialChar == '*') { 				// room center
+							break;
+							
+						case '*':										// room center
 							if (roomMap.containsKey(initial)) {
 								thisCell.setRoomCenter(true);
 								roomMap.get(initial).setCenter(thisCell);
@@ -148,30 +151,37 @@ public class Board {
 							}
 
 							roomMap.get(initial).setCenter(thisCell);
-						}
-						else if (specialChar == '^') {				// up door
+							break;
+						
+						case '^':										// up door
 							thisCell.setIsDoorway(true);
 							thisCell.setDoorDirection(DoorDirection.UP);
-						}
-						else if (specialChar == 'v') {				// down door
+							break;
+							
+						case 'v':										// down door
 							thisCell.setIsDoorway(true);
 							thisCell.setDoorDirection(DoorDirection.DOWN);
-
-						}
-						else if (specialChar == '>') {				// right door
+							break;
+						
+						case '>':										// right door
 							thisCell.setIsDoorway(true);
 							thisCell.setDoorDirection(DoorDirection.RIGHT);
-
-						}
-						else if (specialChar == '<') {				// left door
+							break;
+							
+						case '<':										// left door
 							thisCell.setIsDoorway(true);
-							thisCell.setDoorDirection(DoorDirection.LEFT); 
-						} 
-						else {										// secret passage
-							thisCell.setSecretPassage(specialChar);
+							thisCell.setDoorDirection(DoorDirection.LEFT);
+							break;
+						
+						default:
+							thisCell.setSecretPassage(specialChar);		// secret passage
 							roomMap.get(initial).setSecretPassage(thisCell);
+							break;
+							
 						}
-					}
+						
+
+				}
 
 				}
 
