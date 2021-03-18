@@ -69,7 +69,8 @@ public class Board {
 					}
 
 				}	
-			}		
+			}
+			scanRoom.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Room file not found");
 		}
@@ -88,11 +89,13 @@ public class Board {
 				rows++;
 			}
 			theInstance.numRows = rows;	
+			scan.close();
 
 			Scanner scan2 = new Scanner(new File(this.layoutConfigFile));		//getting number of cols by counting length of line array
 			String line = scan2.nextLine();
 			String[] colNum = line.split(",");
 			theInstance.numColumns = colNum.length;
+			scan2.close();
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Board file not found");
