@@ -307,8 +307,8 @@ public class Board {
 			}
 		}
 		
-		else if (cell.getIsSecretPassage() || cell.isLabel() || cell.getInitial()!= 'W') {					// secret passage, label, or non-walkway
-			// nothing
+		else if (cell.getIsSecretPassage()) {					// secret passage
+			
 		}
 		else if (cell.isRoomCenter()) {
 			
@@ -328,6 +328,9 @@ public class Board {
 			}
 			
 		}	
+		else if (cell.isLabel() || cell.getInitial()!= 'W') {
+			// nothing
+		}
 		else {
 			
 			if (cell.isDoorway()) {
