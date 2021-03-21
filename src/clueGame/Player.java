@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public abstract class Player {
 	
-	public Player(String name, String color) {
+	public Player(String name) {
 		super();
 		this.name = name;
 //		this.color = color;
@@ -19,6 +19,14 @@ public abstract class Player {
 	
 	
 	
-	public abstract void updateHand(Card card);
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
+	public abstract void updateHand(Card card);
+		
 }

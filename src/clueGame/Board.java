@@ -95,7 +95,36 @@ public class Board {
 	
 	
 	public void dealCards() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<Color> colors = new ArrayList<Color>();
+		colors.add(Color.red);
+		colors.add(Color.orange);
+		colors.add(Color.green);
+		colors.add(Color.blue);
+		colors.add(Color.yellow);
+		colors.add(Color.cyan);
 		
+		HumanPlayer human = new HumanPlayer("human");
+		ComputerPlayer comp1 = new ComputerPlayer("comp1");
+		ComputerPlayer comp2 = new ComputerPlayer("comp2");
+		ComputerPlayer comp3 = new ComputerPlayer("comp3");
+		ComputerPlayer comp4 = new ComputerPlayer("comp4");
+		ComputerPlayer comp5 = new ComputerPlayer("comp5");
+		
+		players.add(human);
+		players.add(comp1);
+		players.add(comp2);
+		players.add(comp3);
+		players.add(comp4);
+		players.add(comp5);
+		
+		for (Player p: players) {
+			int counter = 6; //can refactor later
+			int randNumber = ((int) Math.random() * counter);
+			p.setColor(colors.get(randNumber));  //getting a random color from colors
+			colors.remove(randNumber);  //taking that out
+			counter--;
+		}
 	}
 	
 	

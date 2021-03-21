@@ -51,6 +51,11 @@ class gameSetupTests {
 		assertTrue(board.getPeople().contains("Taser"));
 		
 	}
+	/*
+	void testPlayers() {
+		assertEquals(board);
+	}
+	*/
 	
 	
 	
