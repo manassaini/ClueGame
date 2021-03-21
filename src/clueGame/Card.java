@@ -13,4 +13,14 @@ public class Card {
 		return false;
 	}
 
+	public String getCardName() {
+		return cardName;
+	}
+
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
+	
+	
+
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -25,11 +26,13 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
-	private ArrayList<Card> roomList;
-	private ArrayList<Card> personList;
-	private ArrayList<Card> weaponList;
+	private ArrayList<Card> roomCards;
+	private ArrayList<Card> personCards;
+	private ArrayList<Card> weaponCards;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
+	private Solution solution;
+	private ArrayList<Player> players;
 	
 
 	// constructor is private to ensure only one can be created
@@ -60,9 +63,9 @@ public class Board {
 
 	public void loadSetupConfig() throws BadConfigFormatException {	// Creates room map
 		theInstance.roomMap = new HashMap<Character, Room>();
-		theInstance.roomList = new ArrayList<Card>();
-		theInstance.personList = new ArrayList<Card>();
-		theInstance.weaponList = new ArrayList<Card>();
+		theInstance.roomCards = new ArrayList<Card>();
+		theInstance.personCards = new ArrayList<Card>();
+		theInstance.weaponCards = new ArrayList<Card>();
 		
 
 		try {													// scan txt file and create room map
@@ -73,13 +76,13 @@ public class Board {
 				if (line[0].charAt(0) != '/') {											// exclude comments
 					if (line[0].contentEquals("Room") || line[0].contentEquals("Space")) {
 						theInstance.roomMap.put(line[2].charAt(0), new Room(line[1]));	// line[2] is room initial, cast to char; lineA[1] is room name
-						theInstance.roomList.add(new Card(line[1]));
+						theInstance.roomCards.add(new Card(line[1]));
 					}
-					else if (line[0].contentEquals("Person") || line[0].contentEquals("Space")) {
-						theInstance.personList.add(new Card(line[1]));
+					else if (line[0].contentEquals("Person")) {
+						theInstance.personCards.add(new Card(line[1]));
 					} 
-					else if (line[0].contentEquals("Weapon") || line[0].contentEquals("Space")) {
-						theInstance.weaponList.add(new Card(line[1]));
+					else if (line[0].contentEquals("Weapon")) {
+						theInstance.weaponCards.add(new Card(line[1]));
 					}
 					else {
 						throw new BadConfigFormatException("Layout Config error");
@@ -95,7 +98,7 @@ public class Board {
 	
 	
 	public void dealCards() {
-		ArrayList<Player> players = new ArrayList<Player>();
+		theInstance.players = new ArrayList<Player>();
 		ArrayList<Color> colors = new ArrayList<Color>();
 		colors.add(Color.red);
 		colors.add(Color.orange);
@@ -111,22 +114,35 @@ public class Board {
 		ComputerPlayer comp4 = new ComputerPlayer("comp4");
 		ComputerPlayer comp5 = new ComputerPlayer("comp5");
 		
-		players.add(human);
-		players.add(comp1);
-		players.add(comp2);
-		players.add(comp3);
-		players.add(comp4);
-		players.add(comp5);
+		theInstance.players.add(human);
+		theInstance.players.add(comp1);
+		theInstance.players.add(comp2);
+		theInstance.players.add(comp3);
+		theInstance.players.add(comp4);
+		theInstance.players.add(comp5);
 		
-		for (Player p: players) {
-			int counter = 6; //can refactor later
-			int randNumber = ((int) Math.random() * counter);
-			p.setColor(colors.get(randNumber));  //getting a random color from colors
-			colors.remove(randNumber);  //taking that out
-			counter--;
+		for (Player p: players) {	
+			Random random = new Random();					// based off code from geeks for geeks
+			Color color = colors.get(random.nextInt(colors.size()));
+			colors.remove(color);
+			p.addToHand(getRandomCard(personCards));
+			p.addToHand(getRandomCard(weaponCards));
+			p.addToHand(getRandomCard(roomCards));
 		}
+		
+		theInstance.solution.setPerson(getRandomCard(personCards));
+		theInstance.solution.setWeapon(getRandomCard(weaponCards));
+		theInstance.solution.setRoom(getRandomCard(roomCards));
+		
 	}
 	
+	
+	public Card getRandomCard(ArrayList<Card> list) {		// based off code from geeks for geeks
+		Random random = new Random();
+		Card card = list.get(random.nextInt(list.size()));
+		list.remove(card);
+		return card;
+	}
 	
 	
 
@@ -578,13 +594,26 @@ public class Board {
 	}
 
 	
-	public ArrayList<Card> getPeople() {
-		return this.personList;
+	public ArrayList<String> getPeople() {
+		ArrayList<String> names = new ArrayList<String>();
+		for (Card c: theInstance.personCards) {
+			names.add(c.getCardName());
+		}
+		return names;
 	}
 	
-	public ArrayList<Card> getWeapons() {
-		return this.weaponList;
+	public ArrayList<String> getWeapons() {
+		ArrayList<String> weaponNames = new ArrayList<String>();
+		for (Card c: theInstance.weaponCards) {
+			weaponNames.add(c.getCardName());
+		}
+		return weaponNames;
 	}
+	
+	public ArrayList<Player> getPlayers() {
+		return this.players;
+	}
+ 	
 	
 	public BoardCell getCell(int row, int col) {
 		return theInstance.grid[row][col];

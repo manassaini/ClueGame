@@ -1,23 +1,23 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public abstract class Player {
-	
-	public Player(String name) {
-		super();
-		this.name = name;
-//		this.color = color;
-	}
-
-
-
 	private String name;
 	private Color color;
 	protected int row;
 	protected int column;
+	private ArrayList<Card> hand;
 	
 	
+	public Player(String name) {
+		super();
+		this.name = name;
+		ArrayList<Card> hand = new ArrayList<Card>();
+
+	}
+
 	
 	public void setColor(Color color) {
 		this.color = color;
@@ -27,6 +27,11 @@ public abstract class Player {
 		this.name = name;
 	}
 
-	public abstract void updateHand(Card card);
+	public abstract boolean isComputer();
+	
+	
+	public abstract void addToHand(Card card);
+	
+	public abstract void removeFromHand(Card card);
 		
 }

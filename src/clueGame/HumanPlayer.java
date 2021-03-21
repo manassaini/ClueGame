@@ -8,9 +8,20 @@ public class HumanPlayer extends Player{
 	}
 
 	@Override
-	public void updateHand(Card card) {
+	public void addToHand(Card card) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	
+	@Override
+	public void removeFromHand(Card card) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean isComputer() {
+		return false;
+	}
 }

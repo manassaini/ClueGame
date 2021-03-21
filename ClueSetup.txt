@@ -18,6 +18,7 @@ Person, Griffin
 Person, Vik
 Person, Eddie
 Person, Mario
+Person, Luigi
 // Weapons
 Weapon, Knife
 Weapon, Rope
@@ -25,3 +26,4 @@ Weapon, Glock
 Weapon, Hammer
 Weapon, Sickle
 Weapon, Taser
+Weapon, Saw
