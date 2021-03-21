@@ -1,9 +1,11 @@
 package clueGame;
 
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,13 +25,16 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
+	private ArrayList<Card> roomList;
+	private ArrayList<Card> personList;
+	private ArrayList<Card> weaponList;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	
 
 	// constructor is private to ensure only one can be created
 	private Board() {
-		super() ;
+		super();
 	}
 
 	// this method returns the instance
@@ -55,19 +60,30 @@ public class Board {
 
 	public void loadSetupConfig() throws BadConfigFormatException {	// Creates room map
 		theInstance.roomMap = new HashMap<Character, Room>();
+		theInstance.roomList = new ArrayList<Card>();
+		theInstance.personList = new ArrayList<Card>();
+		theInstance.weaponList = new ArrayList<Card>();
+		
 
 		try {													// scan txt file and create room map
-			Scanner scanRoom = new Scanner(new File(theInstance.setupConfigFile));
+			Scanner scanRoom = new Scanner(new File(theInstance.setupConfigFile)); // rooms
 			while (scanRoom.hasNextLine()) {
 				String lineS = scanRoom.nextLine();
 				String[] line = lineS.split(", ");
 				if (line[0].charAt(0) != '/') {											// exclude comments
 					if (line[0].contentEquals("Room") || line[0].contentEquals("Space")) {
 						theInstance.roomMap.put(line[2].charAt(0), new Room(line[1]));	// line[2] is room initial, cast to char; lineA[1] is room name
-					} else {
+						theInstance.roomList.add(new Card(line[1]));
+					}
+					else if (line[0].contentEquals("Person") || line[0].contentEquals("Space")) {
+						theInstance.personList.add(new Card(line[1]));
+					} 
+					else if (line[0].contentEquals("Weapon") || line[0].contentEquals("Space")) {
+						theInstance.weaponList.add(new Card(line[1]));
+					}
+					else {
 						throw new BadConfigFormatException("Layout Config error");
 					}
-
 				}	
 			}
 			scanRoom.close();
@@ -76,6 +92,14 @@ public class Board {
 		}
 
 	}
+	
+	
+	public void dealCards() {
+		
+	}
+	
+	
+	
 
 	public void loadLayoutConfig() throws BadConfigFormatException {			// Calcs rows and columns, creates grid
 		Scanner scan;		
@@ -507,6 +531,7 @@ public class Board {
 		}
 
 	}
+	
 
 
 	public Set<BoardCell> getTargets() {
@@ -523,6 +548,15 @@ public class Board {
 		return roomMap.get(c);
 	}
 
+	
+	public ArrayList<Card> getPeople() {
+		return this.personList;
+	}
+	
+	public ArrayList<Card> getWeapons() {
+		return this.weaponList;
+	}
+	
 	public BoardCell getCell(int row, int col) {
 		return theInstance.grid[row][col];
 	}
