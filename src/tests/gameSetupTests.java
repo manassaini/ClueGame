@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.Player;
-import experiment.TestBoard;
 
 class gameSetupTests {
 
@@ -34,7 +33,7 @@ class gameSetupTests {
 	
 	
 	@Test
-	void testPeople() {
+	void testPeople() {								// testing that people scanned in correctly AND deck is complete
 		assertTrue(board.getPeople().contains("Sophie"));
 		assertTrue(board.getPeople().contains("Melissa"));
 		assertTrue(board.getPeople().contains("Griffin"));
@@ -43,10 +42,12 @@ class gameSetupTests {
 		assertTrue(board.getPeople().contains("Mario"));
 		assertTrue(board.getPeople().contains("Luigi"));
 		
+		assertEquals(board.getPeople().size(), 7);
+		
 	}
 	
 	@Test
-	void testWeapons() {
+	void testWeapons() {							// testing that weapons scanned in correctly AND deck is complete
 		assertTrue(board.getWeapons().contains("Knife"));
 		assertTrue(board.getWeapons().contains("Rope"));
 		assertTrue(board.getWeapons().contains("Glock"));
@@ -55,14 +56,35 @@ class gameSetupTests {
 		assertTrue(board.getWeapons().contains("Taser"));
 		assertTrue(board.getWeapons().contains("Saw"));
 		
+		assertEquals(board.getWeapons().size(), 7);
+		
+	}
+	
+	void testRooms() {								// testing room deck, rooms scanned in and size of deck
+		assertTrue(board.getRoomDeck().contains("Balcony"));
+		assertTrue(board.getRoomDeck().contains("Washroom"));
+		assertTrue(board.getRoomDeck().contains("Trophy Room"));
+		assertTrue(board.getRoomDeck().contains("Museum"));
+		assertTrue(board.getRoomDeck().contains("Armory"));
+		assertTrue(board.getRoomDeck().contains("Dungeon"));
+		assertTrue(board.getRoomDeck().contains("Hall"));
+		assertTrue(board.getRoomDeck().contains("Zoo"));
+		assertTrue(board.getRoomDeck().contains("Secret Base"));
+		assertTrue(board.getRoomDeck().contains("Unused"));
+		assertTrue(board.getRoomDeck().contains("Walkway"));
+
+		assertEquals(board.getRoomDeck().size(), 11);
 	}
 	
 	
 	@Test
-	void testPlayers() {
+	void testPlayers() {							// testing 5 computers one human
+		board.dealCards();
+		
 		int compCount = 0;
 		int humanCount = 0;
-		ArrayList<Player> thePlayers = board.getPlayers();
+		ArrayList<Player> thePlayers = new ArrayList<Player>();
+		thePlayers = board.getPlayers();
 		
 		for (Player p: thePlayers) {
 			if (p.isComputer()) {
@@ -77,7 +99,10 @@ class gameSetupTests {
 	}
 	
 	
-	
+	@Test
+	void testDealCards() {
+		
+	}
 	
 	
 }

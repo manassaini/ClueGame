@@ -130,6 +130,8 @@ public class Board {
 			p.addToHand(getRandomCard(roomCards));
 		}
 		
+		theInstance.solution = new Solution();
+		
 		theInstance.solution.setPerson(getRandomCard(personCards));
 		theInstance.solution.setWeapon(getRandomCard(weaponCards));
 		theInstance.solution.setRoom(getRandomCard(roomCards));
@@ -611,7 +613,15 @@ public class Board {
 	}
 	
 	public ArrayList<Player> getPlayers() {
-		return this.players;
+		return theInstance.players;
+	}
+	
+	public ArrayList<String> getRoomDeck() {
+		ArrayList<String> rooms = new ArrayList<String>();
+		for (Card c: theInstance.roomCards) {
+			rooms.add(c.getCardName());
+		}
+		return rooms;
 	}
  	
 	
