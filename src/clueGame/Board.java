@@ -33,6 +33,7 @@ public class Board {
 	private Set<BoardCell> visited;
 	private Solution solution;
 	private ArrayList<Player> players;
+	private ArrayList<Card> allCards;
 	
 
 	// constructor is private to ensure only one can be created
@@ -76,13 +77,21 @@ public class Board {
 				if (line[0].charAt(0) != '/') {											// exclude comments
 					if (line[0].contentEquals("Room") || line[0].contentEquals("Space")) {
 						theInstance.roomMap.put(line[2].charAt(0), new Room(line[1]));	// line[2] is room initial, cast to char; lineA[1] is room name
-						theInstance.roomCards.add(new Card(line[1]));
+						if (line[0].contentEquals("Room")) {
+							Card newCard = new Card(line[1]);
+							theInstance.roomCards.add(newCard);
+							newCard.setCardType(CardType.ROOM);
+						}
 					}
 					else if (line[0].contentEquals("Person")) {
-						theInstance.personCards.add(new Card(line[1]));
+						Card newCard = new Card(line[1]);
+						theInstance.personCards.add(newCard);
+						newCard.setCardType(CardType.PERSON);
 					} 
 					else if (line[0].contentEquals("Weapon")) {
-						theInstance.weaponCards.add(new Card(line[1]));
+						Card newCard = new Card(line[1]);
+						theInstance.weaponCards.add(newCard);
+						newCard.setCardType(CardType.WEAPON);
 					}
 					else {
 						throw new BadConfigFormatException("Layout Config error");
@@ -121,23 +130,46 @@ public class Board {
 		theInstance.players.add(comp4);
 		theInstance.players.add(comp5);
 		
-		for (Player p: players) {	
-			Random random = new Random();					// based off code from geeks for geeks
-			Color color = colors.get(random.nextInt(colors.size()));
-			colors.remove(color);
-			p.addToHand(getRandomCard(personCards));
-			p.addToHand(getRandomCard(weaponCards));
-			p.addToHand(getRandomCard(roomCards));
-		}
-		
 		theInstance.solution = new Solution();
+		
+		theInstance.allCards = new ArrayList<Card>();
+		theInstance.allCards = makeCompleteDeck();
 		
 		theInstance.solution.setPerson(getRandomCard(personCards));
 		theInstance.solution.setWeapon(getRandomCard(weaponCards));
 		theInstance.solution.setRoom(getRandomCard(roomCards));
 		
+		ArrayList<Card> cards = new ArrayList<Card>();
+		
+		cards.addAll(personCards);
+		cards.addAll(weaponCards);
+		cards.addAll(roomCards);
+		
+		
+		for (Player p: players) {	
+			Random random = new Random();					// based off code from geeks for geeks
+			Color color = colors.get(random.nextInt(colors.size()));
+			colors.remove(color);
+			p.addToHand(getRandomCard(cards));
+			p.addToHand(getRandomCard(cards));
+			p.addToHand(getRandomCard(cards));
+		}
+		
+		
+		
 	}
 	
+	public ArrayList<Card> makeCompleteDeck() {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		cards.addAll(personCards);
+		cards.addAll(weaponCards);
+		cards.addAll(roomCards);
+		return cards;
+	}
+	
+	public ArrayList<Card> getCompleteDeck() {
+		return theInstance.allCards;
+	}
 	
 	public Card getRandomCard(ArrayList<Card> list) {		// based off code from geeks for geeks
 		Random random = new Random();
@@ -344,7 +376,7 @@ public class Board {
 		}
 	}
 	
-	//I AM THINKING THIS CAN BE OUR BIG CHANGE WHERE WE SHOW A BEFORE AND AFTER
+
 	public void calcAdjacencies(BoardCell cell) {
 		
 		int row = cell.getRow();
@@ -603,6 +635,7 @@ public class Board {
 		}
 		return names;
 	}
+	
 	
 	public ArrayList<String> getWeapons() {
 		ArrayList<String> weaponNames = new ArrayList<String>();

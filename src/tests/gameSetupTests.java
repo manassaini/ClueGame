@@ -5,12 +5,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.Player;
+import clueGame.Card;
+import clueGame.CardType;
 
 class gameSetupTests {
 
@@ -40,9 +43,8 @@ class gameSetupTests {
 		assertTrue(board.getPeople().contains("Vik"));
 		assertTrue(board.getPeople().contains("Eddie"));
 		assertTrue(board.getPeople().contains("Mario"));
-		assertTrue(board.getPeople().contains("Luigi"));
 		
-		assertEquals(board.getPeople().size(), 7);
+		assertEquals(board.getPeople().size(), 6);
 		
 	}
 	
@@ -54,9 +56,8 @@ class gameSetupTests {
 		assertTrue(board.getWeapons().contains("Hammer"));
 		assertTrue(board.getWeapons().contains("Sickle"));
 		assertTrue(board.getWeapons().contains("Taser"));
-		assertTrue(board.getWeapons().contains("Saw"));
 		
-		assertEquals(board.getWeapons().size(), 7);
+		assertEquals(board.getWeapons().size(), 6);
 		
 	}
 	
@@ -70,10 +71,8 @@ class gameSetupTests {
 		assertTrue(board.getRoomDeck().contains("Hall"));
 		assertTrue(board.getRoomDeck().contains("Zoo"));
 		assertTrue(board.getRoomDeck().contains("Secret Base"));
-		assertTrue(board.getRoomDeck().contains("Unused"));
-		assertTrue(board.getRoomDeck().contains("Walkway"));
 
-		assertEquals(board.getRoomDeck().size(), 11);
+		assertEquals(board.getRoomDeck().size(), 9);
 	}
 	
 	
@@ -100,9 +99,45 @@ class gameSetupTests {
 	
 	
 	@Test
-	void testDealCards() {
+	void testDealCards() {						// test each player has 3 cards
+		board.dealCards();
 		
+		ArrayList<Player> thePlayers = new ArrayList<Player>();
+		thePlayers = board.getPlayers();
+		
+		for (Player p: thePlayers) {
+			assertEquals(p.getHand().size(), 3);
+		}
 	}
+	
+	@Test
+	void testCompleteDeck() {					// right number of each card
+		board.dealCards();
+		
+		int weaponCount = 0;
+		int roomCount = 0;
+		int personCount = 0;
+		
+		ArrayList<Card> cardDeck = board.getCompleteDeck();
+		
+		for (Card c: cardDeck) {
+			if (c.getCardType() == CardType.WEAPON) {
+				weaponCount++;
+			}
+			else if (c.getCardType() == CardType.ROOM) {
+				roomCount++;
+			}
+			else {
+				personCount++;
+			}
+		}
+		
+		assertEquals(weaponCount, 6);
+		assertEquals(roomCount, 9);
+		assertEquals(personCount, 6);
+	}
+	
+	
 	
 	
 }

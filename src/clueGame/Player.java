@@ -8,7 +8,7 @@ public abstract class Player {
 	private Color color;
 	protected int row;
 	protected int column;
-	private ArrayList<Card> hand;
+	protected ArrayList<Card> hand;
 	
 	
 	public Player(String name) {
@@ -29,6 +29,7 @@ public abstract class Player {
 
 	public abstract boolean isComputer();
 	
+	public abstract ArrayList<Card> getHand();
 	
 	public abstract void addToHand(Card card);
 	
