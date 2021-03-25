@@ -19,49 +19,29 @@ import clueGame.CardType;
 class GameSolutionTest {
 
 	Card melissaCard = new Card("Melissa");
-
 	Card sophieCard = new Card("Sophie");
-
 	Card griffinCard = new Card("Griffin");
-
 	Card vikCard = new Card("Vik");
-
 	Card eddieCard = new Card("Eddie");
 
-
 	Card knifeCard = new Card("Knife");
-
 	Card ropeCard = new Card("Rope");
-
 	Card glockCard = new Card("Glock");
-
 	Card hammerCard = new Card("Hammer");
-
 	Card sickleCard = new Card("Sickle");
-
 	Card taserCard = new Card("Taser");
 
-
 	Card dungeonCard = new Card("Dungeon");
-
 	Card hallCard = new Card ("Hall");
-
 	Card zooCard = new Card ("Zoo");
-
 	Card sbCard = new Card ("Secret Base");
-
 	Card balconyCard = new Card("Balcony");
-
 	Card washroomCard = new Card("Washroom");
-
 	Card trophyRoomCard = new Card("Trophy Room");
-
 	Card museumCard = new Card("Museum");
-
 	Card armoryCard = new Card("Armory");
+	
 	Solution solution = new Solution();
-
-
 
 	Board board;
 
