@@ -33,4 +33,22 @@ public class HumanPlayer extends Player{
 	public boolean isComputer() {
 		return false;
 	}
+
+	@Override
+	public Card disproveSuggestion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateHand(Card card) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateSeen(Card seenCard) {
+		// TODO Auto-generated method stub
+		
+	}
 }

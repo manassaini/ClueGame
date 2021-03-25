@@ -671,6 +671,14 @@ public class Board {
 		return theInstance.numColumns;
 	}
 	
+	public boolean checkAccusation(Card person, Card weapon, Card room, Solution solution) {
+		if (person == solution.person && weapon == solution.weapon && room == solution.room) {
+			return true;
+		}
+		return false;
+		
+	}
+	
 	
 
 }

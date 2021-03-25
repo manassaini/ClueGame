@@ -34,5 +34,11 @@ public abstract class Player {
 	public abstract void addToHand(Card card);
 	
 	public abstract void removeFromHand(Card card);
+	
+	public abstract Card disproveSuggestion();
+	
+	public abstract void updateHand(Card card);
+	
+	public abstract void updateSeen(Card seenCard);
 		
 }

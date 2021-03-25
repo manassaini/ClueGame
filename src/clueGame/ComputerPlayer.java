@@ -10,6 +10,14 @@ public class ComputerPlayer extends Player {
 		this.hand = hand;
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Solution createSuggestion() {
+		return null;
+	}
+	
+	public BoardCell selectTargets() {
+		return null;
+	}
 
 	@Override
 	public void addToHand(Card card) {
@@ -32,6 +40,24 @@ public class ComputerPlayer extends Player {
 	@Override
 	public boolean isComputer() {
 		return true;
+	}
+
+	@Override
+	public Card disproveSuggestion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateHand(Card card) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateSeen(Card seenCard) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
