@@ -12,6 +12,9 @@ public class Card {
 
 	
 	public boolean equals(Card target) {
+		if (target.getCardName().contentEquals(this.cardName)) {
+			return true;
+		}
 		return false;
 	}
 	

@@ -15,6 +15,8 @@ import clueGame.Solution;
 import clueGame.Player;
 import clueGame.Card;
 import clueGame.CardType;
+import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
 
 class GameSolutionTest {
 
@@ -23,6 +25,7 @@ class GameSolutionTest {
 	Card griffinCard = new Card("Griffin");
 	Card vikCard = new Card("Vik");
 	Card eddieCard = new Card("Eddie");
+	Card marioCard = new Card("Mario");
 
 	Card knifeCard = new Card("Knife");
 	Card ropeCard = new Card("Rope");
@@ -63,6 +66,7 @@ class GameSolutionTest {
 		griffinCard.setCardType(CardType.PERSON);
 		vikCard.setCardType(CardType.PERSON);
 		eddieCard.setCardType(CardType.PERSON);
+		marioCard.setCardType(CardType.PERSON);
 
 		knifeCard.setCardType(CardType.WEAPON);
 		ropeCard.setCardType(CardType.WEAPON);
@@ -95,5 +99,71 @@ class GameSolutionTest {
 		assertFalse(board.checkAccusation(sophieCard, glockCard, trophyRoomCard, solution));
 
 	}
+	
+	@Test
+	void disproveSuggestionTest() {
+		Player player = new ComputerPlayer("Test Player");
+		
+		player.addToHand(armoryCard);
+		player.addToHand(glockCard);
+		player.addToHand(melissaCard);
+		
+		Card disprove = player.disproveSuggestion(melissaCard, knifeCard, hallCard);
+		assertTrue(disprove.equals(melissaCard));
+		
+		disprove = player.disproveSuggestion(eddieCard, glockCard, hallCard);
+		assertTrue(disprove.equals(glockCard));
+		
+		disprove = player.disproveSuggestion(eddieCard, knifeCard, armoryCard);
+		assertTrue(disprove.equals(armoryCard));
+		
+	}
+	
+	
+	@Test
+	void handleSuggestionTest() {
+		Player player0 = new HumanPlayer("Player 0");
+		player0.addToHand(armoryCard);
+		player0.addToHand(glockCard);
+		
+		Player player1 = new ComputerPlayer("Player 1");
+		player1.addToHand(dungeonCard);
+		player1.addToHand(taserCard);
+		
+		Player player2 = new ComputerPlayer("Player 2");
+		player2.addToHand(sickleCard);
+		player2.addToHand(griffinCard);
+		
+		
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		playerList.add(player0);
+		playerList.add(player1);
+		playerList.add(player2);
+		
+		board.setPlayers(playerList);
+		
+		Card disprove = board.handleSuggestion(sophieCard, knifeCard, hallCard, player0, playerList);
+		assertEquals(disprove, null);
+		
+		disprove = board.handleSuggestion(marioCard, glockCard, zooCard, player0, playerList);
+		assertEquals(disprove, null);
+		
+		disprove = board.handleSuggestion(griffinCard, taserCard, trophyRoomCard, player0, playerList);
+		assertTrue(disprove.equals(taserCard));
+	
+	}
+	
+	
+	@Test
+	void computerCreateSuggestion() {
+		ComputerPlayer computer = new ComputerPlayer("Test computer player");
+		computer.addToHand(eddieCard);
+		computer.addToHand(glockCard);
+		
+		Solution solution = computer.createSuggestion(armoryCard);
+		assertFalse(solution.person.getCardName().contentEquals(eddieCard.getCardName()) );
+		assertFalse(solution.weapon.getCardName().contentEquals(glockCard.getCardName()) );
+	}
+	
 
 }

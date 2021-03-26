@@ -167,6 +167,40 @@ public class Board {
 		return cards;
 	}
 	
+	public ArrayList<Card> getPeronCards() {
+		return this.personCards;
+	}
+	
+	public ArrayList<Card> getWeaponCards() {
+		return this.weaponCards;
+	}
+	
+	public ArrayList<Card> getRoomCards() {
+		return this.roomCards;
+	}
+	
+	
+	public Card handleSuggestion(Card person, Card weapon, Card room, Player player, ArrayList<Player> players) {
+		ArrayList<Card> options = new ArrayList<Card>();
+		for (Player p: players) {
+			if (!p.getName().contentEquals(player.getName())) {
+				Card c = p.disproveSuggestion(person, weapon, room);
+				if (c != null) {
+					options.add(c);
+				}	
+			}
+			
+		}
+		
+		if (options.size() == 0) {
+			return null;
+		} else {
+			return options.get(0);
+		}
+		
+		
+	}
+	
 	public ArrayList<Card> getCompleteDeck() {
 		return theInstance.allCards;
 	}
@@ -627,6 +661,9 @@ public class Board {
 		return roomMap.get(c);
 	}
 
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
+	}
 	
 	public ArrayList<String> getPeople() {
 		ArrayList<String> names = new ArrayList<String>();
