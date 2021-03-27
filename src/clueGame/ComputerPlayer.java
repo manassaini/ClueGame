@@ -1,7 +1,9 @@
 package clueGame;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class ComputerPlayer extends Player {
 
@@ -113,6 +115,16 @@ public class ComputerPlayer extends Player {
 		} else {
 			this.unseenWeapons.remove(seenCard);
 		}
+	}
+	
+	public BoardCell selectTarget(BoardCell cell) {
+		Board board = Board.getInstance();
+		
+		Set<BoardCell> options = new HashSet<BoardCell>();
+		options = board.
+		
+		
+	
 	}
 	
 }

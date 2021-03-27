@@ -165,5 +165,9 @@ class GameSolutionTest {
 		assertFalse(solution.weapon.getCardName().contentEquals(glockCard.getCardName()) );
 	}
 	
+	@Test
+	void computerSelectTargetTest() {
+		
+	}
 
 }

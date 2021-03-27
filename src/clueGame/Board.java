@@ -376,8 +376,8 @@ public class Board {
 
 	public void calcTargets(BoardCell startCell, int pathlength) {
 		
-		theInstance.targets.clear();
 		theInstance.visited.clear();
+		theInstance.targets.clear();
 		
 		recursivePart(startCell, pathlength);
 		
@@ -388,6 +388,7 @@ public class Board {
 	public void recursivePart(BoardCell startCell, int pathlength) {
 		calcAdjacencies(startCell);
 		theInstance.visited.add(startCell);
+
 		
 		for (BoardCell adjCell: startCell.getAdjList()) {
 			
@@ -410,6 +411,7 @@ public class Board {
 		}
 	}
 	
+
 
 	public void calcAdjacencies(BoardCell cell) {
 		
