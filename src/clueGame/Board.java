@@ -76,7 +76,8 @@ public class Board {
 				String[] line = lineS.split(", ");
 				if (line[0].charAt(0) != '/') {											// exclude comments
 					if (line[0].contentEquals("Room") || line[0].contentEquals("Space")) {
-						theInstance.roomMap.put(line[2].charAt(0), new Room(line[1]));	// line[2] is room initial, cast to char; lineA[1] is room name
+						Room room = new Room(line[1]);
+						theInstance.roomMap.put(line[2].charAt(0), room);	// line[2] is room initial, cast to char; lineA[1] is room name
 						if (line[0].contentEquals("Room")) {
 							Card newCard = new Card(line[1]);
 							theInstance.roomCards.add(newCard);
@@ -117,11 +118,17 @@ public class Board {
 		colors.add(Color.cyan);
 		
 		HumanPlayer human = new HumanPlayer("human");
+		human.setLoc(18, 0);
 		ComputerPlayer comp1 = new ComputerPlayer("comp1");
+		comp1.setLoc(25, 4);
 		ComputerPlayer comp2 = new ComputerPlayer("comp2");
+		comp2.setLoc(0, 13);
 		ComputerPlayer comp3 = new ComputerPlayer("comp3");
+		comp3.setLoc(0, 14);
 		ComputerPlayer comp4 = new ComputerPlayer("comp4");
+		comp4.setLoc(8, 20);
 		ComputerPlayer comp5 = new ComputerPlayer("comp5");
+		comp5.setLoc(9, 20);
 		
 		theInstance.players.add(human);
 		theInstance.players.add(comp1);
@@ -153,11 +160,9 @@ public class Board {
 			p.addToHand(getRandomCard(cards));
 			p.addToHand(getRandomCard(cards));
 			p.addToHand(getRandomCard(cards));
-		}
-		
-		
-		
+		}		
 	}
+	
 	
 	public ArrayList<Card> makeCompleteDeck() {
 		ArrayList<Card> cards = new ArrayList<Card>();
@@ -167,18 +172,24 @@ public class Board {
 		return cards;
 	}
 	
+	
 	public ArrayList<Card> getPeronCards() {
 		return this.personCards;
 	}
+	
 	
 	public ArrayList<Card> getWeaponCards() {
 		return this.weaponCards;
 	}
 	
+	
 	public ArrayList<Card> getRoomCards() {
 		return this.roomCards;
 	}
 	
+	public Map<Character, Room> getRoomMap() {
+		return theInstance.roomMap;
+	}
 	
 	public Card handleSuggestion(Card person, Card weapon, Card room, Player player, ArrayList<Player> players) {
 		ArrayList<Card> options = new ArrayList<Card>();
@@ -268,6 +279,13 @@ public class Board {
 					}
 
 					thisCell.setInitial(initial);					// gives BoardCell its initial
+					
+					if (initial!= 'W' && initial != 'X') {
+						thisCell.setIsRoom(true);
+					}
+					else {
+						thisCell.setIsRoom(false);
+					}
 
 					if (chars[c].length() > 1) {
 						char specialChar = chars[c].charAt(1);		// second character in item, "special"; either door, label, center, secret passage
@@ -400,6 +418,7 @@ public class Board {
 				}
 				else if (pathlength == MIN_DICE_ROLL || adjCell.isRoomCenter()) {
 					theInstance.targets.add(adjCell);
+					startCell.addTarget(adjCell);
 				} else if (pathlength != MIN_DICE_ROLL){
 					recursivePart(adjCell, pathlength - 1);
 				}
@@ -426,7 +445,7 @@ public class Board {
 		if (cell.getInitial() == 'W' && !cell.isDoorway()) {
 			if (row > 0) {
 				if (grid[RowMinusOne][column].getInitial() == 'W') {
-				cell.addAdj(grid[RowMinusOne][column]);
+					cell.addAdj(grid[RowMinusOne][column]);
 				}
 			}
 			if (column > 0) {
@@ -716,6 +735,10 @@ public class Board {
 		}
 		return false;
 		
+	}
+	
+	public BoardCell[][] getGrid() {
+		return this.grid;
 	}
 	
 	

@@ -19,11 +19,13 @@ public class BoardCell {
 	private boolean isRoom;
 	private boolean isOccupied;
 	private boolean isDoorway = false;
+	Set<BoardCell> targets;
 	private DoorDirection direction = DoorDirection.NONE;
 	
 	public BoardCell() {
 		super();
 		this.adjList = new HashSet<BoardCell>();
+		this.targets = new HashSet<BoardCell>();
 	}
 	
 	public void addAdj (BoardCell cell) {
@@ -120,4 +122,24 @@ public class BoardCell {
 		return false;
 	}
 	
+	
+	public void setIsRoom(boolean isRoom) {
+		this.isRoom = isRoom;
+	}
+	
+	public boolean getIsRoom() {
+		return this.isRoom;
+	}
+	
+	public void addTarget(BoardCell target) {
+		this.targets.add(target);
+	}
+	
+	public Set<BoardCell> getTargets() {
+		return this.targets;
+	}
+	
+	public void clearTargets() {
+		this.targets.clear();
+	}
 }
