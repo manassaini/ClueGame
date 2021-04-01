@@ -1,0 +1,363 @@
+commit a86fe26eeaf6a511591d3e68c43e4b13e271ef49
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 29 23:02:33 2021 -0500
+
+    Game solution tests finished and pass
+
+commit f418bc229ee99f90216dc80eee5a0b45a749d0a4
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Fri Mar 26 20:15:18 2021 -0600
+
+    4 tests pass
+
+commit 631d4fccf24cff5d0766cae4a74067c6cb78b896
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 25 21:22:59 2021 -0600
+
+    Almost done
+
+commit ddf287f02bc07cc9ffe9a76840b225b0f2d5ff87
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Thu Mar 25 10:15:52 2021 -0600
+
+    Cleaned up a bit
+
+commit 440370b65120fbb9e8bdc93e482902b51e5116f3
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Mar 24 23:18:27 2021 -0600
+
+    Added methods from UML and made checkAccusationTest pass
+
+commit 06cffecaa42f257d2e1cca34d828757a7b048f73
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 22 19:00:28 2021 -0600
+
+    git log
+
+commit 1e60179c07bdb8f17c5524de783d32c3dbf70b8f
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 22 18:59:24 2021 -0600
+
+    all tests written and pass
+
+commit 17db06d1cef03a6def7de2546a4ad136523ea7cc
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 22 11:55:03 2021 -0600
+
+    test rooms, weapons, people, and players pass
+
+commit a472a850d777920cc8eabf69a913b54a95193a87
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Sun Mar 21 17:22:14 2021 -0600
+
+    test people and test weapons pass, started test players
+
+commit 222c0ceed7fe8211516775b36f5f16191c599bf1
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Sun Mar 21 16:33:42 2021 -0600
+
+    Worked on dealCards function
+
+commit 4b84c32566248fa1293bead2228f7574570c82b4
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Sun Mar 21 16:01:43 2021 -0600
+
+    testPeople and testWeapons, people and weapons read in
+
+commit 59d21448a497e97968188927103918581fb07352
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Sun Mar 21 15:13:13 2021 -0600
+
+    Made all the classes and function stubs, basically followed the UML provided on Canvas
+
+commit 7880da3ca7090716b72db1e10def9c74e6018eb8
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 18 18:14:34 2021 -0600
+
+    All tests pass
+
+commit f5da73f9a43ff1006fbebed3c99b110212e7bb38
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 18 13:23:39 2021 -0600
+
+    calc adjacencies statements
+
+commit a5e2d8cd4e9a45cd7240e2ff17842d6a554c84f4
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 18 13:18:38 2021 -0600
+
+    Board clean up
+
+commit a38a98d60055fb320b23c120c2d1c5fd6e15fa27
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 18 13:14:33 2021 -0600
+
+    Closed scanners
+
+commit f955406f989419b7b2a0c151cb41659051d5cf50
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 18 13:00:28 2021 -0600
+
+    Cleaned up board variables
+
+commit 47bf6b6bdc1d3e91795bdad4fe86c12d40fd02fc
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 18 12:59:34 2021 -0600
+
+    More updates to refactoring file
+
+commit dbd758775e28ec1f5323407ab24021006e94beac
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 18 12:56:23 2021 -0600
+
+    Refactoring text file started
+
+commit 868f357e5881cb9d58011534486f2ae7c6813f00
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Thu Mar 18 12:11:12 2021 -0600
+
+    Extracted local variables in our calcAdjacencies function. A lot of our code was becoming messy so we extracted, for example, rowMinusOne, instead of cell.getRow() - 1. Just making nicely named variables for improved readibility
+
+commit 29ffc18d8caa0f1cc851152a56ec44d492a92485
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Mar 17 23:00:39 2021 -0600
+
+    Extracted constant MIN_DICE_ROLL in our recursivePart function to improve readibility
+
+commit 35cf9a9a3f7bf0a6e8c07ff73f0c243636328ea6
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Mar 17 22:55:51 2021 -0600
+
+    Made another switch statement to add the adjacent cell wherever the door direction is facing
+
+commit 26dcb09de59a41fd998336924cf04a64c1af0005
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Wed Mar 17 21:14:19 2021 -0600
+
+    refactor, switch statement in board layout config
+
+commit 52122becfc22a475e57c7b47d9460a6fa8cc5bbc
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Mar 17 15:38:52 2021 -0600
+
+    Most recent version of our project, appararently there was a small chagne
+
+commit 0c310d75ffcdc170eca5fdfa6987002e18813f41
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Thu Mar 11 15:05:09 2021 -0700
+
+    All tests are passing now, went through and double checked
+
+commit a3dad314a540424903043e8c0fe3ad9d2d99efd1
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Thu Mar 11 11:58:56 2021 -0700
+
+    Got all tests in 306 working, just have to work on our own version now
+
+commit 7f27a8ea62f09396fc2bb40cb35348bf9a51e65c
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 11 00:31:34 2021 -0700
+
+    Updates to board adj target test and board
+
+commit 85f4a96ce4648077ea3c39c6c9b3587bced2996c
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Mar 10 14:07:32 2021 -0700
+
+    Worked on making testAdjacencyWalkways to work, code seems right but not working, only change I did
+
+commit 2c6b506e0795c25fe5a2cc8e98db467586247eb7
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Mar 10 14:06:00 2021 -0700
+
+    Worked on making testAdjacencyWalkways to work, the code seems right. It's the first thing in calcAdjacencies, moved everything else down
+
+commit 91961e29addff694bedd37f8d098f71a272e5931
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Mar 9 13:25:44 2021 -0700
+
+    Board 2 started
+
+commit 158a17feb73194745e5b9135ac2deb37f26fd3b3
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 4 21:59:31 2021 -0700
+
+    Board 1, stubs written, BATT needs original tests
+
+commit dec7a619659bdb8ed06ad719fa1b6604164e209f
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 4 21:23:31 2021 -0700
+
+    Refactored//commented
+
+commit 340823294b4fc8c262303320f446bdb0fc3b1ef0
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 4 21:19:06 2021 -0700
+
+    Git log updated
+
+commit 4530705fda8239d47e8f916a637741b26f218c6d
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 4 21:17:11 2021 -0700
+
+    Init 2 finished, all tests pass
+
+commit 95732b321bb8e67b02815c091e89f1279e4f7e78
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Mar 4 18:09:03 2021 -0700
+
+    2/3 Exception tests pass
+
+commit 51f0a9f2aeff558c2552176f184cd811eb411431
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Wed Mar 3 23:02:59 2021 -0700
+
+    File init and file init 306 pass, updated bad config exception
+
+commit 742d62db1a24ea00568cf0b308fae713a8f023b5
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Mar 2 18:09:23 2021 -0700
+
+    Started init 2
+
+commit ff5bc02c2c46a0291875f74d8b3980357d4d267b
+Merge: d994a73 246d8d3
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Mar 2 11:55:12 2021 -0700
+
+    Init 1 finished
+    
+    Conflicts:
+            src/tests/ExceptionTests306.java
+            src/tests/FileInitTests306.java
+
+commit d994a73f0585e353be9a719fe789f59303690ee5
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Mar 2 11:40:54 2021 -0700
+
+    Init 1 completed
+
+commit e1b5d1a96d6b56bc9e57ae7b53ff570ff4ce0bc0
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 21:53:07 2021 -0700
+
+    Init 1 Finished
+
+commit 246d8d34ad39e9d1dd0bd99d23eb5ad9c6d91b89
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Mon Mar 1 20:07:19 2021 -0700
+
+    Made appropriate changes to JUnit tests testRoomLabels and FourDoorDirections in file FileInitTests306. Made them match our board
+
+commit fe1884c173f60b1b1ff0136787f8f9236e2a5a71
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Mon Mar 1 20:05:53 2021 -0700
+
+    Made appropriate changes to JUnit tests testRoomLabels and FourDoorDirections in file FileInitTests306. Made them match our board
+
+commit 2d10601bac769db2c25e2973af35252944ee61fd
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 18:29:41 2021 -0700
+
+    Clue Init 1 Started, most stubs filled
+
+commit ce3713bf1e855b3ea0d12a7de0c12ce454a7d6d2
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 17:24:17 2021 -0700
+
+    Just moved gitLog and readme to src
+
+commit 8efdee92414f41b32dcc8c55b481d01bd984915b
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 17:17:29 2021 -0700
+
+    Git log done
+
+commit 13c4e6410186ed326b17442c42a1298c747edc9c
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 17:16:36 2021 -0700
+
+    All tests pass
+
+commit 80c34fb831f5b5f4d0cfecbf78983c243866ebdf
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Mar 1 16:53:33 2021 -0700
+
+    4/6 Tests Pass
+
+commit f084dc596ee438eece50da0fab5c13b006390bfd
+Merge: 39939c7 ecda9c3
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Sun Feb 28 21:30:08 2021 -0700
+
+    Merge branch 'master' of https://github.com/manassaini/ClueGame.git
+
+commit 39939c77a418a7f5860bc7307ae7a8d78c2485ff
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Sun Feb 28 21:28:25 2021 -0700
+
+    testBoard and TestBoardCell
+
+commit ecda9c3dc7215485385963992321f3e07ebedf6e
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Sun Feb 28 13:33:56 2021 -0700
+
+    Make sure git is working on my end (Manas)
+
+commit 8c428a592eb3cc0fdcd435f66ac52ff32b3e2b18
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Feb 25 22:05:48 2021 -0700
+
+    calcTargets started, stubs filled in TestBoardCell
+
+commit 61bea3686f5e7ec62097a88266505145a7216dda
+Merge: 4122c78 41d1594
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Feb 25 21:24:59 2021 -0700
+
+    Merge branch 'master' of https://github.com/manassaini/ClueGame.git
+    
+    Conflicts:
+            src/tests/BoardTestExp.java
+
+commit 4122c782a2b51d2877e1bea41daa627bf7d87d97
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Feb 25 18:02:37 2021 -0700
+
+    start path2
+
+commit bf8c3a5b05285617521d97a8b2b6f88fb29550bd
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Feb 25 18:00:28 2021 -0700
+
+    Test board started
+
+commit 41d15947b233257493d00675abf6570f60a03da9
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Thu Feb 25 17:54:20 2021 -0700
+
+    Finished JUnit Test case for testTargetsMixed. Included a test case for cell [0,3] with both bools set to true. And thenfinished one for cell [1,0] with only setOccupied set to true. This test fails with no errors. These test cases are fully commented and ready to be turned in: Assignment C12A-2 Clue Paths (Pair)
+
+commit 3abd2adc359cf0d3dfbbbbefef1dfb941fe21b61
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Feb 24 23:56:03 2021 -0700
+
+    Finished JUnit test function testTargetsNormal. Completed a test for the following cells and path lengths. [2,2]->2, [0,0]->3, and [0,1]->2. Commented this function as well. Test fails with no errors
+
+commit 8356da8cce6db5f8917bdf9d4f27c8a5a1eb2b48
+Author: manassaini <57766167+manassaini@users.noreply.github.com>
+Date:   Wed Feb 24 17:36:27 2021 -0700
+
+    Create README.md
+
+commit 1362cd9f9a5c275b7e42d3e6e3fb07c8261623d1
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Feb 24 17:35:43 2021 -0700
+
+    Completed JUnit test case for testAdjacency. Completed this for four different cells: [0,0], [1,3], [3,3], and [3,0]. Test fails with no errors.
+
+commit 77dcf5b1e474dc71bc90aa4bb01a7ce04db69a63
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Feb 24 16:30:06 2021 -0700
+
+    Log in test
