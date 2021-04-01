@@ -15,7 +15,7 @@ public class ComputerPlayer extends Player {
 		Board theInstance = Board.getInstance();
 		this.unseenWeapons = theInstance.getWeaponCards();
 		this.unseenRooms = theInstance.getRoomCards();
-		this.unseenPeople = theInstance.getPeronCards();
+		this.unseenPeople = theInstance.getPersonCards();
 	}
 	
 	

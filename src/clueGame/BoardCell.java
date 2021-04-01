@@ -142,4 +142,13 @@ public class BoardCell {
 	public void clearTargets() {
 		this.targets.clear();
 	}
+	
+	public boolean equals(BoardCell cell) {
+		if (this.row == cell.getRow() && this.col == cell.getCol()) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 }
