@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -77,7 +78,7 @@ public class GameControlPanel extends JPanel {
 
 	public void setTurn(ComputerPlayer player, int roll) {
 		String name = player.getName();
-		//Color color = player.getColor();
+		Color color = player.getColor();
 		
 	}
 	

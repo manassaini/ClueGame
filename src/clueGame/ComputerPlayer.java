@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -195,5 +196,6 @@ public class ComputerPlayer extends Player {
 	public void addUnseenWeapon(Card weapon) {
 		this.unseenWeapons.add(weapon);
 	}
+
 
 }

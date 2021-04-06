@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class Player {
-	private String name;
-	private Color color;
+	protected String name;
+	protected Color color;
 	protected int column;
 	protected ArrayList<Card> hand;
 	protected ArrayList<Card> seen;
@@ -38,6 +38,10 @@ public abstract class Player {
 	
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public Color getColor() {
+		return this.color;
 	}
 	
 	public void setName(String name) {
