@@ -18,19 +18,22 @@ public class CardPanel extends JPanel{
 	private static Set<Card> weaponsHand = new HashSet<Card>();
 	private static Set<Card> roomsHand = new HashSet<Card>();
 	
+	private static JPanel peoplePanel;
+	private static JPanel weaponsPanel;
+	private static JPanel roomsPanel;
+	
+	
 	public CardPanel() {
 		setLayout(new GridLayout(3,1));
-		JPanel panel = createFirst();
-		
-		add(panel);
-		JPanel panel2 = createSecond();
-		add(panel2);
-		JPanel panel3 = createThird();
-		add(panel3);
+		peoplePanel = createFirst();
+		add(peoplePanel);
+		roomsPanel = createSecond();
+		add(roomsPanel);
+		weaponsPanel = createThird();
+		add(weaponsPanel);
 		
 		//add all other panels first, going to add like top down fashion
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
-		
+		this.setBorder(new TitledBorder (new EtchedBorder(), "Known"));
 	}
 	
 	private JPanel createFirst() {
@@ -79,14 +82,16 @@ public class CardPanel extends JPanel{
 	
 	
 	public JPanel updateDisplay(Set<Card> seenCards, Set<Card> handCards, String name, JPanel panel) {
+		panel.removeAll();
+		
 		HashSet<JTextField> handBoxes = new HashSet<JTextField>();
 		HashSet<JTextField> seenBoxes = new HashSet<JTextField>();
 		
-		JLabel inHandLabel = new JLabel("In Hand:");
+		JLabel inHandLabel = new JLabel("In Hand:");					// iterate through cards in hand,  create text field for each
 		if (!handCards.isEmpty()) {
 			for (Card c:handCards) {
 				JTextField field = new JTextField(c.getCardName());
-				handBoxes.add(field);
+				handBoxes.add(field);									// add to set of text fields
 			}
 		}
 		else {
@@ -94,7 +99,7 @@ public class CardPanel extends JPanel{
 			handBoxes.add(field);
 		}
 		
-		JLabel seenLabel = new JLabel("Seen:");
+		JLabel seenLabel = new JLabel("Seen:");							// same as above
 		if (!seenCards.isEmpty()) {
 			for (Card c: seenCards) {
 				JTextField field = new JTextField(c.getCardName());
@@ -106,8 +111,7 @@ public class CardPanel extends JPanel{
 			seenBoxes.add(field);
 		}
 		
-		
-		panel.add(inHandLabel);
+		panel.add(inHandLabel);											// add each text field to panel
 		for (JTextField field: handBoxes) {
 			panel.add(field);
 		}
@@ -139,11 +143,10 @@ public class CardPanel extends JPanel{
 
 		panel.setPeopleHand(card2);
 		panel.setPeopleHand(card3);
-//		updateDisplay(peopleHand, peopleSeen, "People", panel);
+		peoplePanel = panel.updateDisplay(peopleSeen, peopleHand, "People", peoplePanel);
 		panel.setWeaponsHand(card1);
-		
-		
-
+		weaponsPanel = panel.updateDisplay(weaponsSeen, weaponsHand, "Weapons", weaponsPanel);
+		panel.updateUI();
 	}
 
 }
