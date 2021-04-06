@@ -1,3 +1,45 @@
+commit 8613216d14d32401c2d2835d84483b9a2fa85848
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Apr 5 22:38:23 2021 -0600
+
+    c21A-1 finished
+
+commit d5632a858f4464b81efbe428b0f8ff0d25f3b7ec
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Mon Apr 5 22:24:38 2021 -0600
+
+    color getter
+
+commit 7bb37f1fe50ccda21fc394a6e8c8899d9479150d
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Mon Apr 5 19:35:28 2021 -0600
+
+    Made GUI better, just have to do setGTurn, setGuess, and setGuessResult function, unsure how to proceed because of ComputerPlayer class
+
+commit c53e5268d4dd24525a4d9a33bb9aaca2ba201c6b
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Mon Apr 5 18:44:33 2021 -0600
+
+    Got the GUI working, just have to make some minor edits(making the Roll Text field smaller), but just wanted to make one commit
+
+commit ddbbb998f8a81c6c81b07a0b0a4d1fd51e1e1ee6
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Sun Apr 4 00:18:57 2021 -0600
+
+    Got a start on making the GUI, looks pretty rough now still working with Swing and getting used to it
+
+commit bb204e04464423ed50ed9e06a8cf2f3673e1283a
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Apr 1 15:44:15 2021 -0500
+
+    Refactor
+
+commit 8658bab036187fe1595f7295504584a0ec14001b
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Thu Apr 1 15:44:00 2021 -0500
+
+    Refactor, rewrite calc adjacencies, less code same effectiveness
+
 commit a86fe26eeaf6a511591d3e68c43e4b13e271ef49
 Author: tgeis1 <tgeis@mymail.mines.edu>
 Date:   Mon Mar 29 23:02:33 2021 -0500
