@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,76 +13,138 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel {
-	private JTextField player;
-	private JTextField roll;
-	private JTextField guess;
+	private JTextField playerName;
+	private JTextField playerRoll;
+	private JTextField guessField;
+	//private JTextField guessResultField;
 	
 	public GameControlPanel() {
-		setLayout(new GridLayout(4,0));
-		JPanel panel = createTurnPanel();
+		JPanel panel = createTop();
+		setLayout(new GridLayout(2,0));
 		add(panel);
+		JPanel panel1 = createBottom();
+		add(panel1);
 		
-		panel = createRollPanel();
-		add(panel);
-		
-		panel = createGuessPanel();
-		add(panel);
-		/*
-		panel = createTwoButtons();
-		add(panel);
 		
 		/*
-		JPanel turnAndRoll = new JPanel();
-		turnAndRoll.setLayout(new GridLayout(1,2));
-		JLabel playerLabel = new JLabel("Whose turn?");
-		JLabel rollLabel = new JLabel("Roll:");
-		turnAndRoll.add(playerLabel);
-		turnAndRoll.add(turnAndRoll);
+		JPanel panel1 = rollPanel();
+		add(panel1);
+		JPanel panel2 = makeButtons();
+		add(panel2);
+		JPanel panel3 = guessPanel();
+		add(panel3);
+		JPanel panel4 = guessResultPanel();
+		add(panel4);
 		*/
 	}
 	
-	private JPanel createTurnPanel() {
+	private JPanel createTop() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2,2));
-		JLabel whoseTurn = new JLabel("Whose turn?");
-		player = new JTextField(5);
-		panel.add(whoseTurn);
-		panel.add(player);
-		//panel.setBackground("to whatever it should be");
-		return panel;
-	}
-	private JPanel createRollPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2,2));
-		JLabel rollLabel = new JLabel("Roll:");
-		roll = new JTextField(5);
-		panel.add(rollLabel);
-		panel.add(roll);
-		return panel;
-	}
-	private JPanel createGuessPanel() {
-		JPanel panel = new JPanel();
-		guess = new JTextField(10);
-		panel.add(guess);
-		setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
-		return panel;
+		panel.setLayout(new GridLayout(1,4));
 		
-	}
-	private JPanel createTwoButtons() {
-		return null;
-	}
-
-	public static void main(String[] args) {
-		GameControlPanel panel = new GameControlPanel();
+		JPanel turnPanel = new JPanel();
+		turnPanel.setLayout(new GridLayout(2,1));
 		JLabel turnLabel = new JLabel("Whose turn?");
-		JFrame frame = new JFrame();
-		frame.setContentPane(panel);
-		frame.setSize(750, 180);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		playerName = new JTextField(10);
+		turnPanel.add(turnLabel);
+		turnPanel.add(playerName);
+		panel.add(turnPanel);
 		
+		JPanel rollPanel = new JPanel();
+		rollPanel.setLayout(new GridLayout(1,2));
+		JLabel rollLabel = new JLabel("Roll");
+		playerRoll = new JTextField(1);
+		rollPanel.add(rollLabel);
+		rollPanel.add(playerRoll);
+		panel.add(rollPanel);
 		
-
+		JButton makeAccusation = new JButton("Make Accusation");
+		JButton next = new JButton("NEXT");
+		panel.add(makeAccusation);
+		panel.add(next);
+		
+		return panel;
 	}
-
+	
+	private JPanel createBottom() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(0,2));
+		
+		JPanel guessPanel = new JPanel();
+		guessPanel.setLayout(new GridLayout(1,0));
+		guessField = new JTextField("I have no guess!");
+		guessPanel.add(guessField);
+		guessPanel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
+		panel.add(guessPanel);
+	
+		JPanel guessResultPanel = new JPanel();
+		guessResultPanel.setLayout(new GridLayout(1,0));
+		guessField = new JTextField("So you have nothing?");
+		guessResultPanel.add(guessField);
+		guessResultPanel.setBorder(new TitledBorder (new EtchedBorder(), "Guess Result"));
+		panel.add(guessResultPanel);
+		
+		return panel;
+	}
+	/*
+	private JPanel rollPanel() {
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new GridLayout(2,0));
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout(new GridLayout(1,4));
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(2,1));
+		
+		mainPanel.add(controlPanel);
+		controlPanel.add(panel);
+		
+		panel.setLayout(new GridLayout(2,1));
+		
+		return panel;
+	}
+	
+	private JPanel makeButtons() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,2));
+		
+		return panel;
+	}
+	*/
+	private JPanel guessPanel() {
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new GridLayout(2,0));
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout(new GridLayout(1,4));
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(2,1));
+		
+		mainPanel.add(controlPanel);
+		controlPanel.add(panel);
+		
+		panel.setLayout(new GridLayout(1,0));
+		guessField = new JTextField("I have no guess!");
+		panel.add(guessField);
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
+		return panel;
+	}
+	
+	private JPanel guessResultPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,0));
+		guessField = new JTextField("So you have nothing?                    ");
+		panel.add(guessField);
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess Result                  "));
+		return panel;
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		GameControlPanel panel = new GameControlPanel();  // create the panel
+		JFrame frame = new JFrame();  // create the frame 
+		frame.setContentPane(panel); // put the panel in the frame
+		frame.setSize(750, 180);  // size the frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
+		frame.setVisible(true); // make it visible
+	}
 }
