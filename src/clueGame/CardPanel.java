@@ -26,8 +26,9 @@ public class CardPanel extends JPanel{
 	
 	
 	public CardPanel() {
-		JPanel panel = createFirst();
 		setLayout(new GridLayout(3,1));
+		JPanel panel = createFirst();
+		
 		add(panel);
 		JPanel panel2 = createSecond();
 		add(panel2);
@@ -47,9 +48,13 @@ public class CardPanel extends JPanel{
 			for (Card c: peopleHand) {
 			JTextField field = new JTextField(c.getCardName());
 			handCardsPeople.add(field);
+			}
+		}
+		else {
+			JTextField field = new JTextField("None");
+			handCardsPeople.add(field);
 		}
 		
-		}
 		JLabel seenLabel = new JLabel("Seen:");
 		if (peopleSeen!= null) {
 			for (Card c: peopleSeen) {
@@ -57,20 +62,20 @@ public class CardPanel extends JPanel{
 			seenCardsPeople.add(field);
 			}
 		}
+		else {
+			JTextField field = new JTextField("None");
+			seenCardsPeople.add(field);
+		}
 		
 		
 		panel.add(inHandLabel);
-		if (handCardsPeople != null) {
-			for (JTextField field: handCardsPeople) {
+		for (JTextField field: handCardsPeople) {
 			panel.add(field);
-			}
 		}
 		
 		panel.add(seenLabel);
-		if (seenCardsPeople != null) {
-			for (JTextField field: seenCardsPeople) {
+		for (JTextField field: seenCardsPeople) {
 			panel.add(field);
-		}
 		}
 		
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
@@ -84,37 +89,40 @@ public class CardPanel extends JPanel{
 		JLabel inHandLabel = new JLabel("In Hand:");
 		if (roomsHand != null) {
 			for (Card c: roomsHand) {
-			JTextField field = new JTextField(c.getCardName());
-			handCardsRooms.add(field);
+				JTextField field = new JTextField(c.getCardName());
+				handCardsRooms.add(field);
 			}
+		}
+		else {
+			JTextField field = new JTextField("None");
+			handCardsRooms.add(field);
 		}
 		
 		JLabel seenLabel = new JLabel("Seen:");
 		if (roomsSeen != null) {
 			for (Card c: roomsSeen) {
-			JTextField field = new JTextField(c.getCardName());
-			seenCardsRooms.add(field);
+				JTextField field = new JTextField(c.getCardName());
+				seenCardsRooms.add(field);
+			}
 		}
+		else {
+			JTextField field = new JTextField("None");
+			seenCardsRooms.add(field);
 		}
 		
 		
 		panel.add(inHandLabel);
-		if (handCardsRooms != null) {
-			for (JTextField field: handCardsRooms) {
+		for (JTextField field: handCardsRooms) {
 			panel.add(field);
-		}
 		}
 		
 		
 		panel.add(seenLabel);
-		if (seenCardsRooms != null) {
-			for (JTextField field: seenCardsRooms) {
+		for (JTextField field: seenCardsRooms) {
 			panel.add(field);
-		}
 		}
 		
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
-		
 		return panel;
 	}
 	
@@ -124,47 +132,43 @@ public class CardPanel extends JPanel{
 		JLabel inHandLabel = new JLabel("In Hand:");
 		if (weaponsHand != null) {
 			for (Card c: weaponsHand) {
-			JTextField field = new JTextField(c.getCardName());
-			handCardsWeapons.add(field);
+				JTextField field = new JTextField(c.getCardName());
+				handCardsWeapons.add(field);
+			}
 		}
+		else {
+			JTextField field = new JTextField("None");
+			handCardsWeapons.add(field);
 		}
 		
 		JLabel seenLabel = new JLabel("Seen:");
 		if (weaponsSeen != null) {
 			for (Card c: weaponsSeen) {
-			JTextField field = new JTextField(c.getCardName());
-			seenCardsWeapons.add(field);
+				JTextField field = new JTextField(c.getCardName());
+				seenCardsWeapons.add(field);
+			}
 		}
+		else {
+			JTextField field = new JTextField("None");
+			seenCardsWeapons.add(field);
 		}
 		
 		
 		panel.add(inHandLabel);
-		if (handCardsWeapons != null) {
-			for (JTextField field: handCardsWeapons) {
+		for (JTextField field: handCardsWeapons) {
 			panel.add(field);
-			}
 		}
 		
 		panel.add(seenLabel);
-		if (seenCardsWeapons!= null) {
-			for (JTextField field: seenCardsWeapons) {
+		for (JTextField field: seenCardsWeapons) {
 			panel.add(field);
-		}
 		}
 		
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
-		
 		return panel;
 	}
 	
 	public static void main(String[] args) {
-		CardPanel panel = new CardPanel();  // create the panel
-		JFrame frame = new JFrame();  // create the frame 
-		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(300, 750);  // size the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
-
 		Set<Card> peopleHand = new HashSet<Card>();
 		Set<Card> weaponsHand = new HashSet<Card>();
 		Set<Card> roomsHand = new HashSet<Card>();
@@ -172,18 +176,22 @@ public class CardPanel extends JPanel{
 		Set<Card> weaponsSeen = new HashSet<Card>();
 		Set<Card> roomsSeen = new HashSet<Card>();
 		
-		ComputerPlayer testPlayer = new ComputerPlayer("Test");
 		Card card1 = new Card("Knife");
-		card1.setCardType(CardType.WEAPON);
 		Card card2 = new Card("Sophie");
-		card2.setCardType(CardType.PERSON);
 		Card card3 = new Card("Museum");
-		card3.setCardType(CardType.ROOM);
 		
 		peopleHand.add(card2);
 		weaponsHand.add(card1);
 		roomsHand.add(card3);
 		
+		
+		CardPanel panel = new CardPanel();  // create the panel
+		JFrame frame = new JFrame();  // create the frame 
+		frame.setContentPane(panel); // put the panel in the frame
+		frame.setSize(300, 750);  // size the frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
+		frame.setVisible(true); // make it visible
+
 		
 	}
 
