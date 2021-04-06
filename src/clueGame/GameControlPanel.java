@@ -17,7 +17,7 @@ public class GameControlPanel extends JPanel {
 	private JTextField playerName;
 	private JTextField playerRoll;
 	private JTextField guessField;
-	//private JTextField guessResultField;
+	private JTextField guessResult;
 
 	public GameControlPanel() {
 		JPanel panel = createTop();
@@ -68,8 +68,8 @@ public class GameControlPanel extends JPanel {
 
 		JPanel guessResultPanel = new JPanel();
 		guessResultPanel.setLayout(new GridLayout(1,0));
-		guessField = new JTextField();
-		guessResultPanel.add(guessField);
+		guessResult = new JTextField();
+		guessResultPanel.add(guessResult);
 		guessResultPanel.setBorder(new TitledBorder (new EtchedBorder(), "Guess Result"));
 		panel.add(guessResultPanel);
 
@@ -79,14 +79,18 @@ public class GameControlPanel extends JPanel {
 	public void setTurn(ComputerPlayer player, int roll) {
 		String name = player.getName();
 		Color color = player.getColor();
-		
+		playerName.setBackground(color);
+		playerName.setText(name);
+		playerRoll.setText(String.valueOf(roll));
 	}
 	
 	public void setGuess(String guess) {
-		
+		guessField.setText(guess);
 	}
-	public void setGuessResult(String guessResult) {
-		
+	
+	
+	public void setGuessResult(String guessResultText) {
+		guessResult.setText(guessResultText);
 	}
 
 	public static void main(String[] args) {
@@ -98,7 +102,7 @@ public class GameControlPanel extends JPanel {
 		frame.setVisible(true); // make it visible
 
 		// test filling in the data
-		//panel.setTurn(new ComputerPlayer( "Col. Mustard", 0, 0, "orange"), 5);
+		panel.setTurn(new ComputerPlayer( "Col. Mustard", 0, 0, Color.orange), 5);
 		panel.setGuess( "I have no guess!");
 		panel.setGuessResult( "So you have nothing?");
 	}

@@ -19,7 +19,12 @@ public class ComputerPlayer extends Player {
 		this.unseenPeople = theInstance.getPersonCards();
 	}
 	
-	
+	public ComputerPlayer(String name, int row, int col, Color color) {
+		super(name);
+		this.row = row;
+		this.col = col;
+		this.color = color;
+	}
 	
 	
 	public Solution createSuggestion(Card currentRoom) {			
