@@ -17,6 +17,7 @@ public abstract class Player {
 	protected int col;
 	
 	
+	
 	public Player(String name) {
 		super();
 		this.name = name;

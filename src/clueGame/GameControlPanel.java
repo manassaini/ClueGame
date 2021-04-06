@@ -19,6 +19,7 @@ public class GameControlPanel extends JPanel {
 	private JTextField guessField;
 	private JTextField guessResult;
 
+
 	public GameControlPanel() {
 		JPanel panel = createTop();
 		setLayout(new GridLayout(2,0));
