@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,10 @@ public class BoardCell {
 		super();
 		this.adjList = new HashSet<BoardCell>();
 		this.targets = new HashSet<BoardCell>();
+	}
+	
+	public void draw(int xScale, int yScale, Graphics g) {
+		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);
 	}
 	
 	public void addAdj (BoardCell cell) {

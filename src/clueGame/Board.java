@@ -2,6 +2,7 @@ package clueGame;
 
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,12 +14,16 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
 
-public class Board {
+
+public class Board extends JPanel{
 
 	private static Board theInstance = new Board();
 	private int numRows;
 	private int numColumns;
+	private int xScale;
+	private int yScale;
 	private BoardCell[][] grid;
 	
 	private String layoutConfigFile;
@@ -39,7 +44,6 @@ public class Board {
 	
 	private static final int MIN_DICE_ROLL = 1;
 	
-
 	
 	/////				 ***** CONSTRUCTORS AND INITIALIZING *****
 	
@@ -54,6 +58,17 @@ public class Board {
 		return theInstance;
 	}
 	
+	public void paintComponent(Graphics g) {
+		xScale = this.getWidth()/numColumns;
+		yScale = this.getHeight()/numRows;
+		
+		super.paintComponent(g);
+		for (int i = 0; i < numRows; ++i) {
+			for (int j = 0; j < numColumns; ++j) {
+				grid[i][j].draw(xScale, yScale, g);
+			}
+		}
+	}
 	
 	// initialize the instance, read in files, allocate space to array list
 	public void initialize() throws BadConfigFormatException {
@@ -77,10 +92,6 @@ public class Board {
 		this.setupConfigFile = txtFile;
 	}
 	
-	
-	
-	
-	
 	/////						 ***** READ IN FILES *****
 
 	// create room map and initialize cards
@@ -103,11 +114,7 @@ public class Board {
 			System.out.println("Room file not found");
 		}
 	}
-	
-	
-	
-	
-	
+		
 	// Helper method to above, sorts file input
 	public void loadSetupHelper(String[] line) throws BadConfigFormatException {
 		String firstWord = line[0];
