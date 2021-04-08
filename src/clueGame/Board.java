@@ -59,6 +59,8 @@ public class Board extends JPanel{
 	}
 	
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
 		xScale = this.getWidth()/numColumns;
 		yScale = this.getHeight()/numRows;
 		
