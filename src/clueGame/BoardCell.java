@@ -31,7 +31,7 @@ public class BoardCell {
 	}
 	
 	public void draw(int xScale, int yScale, Graphics g) {
-		g.setColor(Color.black);
+		//g.setColor(Color.black);
 		g.drawRect(this.col * xScale, this.row * yScale, xScale, yScale);
 		g.setColor(Color.orange);
 		g.fillRect(this.col * xScale+1, this.row+1 * yScale, xScale-1, yScale-1);

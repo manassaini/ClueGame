@@ -67,16 +67,19 @@ public class Board extends JPanel{
 		super.paintComponent(g);
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
-				//have to use conditionals... like check if a doorway, walkway, unused, draw appropiately
 				if (grid[i][j].getInitial() == 'W') {
-					//draw yellow
+					g.setColor(Color.GRAY);
+					grid[i][j].draw(xScale, yScale, g);
 				}
 				else if (grid[i][j].getInitial() == 'X') {
-					//draw purple
+					g.setColor(Color.CYAN);
+					grid[i][j].draw(xScale, yScale, g);
 				}
-				else{
-					//it's a room, draw green
+				else {
+					g.setColor(Color.YELLOW);
+					grid[i][j].draw(xScale, yScale, g);
 				}
+				
 			}
 		}
 	}
