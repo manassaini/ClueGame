@@ -12,7 +12,7 @@ public class ClueGame extends JFrame {
 		board = Board.getInstance();
 		// set the file names to use my config files
 		//used mark's files for this, not really working
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		try {
 			board.initialize();
 		} catch (BadConfigFormatException e) {
