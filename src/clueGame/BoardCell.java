@@ -30,11 +30,18 @@ public class BoardCell {
 		this.targets = new HashSet<BoardCell>();
 	}
 	
-	public void draw(int xScale, int yScale, Graphics g) {
-		//g.setColor(Color.black);
-		g.drawRect(this.col * xScale, this.row * yScale, xScale, yScale);
-		g.setColor(Color.orange);
-		g.fillRect(this.col * xScale+1, this.row+1 * yScale, xScale-1, yScale-1);
+	public void draw(int xScale, int yScale, Graphics g, Color color) {
+		g.setColor(Color.black);
+		g.setColor(color);
+		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);
+	}
+	
+	public void drawWalkway(int xScale, int yScale, Graphics g, Color color) {
+		g.setColor(Color.black);
+		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);
+		g.setColor(Color.black);
+		g.setColor(color);
+		g.fillRect(this.col * xScale+1, this.row * yScale+1, xScale-2, yScale-2);
 	}
 	
 	public void addAdj (BoardCell cell) {

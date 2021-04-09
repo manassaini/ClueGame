@@ -67,17 +67,20 @@ public class Board extends JPanel{
 		super.paintComponent(g);
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
-				if (grid[i][j].getInitial() == 'W') {
-					g.setColor(Color.GRAY);
-					grid[i][j].draw(xScale, yScale, g);
+				if (grid[i][j].isDoorway()) {
+					grid[i][j].draw(xScale, yScale, g, Color.DARK_GRAY);
+				}
+				else if (grid[i][j].getIsSecretPassage()) {
+					grid[i][j].draw(xScale, yScale, g, Color.green);
+				}
+				else if (grid[i][j].getInitial() == 'W') {
+					grid[i][j].drawWalkway(xScale, yScale, g, Color.gray);
 				}
 				else if (grid[i][j].getInitial() == 'X') {
-					g.setColor(Color.CYAN);
-					grid[i][j].draw(xScale, yScale, g);
+					grid[i][j].draw(xScale, yScale, g, Color.cyan);
 				}
 				else {
-					g.setColor(Color.YELLOW);
-					grid[i][j].draw(xScale, yScale, g);
+					grid[i][j].draw(xScale, yScale, g, Color.yellow);
 				}
 				
 			}
