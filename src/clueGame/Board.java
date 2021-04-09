@@ -68,7 +68,7 @@ public class Board extends JPanel{
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
 				if (grid[i][j].isDoorway()) {
-					grid[i][j].draw(xScale, yScale, g, Color.DARK_GRAY);
+					grid[i][j].drawDoorway(xScale, yScale, g, Color.DARK_GRAY);
 				}
 				else if (grid[i][j].getIsSecretPassage()) {
 					grid[i][j].draw(xScale, yScale, g, Color.green);

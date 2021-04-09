@@ -44,6 +44,26 @@ public class BoardCell {
 		g.fillRect(this.col * xScale+1, this.row * yScale+1, xScale-2, yScale-2);
 	}
 	
+	public void drawDoorway(int xScale, int yScale, Graphics g, Color color) {
+		g.setColor(Color.gray);
+		//g.setColor(color); //check this line, comment and uncomment repeatedly
+		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);
+		g.setColor(color.blue);
+		
+		if (direction == DoorDirection.RIGHT) {
+			g.fillRect((this.col+1) * xScale - (xScale)/5, this.row * yScale, xScale/5, yScale);
+		}
+		else if (direction == DoorDirection.LEFT) {
+			g.fillRect(this.col * xScale, this.row * yScale, xScale/5, yScale);
+		}
+		else if (direction == DoorDirection.UP) {
+			g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale/5);
+		}
+		else {
+			g.fillRect(this.col * xScale, (this.row+1) * yScale - (xScale)/5, xScale, yScale);
+		}
+	}
+	
 	public void addAdj (BoardCell cell) {
 		adjList.add(cell);
 	}
