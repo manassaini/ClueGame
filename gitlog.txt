@@ -1,3 +1,69 @@
+commit 365e373ada4d724374e4b3576a0c798516bf9df8
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Fri Apr 9 18:15:56 2021 -0600
+
+    c22a board completed
+
+commit 15654eaa5766a0e57dae7162c750b1f41635d5b7
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Fri Apr 9 13:48:35 2021 -0600
+
+    Got the door directions to properly show up, and made them into a small blue rectangle
+
+commit 295cef05410205a335c2a28f62c88c1999773165
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Fri Apr 9 11:11:13 2021 -0600
+
+    Got the actual board to show up, now just have to write room names and draw players
+
+commit a463641808777221df06209342ab9a9957be8e58
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Thu Apr 8 16:00:44 2021 -0600
+
+    Made the correct outlines appear, just have to fill the rectangles instead of outlining them. And have to get rid of that weird bar at the top
+
+commit c55c1816b440bce029b713333aa23aa13e9b7ccb
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Thu Apr 8 13:01:23 2021 -0600
+
+    Know have to use conditionals to draw a room, walkway, or unused space, and etc. But not sure how to implement
+
+commit 9375c7ef10998f491f19a7f32bc7cbf62b84fc28
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Apr 7 22:14:23 2021 -0600
+
+    The board is showing up now with rectangles, it just looks bad, like really bad the rooms aren't showing up going to get that figured out that tomorrow
+
+commit 98b3cb074630ae5d8e32120742d469cf38d3230a
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Wed Apr 7 21:58:31 2021 -0600
+
+    c22a updates
+
+commit fa2e0bbcd7a1aa50adae9668da1d1e8ffec11384
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Wed Apr 7 21:36:54 2021 -0600
+
+    clue layout csv returned
+
+commit d183442cef46bfd4836172bee9f00374112ae47a
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Apr 7 21:35:55 2021 -0600
+
+    Realized that some files are not showing up in our data folder, which is why the error was being caused
+
+commit a11b1bd554bb94514ff6d596765662db4542bef0
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Wed Apr 7 16:38:31 2021 -0600
+
+    Started on it, not really working, tried using mark's files, did not work either. Our test cases are not working either, but the code is right, just having issues reading in the files
+
+commit fc67e0c578821a67294c3e61aca209ae9cc5de9a
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Apr 6 17:51:31 2021 -0600
+
+    git log
+
 commit e6ba4aac9b29650a494dce012d379a3955d5e7bc
 Author: tgeis1 <tgeis@mymail.mines.edu>
 Date:   Tue Apr 6 17:50:49 2021 -0600
