@@ -8,13 +8,10 @@ import javax.swing.JFrame;
 public class ClueGame extends JFrame {
 	Board board;
 
-
 	public ClueGame() {
 		super();
-		
 		CardPanel panel = new CardPanel();
 		GameControlPanel gameControlPanel = new GameControlPanel();
-		
 		
 		board = Board.getInstance();
 		// set the file names to use my config files
@@ -37,7 +34,6 @@ public class ClueGame extends JFrame {
 
 	public static void main(String[] args) {
 		ClueGame cluegame = new ClueGame();
-
 	}
 	
 	

@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -44,6 +45,8 @@ public class Board extends JPanel{
 	
 	private static final int MIN_DICE_ROLL = 1;
 	
+	private JLabel jLabel;
+	
 	
 	/////				 ***** CONSTRUCTORS AND INITIALIZING *****
 	
@@ -58,41 +61,61 @@ public class Board extends JPanel{
 		return theInstance;
 	}
 	
+	
+	// draw the board
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		xScale = this.getWidth()/numColumns;
+		xScale = this.getWidth()/numColumns;			// width of each cell
 		yScale = this.getHeight()/numRows;
 		
-		super.paintComponent(g);
+		super.paintComponent(g);										// each cell type drawn differently
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
-				if (grid[i][j].isDoorway()) {
+				if (grid[i][j].isDoorway()) {							// doorway
 					grid[i][j].drawDoorway(xScale, yScale, g, Color.DARK_GRAY);
 				}
-				else if (grid[i][j].getIsSecretPassage()) {
+				else if (grid[i][j].getIsSecretPassage()) {				// secret passage
 					grid[i][j].draw(xScale, yScale, g, Color.green);
 				}
-				else if (grid[i][j].getInitial() == 'W') {
+				else if (grid[i][j].getInitial() == 'W') {				// walkway
 					grid[i][j].drawWalkway(xScale, yScale, g, Color.gray);
 				}
-				else if (grid[i][j].getInitial() == 'X') {
+				else if (grid[i][j].getInitial() == 'X') {				// unused
 					grid[i][j].draw(xScale, yScale, g, Color.cyan);
 				}
-				else {
+				else {													// room
 					grid[i][j].draw(xScale, yScale, g, Color.yellow);
 				}
 				
 			}
 		}
+		
+		for (int i = 0; i < numRows; ++i) {								// reiterate for room labels
+			for (int j = 0; j < numColumns; ++j) {
+				if (grid[i][j].isLabel()) {
+					char initial = grid[i][j].getInitial();
+					Room room = roomMap.get(initial);
+					String label = room.getName();
+					grid[i][j].writeLabel(label, g, xScale, yScale);
+				}
+			}
+		}
+		
+		for (Player p: theInstance.players) {							// players
+			p.draw(g, yScale, xScale);
+		}
 	}
 	
-	// initialize the instance, read in files, allocate space to array list
+	
+	// initialize the instance, read in files, allocate space to array list, deal cards
 	public void initialize() throws BadConfigFormatException {
 		theInstance.loadConfigFiles();
 		
 		theInstance.targets = new HashSet<BoardCell>();
 		theInstance.visited = new HashSet<BoardCell>();
+		
+		theInstance.dealCards();
 	}
 
 	
@@ -352,7 +375,7 @@ public class Board extends JPanel{
 		theInstance.players = new ArrayList<Player>();
 		
 		HumanPlayer human = new HumanPlayer("human");
-		human.setLoc(18, 0);
+		human.setLoc(25, 12);
 		theInstance.players.add(human);
 		
 		ComputerPlayer comp1 = new ComputerPlayer("comp1");
@@ -368,11 +391,11 @@ public class Board extends JPanel{
 		theInstance.players.add(comp3);
 		
 		ComputerPlayer comp4 = new ComputerPlayer("comp4");
-		comp4.setLoc(8, 20);
+		comp4.setLoc(9, 20);
 		theInstance.players.add(comp4);
 		
 		ComputerPlayer comp5 = new ComputerPlayer("comp5");
-		comp5.setLoc(9, 20);
+		comp5.setLoc(7, 0);
 		theInstance.players.add(comp5);
 		
 		
@@ -381,14 +404,14 @@ public class Board extends JPanel{
 		theInstance.allCards = new ArrayList<Card>();						// all cards, including solution
 		theInstance.allCards = makeCompleteDeck();
 		
-		theInstance.solution.setPerson(getRandomCard(personCards));			// create random solution
-		theInstance.solution.setWeapon(getRandomCard(weaponCards));
-		theInstance.solution.setRoom(getRandomCard(roomCards));
+		theInstance.solution.setPerson(getRandomCard(theInstance.personCards));			// create random solution
+		theInstance.solution.setWeapon(getRandomCard(theInstance.weaponCards));
+		theInstance.solution.setRoom(getRandomCard(theInstance.roomCards));
 		
 		ArrayList<Card> cards = new ArrayList<Card>();						// all cards, not including solution; to be dealt
-		cards.addAll(personCards);
-		cards.addAll(weaponCards);
-		cards.addAll(roomCards);
+		cards.addAll(theInstance.personCards);
+		cards.addAll(theInstance.weaponCards);
+		cards.addAll(theInstance.roomCards);
 		
 		for (Player p: players) {	
 			Random random = new Random();									// based off code from geeks for geeks
@@ -406,9 +429,9 @@ public class Board extends JPanel{
 	// Combine all cards into comprehensive deck (used in test)
 	public ArrayList<Card> makeCompleteDeck() {
 		ArrayList<Card> cards = new ArrayList<Card>();
-		cards.addAll(personCards);
-		cards.addAll(weaponCards);
-		cards.addAll(roomCards);
+		cards.addAll(theInstance.personCards);
+		cards.addAll(theInstance.weaponCards);
+		cards.addAll(theInstance.roomCards);
 		return cards;
 	}
 	

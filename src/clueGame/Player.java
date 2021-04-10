@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public abstract class Player {
@@ -36,6 +37,10 @@ public abstract class Player {
 
 	}
 
+	public void draw(Graphics g, int yScale, int xScale) {		// draw circle at location
+		g.setColor(this.color);
+		g.fillOval(xScale * this.col, yScale * this.row, xScale, yScale);
+	}
 	
 	public void setColor(Color color) {
 		this.color = color;

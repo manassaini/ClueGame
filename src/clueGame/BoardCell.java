@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.JLabel;
+
 import experiment.TestBoardCell;
 
 public class BoardCell {
@@ -30,25 +32,25 @@ public class BoardCell {
 		this.targets = new HashSet<BoardCell>();
 	}
 	
-	public void draw(int xScale, int yScale, Graphics g, Color color) {
-		g.setColor(Color.black);
+	
+	public void draw(int xScale, int yScale, Graphics g, Color color) {				// generic draw
 		g.setColor(color);
 		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);
 	}
 	
-	public void drawWalkway(int xScale, int yScale, Graphics g, Color color) {
-		g.setColor(Color.black);
+	
+	public void drawWalkway(int xScale, int yScale, Graphics g, Color color) {		// walkways
+		g.setColor(Color.black);													// black outline
 		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);
-		g.setColor(Color.black);
-		g.setColor(color);
+		g.setColor(color);															// center
 		g.fillRect(this.col * xScale+1, this.row * yScale+1, xScale-2, yScale-2);
 	}
 	
-	public void drawDoorway(int xScale, int yScale, Graphics g, Color color) {
-		g.setColor(Color.gray);
-		//g.setColor(color); //check this line, comment and uncomment repeatedly
-		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);
-		g.setColor(color.blue);
+	
+	public void drawDoorway(int xScale, int yScale, Graphics g, Color color) {		// doorway
+		g.setColor(Color.gray);														// gray because walkway
+		g.fillRect(this.col * xScale, this.row * yScale, xScale, yScale);	
+		g.setColor(color.blue);														// blue door
 		
 		if (direction == DoorDirection.RIGHT) {
 			g.fillRect((this.col+1) * xScale - (xScale)/5, this.row * yScale, xScale/5, yScale);
@@ -63,6 +65,13 @@ public class BoardCell {
 			g.fillRect(this.col * xScale, (this.row+1) * yScale - (xScale)/5, xScale, yScale);
 		}
 	}
+	
+	
+	public void writeLabel(String label, Graphics g, int xScale, int yScale) {		// room label
+		g.setColor(Color.black);
+		g.drawString(label, this.col * xScale, this.row * yScale);
+	}
+	
 	
 	public void addAdj (BoardCell cell) {
 		adjList.add(cell);
