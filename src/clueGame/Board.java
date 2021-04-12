@@ -15,6 +15,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -105,6 +106,12 @@ public class Board extends JPanel{
 		for (Player p: theInstance.players) {							// players
 			p.draw(g, yScale, xScale);
 		}
+	}
+	
+	
+	
+	public void displayStartMessage() {
+		JOptionPane.showMessageDialog(null, "You are " + players.get(0).getName() + "\nCan you find the solution before the other computer players?");
 	}
 	
 	
@@ -374,30 +381,40 @@ public class Board extends JPanel{
 		
 		theInstance.players = new ArrayList<Player>();
 		
+		ArrayList<Card> personDuplicate = new ArrayList<Card>();
+		personDuplicate.addAll(0, theInstance.personCards);
+		
 		HumanPlayer human = new HumanPlayer("human");
 		human.setLoc(25, 12);
+		human.setPerson(getRandomCard(personDuplicate));
 		theInstance.players.add(human);
 		
 		ComputerPlayer comp1 = new ComputerPlayer("comp1");
 		comp1.setLoc(25, 4);
+		comp1.setPerson(getRandomCard(personDuplicate));
 		theInstance.players.add(comp1);
 		
 		ComputerPlayer comp2 = new ComputerPlayer("comp2");
 		comp2.setLoc(0, 13);
+		comp2.setPerson(getRandomCard(personDuplicate));
 		theInstance.players.add(comp2);
 		
 		ComputerPlayer comp3 = new ComputerPlayer("comp3");
 		comp3.setLoc(0, 14);
+		comp3.setPerson(getRandomCard(personDuplicate));
 		theInstance.players.add(comp3);
 		
 		ComputerPlayer comp4 = new ComputerPlayer("comp4");
 		comp4.setLoc(9, 20);
+		comp4.setPerson(getRandomCard(personDuplicate));
 		theInstance.players.add(comp4);
 		
 		ComputerPlayer comp5 = new ComputerPlayer("comp5");
 		comp5.setLoc(7, 0);
+		comp5.setPerson(getRandomCard(personDuplicate));
 		theInstance.players.add(comp5);
 		
+	
 		
 		theInstance.solution = new Solution();
 		

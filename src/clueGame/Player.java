@@ -16,7 +16,7 @@ public abstract class Player {
 	protected ArrayList<Card> unseenPeople;
 	protected int row;
 	protected int col;
-	
+	protected Card person;
 	
 	
 	public Player(String name) {
@@ -77,6 +77,15 @@ public abstract class Player {
 	
 	public int getCol() {
 		return this.col;
+	}
+	
+	public Card getPerson() {
+		return this.person;
+	}
+	
+	public void setPerson(Card person) {
+		this.person = person;
+		this.name = person.getCardName();
 	}
 
 	public abstract boolean isComputer();

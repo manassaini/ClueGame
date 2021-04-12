@@ -2,16 +2,24 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-public class ClueGame extends JFrame {
-	Board board;
+public class ClueGame extends JFrame implements ActionListener {
+	static Board board;
+	static GameControlPanel gameControlPanel;
+	CardPanel panel;
+	static JButton nextButton;
 
 	public ClueGame() {
 		super();
-		CardPanel panel = new CardPanel();
-		GameControlPanel gameControlPanel = new GameControlPanel();
+		this.panel = new CardPanel();
+		this.gameControlPanel = new GameControlPanel();
+		this.nextButton = gameControlPanel.getNextButton();
 		
 		board = Board.getInstance();
 		// set the file names to use my config files
@@ -34,6 +42,16 @@ public class ClueGame extends JFrame {
 
 	public static void main(String[] args) {
 		ClueGame cluegame = new ClueGame();
+		
+		board.displayStartMessage();
+//		nextButton.addActionListener();
+	}
+
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

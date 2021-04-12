@@ -3,6 +3,8 @@ package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +20,8 @@ public class GameControlPanel extends JPanel {
 	private JTextField playerRoll;
 	private JTextField guessField;
 	private JTextField guessResult;
-
+	private JButton next;
+	private JButton makeAccusation;
 
 	public GameControlPanel() {
 		JPanel panel = createTop();
@@ -48,10 +51,10 @@ public class GameControlPanel extends JPanel {
 		rollPanel.add(playerRoll);
 		panel.add(rollPanel);
 
-		JButton makeAccusation = new JButton("Make Accusation");
-		JButton next = new JButton("NEXT");
-		panel.add(makeAccusation);
-		panel.add(next);
+		this.makeAccusation = new JButton("Make Accusation");
+		this.next = new JButton("NEXT");
+		panel.add(this.makeAccusation);
+		panel.add(this.next);
 
 		return panel;
 	}
@@ -107,4 +110,14 @@ public class GameControlPanel extends JPanel {
 		panel.setGuess( "I have no guess!");
 		panel.setGuessResult( "So you have nothing?");
 	}
+	
+	public JButton getNextButton() {
+		return this.next;
+	}
+	
+	public JButton getAccusationButton() {
+		return this.makeAccusation;
+	}
+
+
 }
