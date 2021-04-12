@@ -26,7 +26,10 @@ public class Board extends JPanel{
 	private int numColumns;
 	private int xScale;
 	private int yScale;
+	private int counter = 0;
 	private BoardCell[][] grid;
+	private GameControlPanel controlPanel;
+	private Player currentPlayer;
 	
 	private String layoutConfigFile;
 	private String setupConfigFile;
@@ -45,6 +48,7 @@ public class Board extends JPanel{
 	private Solution solution;
 	
 	private static final int MIN_DICE_ROLL = 1;
+	private static final int MAX_ROLL = 6;
 	
 	private JLabel jLabel;
 	
@@ -56,13 +60,14 @@ public class Board extends JPanel{
 		super();
 	}
 
-	
+	public void setControlPanel(GameControlPanel gameControl) {
+		controlPanel = gameControl;
+	}
 	// returns the instance
 	public static Board getInstance() {
 		return theInstance;
 	}
-	
-	
+		
 	// draw the board
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -108,10 +113,20 @@ public class Board extends JPanel{
 		}
 	}
 	
-	
-	
 	public void displayStartMessage() {
 		JOptionPane.showMessageDialog(null, "You are " + players.get(0).getName() + "\nCan you find the solution before the other computer players?");
+	}
+	
+	public void nextClicked() {
+		Random rand = new Random();
+		int roll = rand.nextInt(MAX_ROLL) + MIN_DICE_ROLL;
+		System.out.println(roll);
+		currentPlayer = new ComputerPlayer(players.get(counter).getName(), players.get(counter).getRow(), players.get(counter).getCol(), players.get(counter).getColor());
+		controlPanel.setTurn(currentPlayer, roll);
+		counter++;
+		if (counter > players.size()-1) {
+			counter = 0;
+		}
 	}
 	
 	

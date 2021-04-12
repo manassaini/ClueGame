@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class ClueGame extends JFrame implements ActionListener {
+public class ClueGame extends JFrame {
 	static Board board;
 	static GameControlPanel gameControlPanel;
 	CardPanel panel;
@@ -34,6 +34,7 @@ public class ClueGame extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		board.setControlPanel(gameControlPanel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue Game");
 		setSize(700, 900);
@@ -42,17 +43,11 @@ public class ClueGame extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		ClueGame cluegame = new ClueGame();
-		
 		board.displayStartMessage();
-//		nextButton.addActionListener();
 	}
 
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	
 	

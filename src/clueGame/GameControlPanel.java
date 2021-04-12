@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,9 @@ public class GameControlPanel extends JPanel {
 	private JTextField guessResult;
 	private JButton next;
 	private JButton makeAccusation;
+	private static final int MAX_ROLL = 6;
+	
+	private Board board = Board.getInstance();
 
 	public GameControlPanel() {
 		JPanel panel = createTop();
@@ -55,6 +60,7 @@ public class GameControlPanel extends JPanel {
 		this.next = new JButton("NEXT");
 		panel.add(this.makeAccusation);
 		panel.add(this.next);
+		next.addActionListener(new NextListener());
 
 		return panel;
 	}
@@ -80,7 +86,7 @@ public class GameControlPanel extends JPanel {
 		return panel;
 	}
 
-	public void setTurn(ComputerPlayer player, int roll) {
+	public void setTurn(Player player, int roll) {
 		String name = player.getName();
 		Color color = player.getColor();
 		playerName.setBackground(color);
@@ -96,6 +102,23 @@ public class GameControlPanel extends JPanel {
 	public void setGuessResult(String guessResultText) {
 		guessResult.setText(guessResultText);
 	}
+	
+	public JButton getNextButton() {
+		return this.next;
+	}
+	
+	public JButton getAccusationButton() {
+		return this.makeAccusation;
+	}
+	
+	private class NextListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			board.nextClicked();
+		}
+		
+	}
 
 	public static void main(String[] args) {
 		GameControlPanel panel = new GameControlPanel();  // create the panel
@@ -110,14 +133,5 @@ public class GameControlPanel extends JPanel {
 		panel.setGuess( "I have no guess!");
 		panel.setGuessResult( "So you have nothing?");
 	}
-	
-	public JButton getNextButton() {
-		return this.next;
-	}
-	
-	public JButton getAccusationButton() {
-		return this.makeAccusation;
-	}
-
 
 }
