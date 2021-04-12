@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
@@ -69,6 +70,7 @@ public class BoardCell {
 	
 	public void writeLabel(String label, Graphics g, int xScale, int yScale) {		// room label
 		g.setColor(Color.black);
+		g.setFont((new Font("Monaco", Font.BOLD, 12)));
 		g.drawString(label, this.col * xScale, this.row * yScale);
 	}
 	

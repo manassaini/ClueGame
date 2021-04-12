@@ -82,7 +82,7 @@ public class Board extends JPanel{
 					grid[i][j].drawWalkway(xScale, yScale, g, Color.gray);
 				}
 				else if (grid[i][j].getInitial() == 'X') {				// unused
-					grid[i][j].draw(xScale, yScale, g, Color.cyan);
+					grid[i][j].draw(xScale, yScale, g, Color.black);
 				}
 				else {													// room
 					grid[i][j].draw(xScale, yScale, g, Color.yellow);
