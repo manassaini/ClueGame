@@ -11,3 +11,17 @@ Room, Hall, H
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
+// People
+Person, Sophie
+Person, Melissa
+Person, Griffin
+Person, Vik
+Person, Eddie
+Person, Mario
+// Weapons
+Weapon, Knife
+Weapon, Rope
+Weapon, Glock
+Weapon, Hammer
+Weapon, Sickle
+Weapon, Taser

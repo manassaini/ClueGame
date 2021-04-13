@@ -153,6 +153,16 @@ public class ComputerPlayer extends Player {
 	}
 	
 	
+	public Card getPerson() {
+		return this.person;
+	}
+	
+	public void setPerson(Card person) {
+		this.person = person;
+		this.name = person.getCardName();
+	}
+	
+	
 	
 	@Override
 	public void removeFromHand(Card card) {

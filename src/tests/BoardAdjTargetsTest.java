@@ -91,7 +91,7 @@ public class BoardAdjTargetsTest {
 		{
 			// Test on bottom edge of board, just one walkway piece
 			Set<BoardCell> testList = board.getAdjList(24, 12);
-			assertEquals(2, testList.size());
+			assertEquals(3, testList.size());
 			assertTrue(testList.contains(board.getCell(23, 12)));
 			assertTrue(testList.contains(board.getCell(24, 11)));
 			

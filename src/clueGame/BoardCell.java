@@ -24,6 +24,7 @@ public class BoardCell {
 	private boolean isRoom;
 	private boolean isOccupied;
 	private boolean isDoorway = false;
+	private boolean isTarget = false;
 	Set<BoardCell> targets;
 	private DoorDirection direction = DoorDirection.NONE;
 	
@@ -37,7 +38,6 @@ public class BoardCell {
 		this.row = row;
 		this.col = col;
 	}
-	
 	
 	public void draw(int xScale, int yScale, Graphics g, Color color) {				// generic draw
 		g.setColor(color);
@@ -79,6 +79,13 @@ public class BoardCell {
 		g.drawString(label, this.col * xScale, this.row * yScale);
 	}
 	
+	public boolean isTarget() {
+		return this.isTarget;
+	}
+	
+	public void setIsTarget(boolean isTarget) {
+		this.isTarget = isTarget;
+	}
 	
 	public void addAdj (BoardCell cell) {
 		adjList.add(cell);

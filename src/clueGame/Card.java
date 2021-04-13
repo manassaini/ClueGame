@@ -27,7 +27,7 @@ public class Card {
 	}
 	
 	public String getCardName() {
-		return cardName;
+		return this.cardName;
 	}
 
 	public void setCardName(String cardName) {

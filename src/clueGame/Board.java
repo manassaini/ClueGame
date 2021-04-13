@@ -40,6 +40,9 @@ public class Board extends JPanel{
 	private ArrayList<Card> personCards;
 	private ArrayList<Card> weaponCards;
 	private ArrayList<Card> allCards;
+	private ArrayList<Card> allRoomCards;
+	private ArrayList<Card> allPersonCards;
+	private ArrayList<Card> allWeaponCards;
 	private ArrayList<Player> players;
 	
 	private Set<BoardCell> targets;
@@ -92,6 +95,9 @@ public class Board extends JPanel{
 				else if (grid[i][j].getInitial() == 'X') {				// unused
 					grid[i][j].draw(xScale, yScale, g, Color.black);
 				}
+				else if (grid[i][j].isTarget()) {
+					grid[i][j].draw(xScale, yScale, g, Color.cyan);
+				}
 				else {													// room
 					grid[i][j].draw(xScale, yScale, g, Color.yellow);
 				}
@@ -122,24 +128,23 @@ public class Board extends JPanel{
 	public void nextClicked() {
 		Random rand = new Random();
 		int roll = rand.nextInt(MAX_ROLL) + MIN_DICE_ROLL;
-		currentPlayer = new ComputerPlayer(players.get(counter).getName(), players.get(counter).getRow(), players.get(counter).getCol(), players.get(counter).getColor());
+		currentPlayer = players.get(counter);
 		controlPanel.setTurn(currentPlayer, roll);
 		counter++;
 		if (counter > players.size()-1) {
 			counter = 0;
 		}
-		
-		BoardCell playerCell = new BoardCell(currentPlayer.getRow(), currentPlayer.getCol());
+		BoardCell playerCell = grid[currentPlayer.getRow()][currentPlayer.getCol()];
 		calcTargets(playerCell, roll);
-		drawTargets();
-	
+		if (!currentPlayer.isComputer()) {
+			drawTargets();
+		}
 	}
 	
+	
 	public void drawTargets() {
-		super.paintComponent(g);
 		for (BoardCell cell: targets) {
-			System.out.print(targets.size());
-			cell.draw(xScale, yScale, g, Color.cyan);
+			cell.setIsTarget(true);
 		}
 	}
 	
@@ -175,6 +180,9 @@ public class Board extends JPanel{
 		theInstance.roomCards = new ArrayList<Card>();
 		theInstance.personCards = new ArrayList<Card>();
 		theInstance.weaponCards = new ArrayList<Card>();
+		theInstance.allRoomCards = new ArrayList<Card>();
+		theInstance.allPersonCards = new ArrayList<Card>();
+		theInstance.allWeaponCards = new ArrayList<Card>();
 		
 
 		try {																				
@@ -190,6 +198,7 @@ public class Board extends JPanel{
 		}
 	}
 		
+	
 	// Helper method to above, sorts file input
 	public void loadSetupHelper(String[] line) throws BadConfigFormatException {
 		String firstWord = line[0];
@@ -200,17 +209,20 @@ public class Board extends JPanel{
 				if (firstWord.contentEquals("Room")) {										// rooms need card, spaces do not
 					Card newCard = new Card(line[1]);
 					theInstance.roomCards.add(newCard);
+					theInstance.allRoomCards.add(newCard);
 					newCard.setCardType(CardType.ROOM);
 				}
 			}
 			else if (firstWord.contentEquals("Person")) {									// person
 				Card newCard = new Card(line[1]);
 				theInstance.personCards.add(newCard);
+				theInstance.allPersonCards.add(newCard);
 				newCard.setCardType(CardType.PERSON);
 			} 
 			else if (firstWord.contentEquals("Weapon")) {									// weapon
 				Card newCard = new Card(line[1]);
 				theInstance.weaponCards.add(newCard);
+				theInstance.allWeaponCards.add(newCard);
 				newCard.setCardType(CardType.WEAPON);
 			}
 			else {
@@ -410,7 +422,9 @@ public class Board extends JPanel{
 		theInstance.players = new ArrayList<Player>();
 		
 		ArrayList<Card> personDuplicate = new ArrayList<Card>();
-		personDuplicate.addAll(0, theInstance.personCards);
+		for (Card c: theInstance.personCards) {
+			personDuplicate.add(c);
+		}
 		
 		HumanPlayer human = new HumanPlayer("human");
 		human.setLoc(25, 12);
@@ -442,8 +456,6 @@ public class Board extends JPanel{
 		comp5.setPerson(getRandomCard(personDuplicate));
 		theInstance.players.add(comp5);
 		
-	
-		
 		theInstance.solution = new Solution();
 		
 		theInstance.allCards = new ArrayList<Card>();						// all cards, including solution
@@ -458,6 +470,8 @@ public class Board extends JPanel{
 		cards.addAll(theInstance.weaponCards);
 		cards.addAll(theInstance.roomCards);
 		
+		/// this loop removing from all cards
+		
 		for (Player p: players) {	
 			Random random = new Random();									// based off code from geeks for geeks
 			Color color = colors.get(random.nextInt(colors.size()));
@@ -466,7 +480,8 @@ public class Board extends JPanel{
 			p.addToHand(getRandomCard(cards));
 			p.addToHand(getRandomCard(cards));
 			p.addToHand(getRandomCard(cards));
-		}		
+		}	
+		System.out.println(theInstance.allPersonCards.size() + ": 2");
 	}
 	
 	
@@ -483,10 +498,19 @@ public class Board extends JPanel{
 	
 	// Helper method to above
 	public Card getRandomCard(ArrayList<Card> list) {		// based off code from geeks for geeks
-		Random random = new Random();
-		Card card = list.get(random.nextInt(list.size()));
-		list.remove(card);
-		return card;
+		if (list.size() > 0) {
+			Card card;
+			if (list.size() > 1) {
+				Random random = new Random();
+				card = list.get(random.nextInt(list.size()));
+			}
+			else {
+				card = list.get(0);
+			}
+			list.remove(card);
+			return card;
+		}
+		return null;
 	}
 	
 	
@@ -505,7 +529,6 @@ public class Board extends JPanel{
 					options.add(c);
 				}	
 			}
-
 		}
 
 		if (options.size() == 0) {
@@ -545,7 +568,6 @@ public class Board extends JPanel{
 	public void recursivePart(BoardCell startCell, int pathlength) {
 		calcAdjacencies(startCell);
 		theInstance.visited.add(startCell);
-
 		
 		for (BoardCell adjCell: startCell.getAdjList()) {
 			
@@ -631,21 +653,18 @@ public class Board extends JPanel{
 			// nothing
 		}
 		else {													// doorway
-			
-//			if (cell.isDoorway()) {
-				if (cell.getDoorDirection() == DoorDirection.DOWN) {
-					calcAdjDoorHelper(cell, downCell, neighbors);
-				} 
-				else if (cell.getDoorDirection() == DoorDirection.UP) {
-					calcAdjDoorHelper(cell, upCell, neighbors);
-				}
-				else if (cell.getDoorDirection() == DoorDirection.LEFT) {
-					calcAdjDoorHelper(cell, leftCell, neighbors);
-				}
-				else if (cell.getDoorDirection() == DoorDirection.RIGHT) {
-					calcAdjDoorHelper(cell, rightCell, neighbors);
-				}
-//			}
+			if (cell.getDoorDirection() == DoorDirection.DOWN) {
+				calcAdjDoorHelper(cell, downCell, neighbors);
+			} 
+			else if (cell.getDoorDirection() == DoorDirection.UP) {
+				calcAdjDoorHelper(cell, upCell, neighbors);
+			}
+			else if (cell.getDoorDirection() == DoorDirection.LEFT) {
+				calcAdjDoorHelper(cell, leftCell, neighbors);
+			}
+			else if (cell.getDoorDirection() == DoorDirection.RIGHT) {
+				calcAdjDoorHelper(cell, rightCell, neighbors);
+			}
 		}
 		neighbors.clear();
 	}
@@ -675,17 +694,17 @@ public class Board extends JPanel{
 	//					 ***** GETTERS AND SETTERS *****
 		
 	public ArrayList<Card> getPersonCards() {
-		return this.personCards;
+		return this.allPersonCards;
 	}
 	
 	
 	public ArrayList<Card> getWeaponCards() {
-		return this.weaponCards;
+		return this.allWeaponCards;
 	}
 	
 	
 	public ArrayList<Card> getRoomCards() {
-		return this.roomCards;
+		return this.allRoomCards;
 	}
 	
 	public Map<Character, Room> getRoomMap() {
@@ -720,7 +739,7 @@ public class Board extends JPanel{
 	
 	public ArrayList<String> getPeople() {
 		ArrayList<String> names = new ArrayList<String>();
-		for (Card c: theInstance.personCards) {
+		for (Card c: theInstance.allPersonCards) {
 			names.add(c.getCardName());
 		}
 		return names;
@@ -729,7 +748,7 @@ public class Board extends JPanel{
 	
 	public ArrayList<String> getWeapons() {
 		ArrayList<String> weaponNames = new ArrayList<String>();
-		for (Card c: theInstance.weaponCards) {
+		for (Card c: theInstance.allWeaponCards) {
 			weaponNames.add(c.getCardName());
 		}
 		return weaponNames;

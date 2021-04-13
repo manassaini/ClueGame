@@ -83,6 +83,15 @@ public class HumanPlayer extends Player{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public Card getPerson() {
+		return this.person;
+	}
+	
+	public void setPerson(Card person) {
+		this.person = person;
+		this.name = person.getCardName();
+	}
 
 	@Override
 	public void updateSeen(Card seenCard) {

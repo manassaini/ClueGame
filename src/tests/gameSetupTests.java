@@ -61,6 +61,8 @@ class gameSetupTests {
 		
 	}
 	
+	
+	@Test
 	void testRooms() {								// testing room deck, rooms scanned in and size of deck
 		assertTrue(board.getRoomDeck().contains("Balcony"));
 		assertTrue(board.getRoomDeck().contains("Washroom"));
@@ -78,8 +80,6 @@ class gameSetupTests {
 	
 	@Test
 	void testPlayers() {							// testing 5 computers one human
-		board.dealCards();
-		
 		int compCount = 0;
 		int humanCount = 0;
 		ArrayList<Player> thePlayers = new ArrayList<Player>();
@@ -100,8 +100,6 @@ class gameSetupTests {
 	
 	@Test
 	void testDealCards() {						// test each player has 3 cards
-		board.dealCards();
-		
 		ArrayList<Player> thePlayers = new ArrayList<Player>();
 		thePlayers = board.getPlayers();
 		
@@ -110,10 +108,10 @@ class gameSetupTests {
 		}
 	}
 	
+	
+	
 	@Test
 	void testCompleteDeck() {					// right number of each card
-		board.dealCards();
-		
 		int weaponCount = 0;
 		int roomCount = 0;
 		int personCount = 0;

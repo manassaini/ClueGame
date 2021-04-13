@@ -78,15 +78,6 @@ public abstract class Player {
 	public int getCol() {
 		return this.col;
 	}
-	
-	public Card getPerson() {
-		return this.person;
-	}
-	
-	public void setPerson(Card person) {
-		this.person = person;
-		this.name = person.getCardName();
-	}
 
 	public abstract boolean isComputer();
 	
