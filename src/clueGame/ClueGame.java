@@ -44,6 +44,7 @@ public class ClueGame extends JFrame {
 	public static void main(String[] args) {
 		ClueGame cluegame = new ClueGame();
 		board.displayStartMessage();
+		board.nextClicked();
 	}
 
 	

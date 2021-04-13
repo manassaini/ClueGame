@@ -112,7 +112,6 @@ public class GameControlPanel extends JPanel {
 	}
 	
 	private class NextListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			board.nextClicked();

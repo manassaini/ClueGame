@@ -33,6 +33,11 @@ public class BoardCell {
 		this.targets = new HashSet<BoardCell>();
 	}
 	
+	public BoardCell(int row, int col) {
+		this.row = row;
+		this.col = col;
+	}
+	
 	
 	public void draw(int xScale, int yScale, Graphics g, Color color) {				// generic draw
 		g.setColor(color);
