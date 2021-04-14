@@ -3,6 +3,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -83,7 +85,10 @@ public class Board extends JPanel{
 		super.paintComponent(g);										// each cell type drawn differently
 		for (int i = 0; i < numRows; ++i) {
 			for (int j = 0; j < numColumns; ++j) {
-				if (grid[i][j].isDoorway()) {							// doorway
+				if (grid[i][j].isTarget()) {
+					grid[i][j].draw(xScale, yScale, g, Color.cyan);
+				}
+				else if (grid[i][j].isDoorway()) {							// doorway
 					grid[i][j].drawDoorway(xScale, yScale, g, Color.DARK_GRAY);
 				}
 				else if (grid[i][j].getIsSecretPassage()) {				// secret passage
@@ -94,9 +99,6 @@ public class Board extends JPanel{
 				}
 				else if (grid[i][j].getInitial() == 'X') {				// unused
 					grid[i][j].draw(xScale, yScale, g, Color.black);
-				}
-				else if (grid[i][j].isTarget()) {
-					grid[i][j].draw(xScale, yScale, g, Color.cyan);
 				}
 				else {													// room
 					grid[i][j].draw(xScale, yScale, g, Color.yellow);
@@ -119,13 +121,23 @@ public class Board extends JPanel{
 		for (Player p: theInstance.players) {							// players
 			p.draw(g, yScale, xScale);
 		}
+		setVisible(true);
 	}
 	
+	
+	// display start message
 	public void displayStartMessage() {
 		JOptionPane.showMessageDialog(null, "You are " + players.get(0).getName() + "\nCan you find the solution before the other computer players?");
 	}
 	
+	
+	// next button
 	public void nextClicked() {
+		for (BoardCell c: targets) {
+			c.setIsTarget(false);
+		}
+
+		targets.clear();
 		Random rand = new Random();
 		int roll = rand.nextInt(MAX_ROLL) + MIN_DICE_ROLL;
 		currentPlayer = players.get(counter);
@@ -139,13 +151,57 @@ public class Board extends JPanel{
 		if (!currentPlayer.isComputer()) {
 			drawTargets();
 		}
+		else {
+			computerMove();
+		}
 	}
 	
 	
+	// helper to above, set targets to true
 	public void drawTargets() {
 		for (BoardCell cell: targets) {
 			cell.setIsTarget(true);
 		}
+		repaint();
+	}
+	
+	public void computerMove() {				
+		BoardCell nextCell = getRandomBoardCell(targets);
+		currentPlayer.setLoc(nextCell.getRow(), nextCell.getCol());
+		repaint();
+	}
+	
+	public BoardCell getRandomBoardCell(Set<BoardCell> targets) {		// based off code from geeks for geeks
+		BoardCell[] copy = targets.toArray(new BoardCell[targets.size()]);
+		Random random = new Random();
+		int rndm = random.nextInt(targets.size());
+		return copy[rndm];
+	}
+	
+	public class TargetClick implements MouseListener {
+		BoardCell clicked;
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			for (BoardCell cell: targets) {
+				if (cell.containsClick(e.getX(), e.getY(), xScale, yScale)) {
+					clicked = cell;
+				}
+			}
+			if (clicked == null) {
+				
+			}
+			else {
+				
+			}
+			
+		}
+
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+		
 	}
 	
 	// initialize the instance, read in files, allocate space to array list, deal cards
@@ -209,20 +265,23 @@ public class Board extends JPanel{
 				if (firstWord.contentEquals("Room")) {										// rooms need card, spaces do not
 					Card newCard = new Card(line[1]);
 					theInstance.roomCards.add(newCard);
-					theInstance.allRoomCards.add(newCard);
+					Card cardCopy = new Card(line[1]);
+					theInstance.allRoomCards.add(cardCopy);
 					newCard.setCardType(CardType.ROOM);
 				}
 			}
 			else if (firstWord.contentEquals("Person")) {									// person
 				Card newCard = new Card(line[1]);
 				theInstance.personCards.add(newCard);
-				theInstance.allPersonCards.add(newCard);
+				Card cardCopy = new Card(line[1]);
+				theInstance.allPersonCards.add(cardCopy);
 				newCard.setCardType(CardType.PERSON);
 			} 
 			else if (firstWord.contentEquals("Weapon")) {									// weapon
 				Card newCard = new Card(line[1]);
 				theInstance.weaponCards.add(newCard);
-				theInstance.allWeaponCards.add(newCard);
+				Card cardCopy = new Card(line[1]);
+				theInstance.allWeaponCards.add(cardCopy);
 				newCard.setCardType(CardType.WEAPON);
 			}
 			else {
@@ -415,7 +474,6 @@ public class Board extends JPanel{
 		colors.add(Color.orange);
 		colors.add(Color.green);
 		colors.add(Color.blue);
-		colors.add(Color.yellow);
 		colors.add(Color.cyan);
 		colors.add(Color.magenta);
 		
@@ -470,7 +528,6 @@ public class Board extends JPanel{
 		cards.addAll(theInstance.weaponCards);
 		cards.addAll(theInstance.roomCards);
 		
-		/// this loop removing from all cards
 		
 		for (Player p: players) {	
 			Random random = new Random();									// based off code from geeks for geeks
@@ -481,7 +538,6 @@ public class Board extends JPanel{
 			p.addToHand(getRandomCard(cards));
 			p.addToHand(getRandomCard(cards));
 		}	
-		System.out.println(theInstance.allPersonCards.size() + ": 2");
 	}
 	
 	
@@ -762,7 +818,7 @@ public class Board extends JPanel{
 	
 	public ArrayList<String> getRoomDeck() {
 		ArrayList<String> rooms = new ArrayList<String>();
-		for (Card c: theInstance.roomCards) {
+		for (Card c: theInstance.allRoomCards) {
 			rooms.add(c.getCardName());
 		}
 		return rooms;

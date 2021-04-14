@@ -79,6 +79,14 @@ public class BoardCell {
 		g.drawString(label, this.col * xScale, this.row * yScale);
 	}
 	
+	public boolean containsClick(int clickX, int clickY, int xScale, int yScale) {
+		if (clickX == (this.col * xScale) && clickY == (this.row * yScale)) {
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public boolean isTarget() {
 		return this.isTarget;
 	}
