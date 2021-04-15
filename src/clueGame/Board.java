@@ -32,6 +32,7 @@ public class Board extends JPanel{
 	private BoardCell[][] grid;
 	private GameControlPanel controlPanel;
 	private Player currentPlayer;
+	private MouseListener mListener;
 	
 	private String layoutConfigFile;
 	private String setupConfigFile;
@@ -133,14 +134,14 @@ public class Board extends JPanel{
 	
 	// next button
 	public void nextClicked() {
-		for (BoardCell c: targets) {
+		for (BoardCell c: targets) {			// clear targets before next turn
 			c.setIsTarget(false);
 		}
 
 		targets.clear();
 		Random rand = new Random();
 		int roll = rand.nextInt(MAX_ROLL) + MIN_DICE_ROLL;
-		currentPlayer = players.get(counter);
+		currentPlayer = players.get(counter);						// iterate through player list
 		controlPanel.setTurn(currentPlayer, roll);
 		counter++;
 		if (counter > players.size()-1) {
@@ -148,7 +149,7 @@ public class Board extends JPanel{
 		}
 		BoardCell playerCell = grid[currentPlayer.getRow()][currentPlayer.getCol()];
 		calcTargets(playerCell, roll);
-		if (!currentPlayer.isComputer()) {
+		if (!currentPlayer.isComputer()) {							// human or computer branch
 			drawTargets();
 		}
 		else {
@@ -165,7 +166,7 @@ public class Board extends JPanel{
 		repaint();
 	}
 	
-	public void computerMove() {				
+	public void computerMove() {								// random computer movement
 		BoardCell nextCell = getRandomBoardCell(targets);
 		currentPlayer.setLoc(nextCell.getRow(), nextCell.getCol());
 		repaint();
@@ -183,16 +184,15 @@ public class Board extends JPanel{
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			for (BoardCell cell: targets) {
-				if (cell.containsClick(e.getX(), e.getY(), xScale, yScale)) {
-					clicked = cell;
-				}
-			}
-			if (clicked == null) {
-				
+			int clickedCol = e.getX()/xScale;
+			int clickedRow = e.getY()/yScale;
+			BoardCell clicked = grid[clickedRow][clickedCol];					// if clicked spot is in set of targets
+			if (targets.contains(clicked)) {
+				currentPlayer.setLoc(clickedRow, clickedCol);
+				repaint();
 			}
 			else {
-				
+				JOptionPane.showMessageDialog(null, "Not a valid target");
 			}
 			
 		}
@@ -201,6 +201,8 @@ public class Board extends JPanel{
 		public void mouseReleased(MouseEvent e) {}
 		public void mouseEntered(MouseEvent e) {}
 		public void mouseExited(MouseEvent e) {}
+		
+		
 		
 	}
 	
@@ -212,6 +214,8 @@ public class Board extends JPanel{
 		theInstance.visited = new HashSet<BoardCell>();
 		
 		theInstance.dealCards();
+		theInstance.mListener = new TargetClick();
+		theInstance.addMouseListener(mListener);
 	}
 
 	
@@ -474,7 +478,7 @@ public class Board extends JPanel{
 		colors.add(Color.orange);
 		colors.add(Color.green);
 		colors.add(Color.blue);
-		colors.add(Color.cyan);
+		colors.add(Color.pink);
 		colors.add(Color.magenta);
 		
 		theInstance.players = new ArrayList<Player>();
@@ -751,6 +755,14 @@ public class Board extends JPanel{
 		
 	public ArrayList<Card> getPersonCards() {
 		return this.allPersonCards;
+	}
+	
+	public MouseListener getMouseListener() {
+		return this.mListener;
+	}
+	
+	public void setMouseListener(MouseListener m) {
+		this.mListener = m;
 	}
 	
 	
