@@ -1,3 +1,51 @@
+commit a75467ced530aca8d49345b8880d3b703cca9bf4
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Wed Apr 14 19:43:26 2021 -0600
+
+    all movement works, c23a finished
+
+commit ecbbc7f3801da4cbe09675d7961418abe483f598
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Apr 13 21:30:21 2021 -0600
+
+    Computer players moving, human player targets lit, all tests pass
+
+commit c5f1902c71d8f46d89290353ab12f76ff39b3d43
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Apr 13 12:14:16 2021 -0600
+
+    all tests passing except for game setup; problem with loop in deal cards
+
+commit 94037541f7b36e79d77bd166ff5c3a6029bb306b
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Mon Apr 12 19:18:34 2021 -0600
+
+    Some debugging going on
+
+commit 5e3de754d0004dd4ef71a8690adc0c9c480f0c28
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Mon Apr 12 16:42:13 2021 -0600
+
+    Got the player and its respective dice roll to show up when the NEXT button is hit
+
+commit 6d60d041a0be773585482937c24376f9b739afc6
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Sun Apr 11 22:22:22 2021 -0600
+
+    pop up display done
+
+commit 00b3129434eeeb1ef9544cef92bd024ee1990aeb
+Author: Manas Saini <manassaini@mymail.mines.edu>
+Date:   Sun Apr 11 21:22:53 2021 -0600
+
+    Changed the font
+
+commit 383f01d05af99787a5694cb6e47583b3c766c8ad
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Fri Apr 9 18:16:25 2021 -0600
+
+    git log
+
 commit 365e373ada4d724374e4b3576a0c798516bf9df8
 Author: tgeis1 <tgeis@mymail.mines.edu>
 Date:   Fri Apr 9 18:15:56 2021 -0600
