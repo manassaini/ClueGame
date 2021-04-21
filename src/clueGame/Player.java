@@ -92,5 +92,7 @@ public abstract class Player {
 	public abstract void updateHand(Card card);
 	
 	public abstract void updateSeen(Card seenCard);
+
+	protected abstract Solution createSuggestion(Card currentRoom);
 		
 }

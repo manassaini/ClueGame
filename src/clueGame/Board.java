@@ -47,6 +47,8 @@ public class Board extends JPanel{
 	private ArrayList<Card> allPersonCards;
 	private ArrayList<Card> allWeaponCards;
 	private ArrayList<Player> players;
+	private BoardCell playerCell;
+	private boolean accusationFlag = false;
 	
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
@@ -147,10 +149,10 @@ public class Board extends JPanel{
 		if (counter > players.size()-1) {
 			counter = 0;
 		}
-		BoardCell playerCell = grid[currentPlayer.getRow()][currentPlayer.getCol()];
+		playerCell = grid[currentPlayer.getRow()][currentPlayer.getCol()];
 		calcTargets(playerCell, roll);
 		if (!currentPlayer.isComputer()) {							// human or computer branch
-			drawTargets();
+			humanMove();
 		}
 		else {
 			computerMove();
@@ -166,11 +168,36 @@ public class Board extends JPanel{
 		repaint();
 	}
 	
+	public void humanMove() {
+		// accusation option- mouse listener
+		
+		drawTargets();
+		
+		// check mouse listener
+		
+		if (playerCell.isRoomCenter()) {
+			// suggestion pop up
+		}
+		
+	}
+	
+	
 	public void computerMove() {								// random computer movement
+		if (playerCell.isRoomCenter()) {
+			if (!accusationFlag) {
+				Solution solution = currentPlayer.createSuggestion(roomMap.get(playerCell.getInitial()).getCard());
+				handleSuggestion(solution.getPerson(), solution.getRoom(), solution.getWeapon(), currentPlayer, players);
+				// show this
+			}
+			else {
+				// make accusation
+			}
+		}
 		BoardCell nextCell = getRandomBoardCell(targets);
 		currentPlayer.setLoc(nextCell.getRow(), nextCell.getCol());
 		repaint();
 	}
+	
 	
 	public BoardCell getRandomBoardCell(Set<BoardCell> targets) {		// based off code from geeks for geeks
 		BoardCell[] copy = targets.toArray(new BoardCell[targets.size()]);
@@ -272,6 +299,7 @@ public class Board extends JPanel{
 					Card cardCopy = new Card(line[1]);
 					theInstance.allRoomCards.add(cardCopy);
 					newCard.setCardType(CardType.ROOM);
+					room.setCard(newCard);
 				}
 			}
 			else if (firstWord.contentEquals("Person")) {									// person

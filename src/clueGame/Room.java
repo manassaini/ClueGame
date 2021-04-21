@@ -12,6 +12,7 @@ public class Room {
 	private BoardCell secretPassage;
 	private boolean hasSecret;
 	private Set<BoardCell> doors;
+	private Card card;
 	
 	public Room(String name) {
 		super();
@@ -59,6 +60,14 @@ public class Room {
 	
 	public boolean hasSecret() {
 		return this.hasSecret;
+	}
+	
+	public void setCard(Card c) {
+		this.card = card;
+	}
+	
+	public Card getCard() {
+		return this.card;
 	}
 	
 }
