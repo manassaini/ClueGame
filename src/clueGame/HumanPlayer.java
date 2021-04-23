@@ -16,7 +16,7 @@ public class HumanPlayer extends Player{
 	public void addToHand(Card card) {
 		// TODO Auto-generated method stub
 		this.hand.add(card);
-		this.seen.add(card);
+//		this.seen.add(card);
 		if (card.getCardType() == CardType.PERSON) {
 			this.unseenPeople.remove(card);
 		} else if (card.getCardType() == CardType.ROOM) {
@@ -104,5 +104,11 @@ public class HumanPlayer extends Player{
 		} else {
 			this.unseenWeapons.remove(seenCard);
 		}
+	}
+
+	@Override
+	protected Solution createSuggestion(Card currentRoom) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

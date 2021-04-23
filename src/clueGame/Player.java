@@ -81,7 +81,6 @@ public abstract class Player {
 
 	public abstract boolean isComputer();
 	
-	public abstract ArrayList<Card> getHand();
 	
 	public abstract void addToHand(Card card);
 	
@@ -94,5 +93,16 @@ public abstract class Player {
 	public abstract void updateSeen(Card seenCard);
 
 	protected abstract Solution createSuggestion(Card currentRoom);
+	
+	protected ArrayList<Card> getSeen() {
+		if (this.seen.size() == 0) {
+			return null;
+		}
+		return this.seen;
+	}
+	
+	public ArrayList<Card> getHand() {
+		return this.hand;
+	}
 		
 }

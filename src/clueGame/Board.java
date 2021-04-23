@@ -3,6 +3,9 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -16,6 +19,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,6 +37,7 @@ public class Board extends JPanel{
 	private int counter = 0;
 	private BoardCell[][] grid;
 	private GameControlPanel controlPanel;
+	private CardPanel cardPanel;
 	private Player currentPlayer;
 	private MouseListener mListener;
 	
@@ -39,6 +46,21 @@ public class Board extends JPanel{
 	
 	private Map<Character, Room> roomMap;
 	
+	private String[] roomStrings = {"Balcony", "Washroom", "Trophy Room", "Museum", "Armory", "Dungeon", "Hall", "Zoo", "Secret Base"};
+	private String[] playerStrings = {"Sophie", "Melissa", "Vik", "Eddie", "Mario"};
+	private String[] weaponStrings = {"Knife", "Rope", "Glock", "Hammer", "Sickle", "Taser"};
+	private JLabel roomLabel = new JLabel("Room");
+	private JLabel personLabel = new JLabel("Person");
+	private JLabel weaponLabel = new JLabel("Weapon");
+	private JComboBox allRooms = new JComboBox(roomStrings);
+	private JComboBox allPlayers = new JComboBox(playerStrings);
+	private JComboBox allWeapons = new JComboBox(weaponStrings);
+	private JComboBox allPlayersSuggestion = new JComboBox(playerStrings);
+	private JComboBox allWeaponsSuggestion = new JComboBox(weaponStrings);
+	private JButton sumbitButton = new JButton("Sumbit");
+	private JButton cancelButton = new JButton("Cancel");
+	private JButton sumbitButtonSuggestion = new JButton("Sumbit");
+	private JButton cancelButtonSuggestion = new JButton("Cancel");
 	private ArrayList<Card> roomCards;
 	private ArrayList<Card> personCards;
 	private ArrayList<Card> weaponCards;
@@ -60,6 +82,7 @@ public class Board extends JPanel{
 	private static final int MAX_ROLL = 6;
 	
 	private JLabel jLabel;
+	private Board board = Board.getInstance();
 	
 	
 	/////				 ***** CONSTRUCTORS AND INITIALIZING *****
@@ -72,6 +95,11 @@ public class Board extends JPanel{
 	public void setControlPanel(GameControlPanel gameControl) {
 		controlPanel = gameControl;
 	}
+	
+	public void setCardPanel(CardPanel cardPanel) {
+		this.cardPanel = cardPanel;
+	}
+	
 	// returns the instance
 	public static Board getInstance() {
 		return theInstance;
@@ -136,6 +164,7 @@ public class Board extends JPanel{
 	
 	// next button
 	public void nextClicked() {
+		
 		for (BoardCell c: targets) {			// clear targets before next turn
 			c.setIsTarget(false);
 		}
@@ -145,6 +174,9 @@ public class Board extends JPanel{
 		int roll = rand.nextInt(MAX_ROLL) + MIN_DICE_ROLL;
 		currentPlayer = players.get(counter);						// iterate through player list
 		controlPanel.setTurn(currentPlayer, roll);
+		
+		updateCardsPanel(currentPlayer);
+		
 		counter++;
 		if (counter > players.size()-1) {
 			counter = 0;
@@ -160,6 +192,95 @@ public class Board extends JPanel{
 	}
 	
 	
+	// accusation clicked
+	public void accusationClicked() {
+		if (!currentPlayer.isComputer()) {
+			JFrame accusationFrame = new JFrame();
+			accusationFrame.setSize(325,200);
+			accusationFrame.setTitle("Make an Accusation");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(4,2));
+			accusationFrame.add(panel);
+			
+			panel.add(roomLabel);
+			panel.add(allRooms); //will be combobox of rooms
+			panel.add(personLabel); 
+			panel.add(allPlayers); //will be combobox of players
+			panel.add(weaponLabel);
+			panel.add(allWeapons); //will be combobox of weapons
+			panel.add(sumbitButton);
+			panel.add(cancelButton);
+			
+			accusationFrame.setVisible(true);
+			
+		}
+	}
+	
+	public void sumbitClicked() {
+		if (solution.getRoom().getCardName() == allRooms.getSelectedItem() && solution.getPerson().getCardName() == allPlayers.getSelectedItem() && solution.getWeapon().getCardName() == allWeapons.getSelectedItem()) {
+			JOptionPane.showConfirmDialog(null, "Congratulations! You guessed correctly and have won the game!");
+		}
+		else {
+			JOptionPane.showConfirmDialog(null, "You guessed incorrectly. You have lost and the game is over!");
+		}
+	}
+		
+	private class SumbitListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			board.sumbitClicked();	
+		}
+	}
+	
+	
+	public void updateCardsPanel(Player p) {
+		ArrayList<Card> seenWeapons = new ArrayList<Card>();
+		ArrayList<Card> handWeapons = new ArrayList<Card>();
+		ArrayList<Card> seenRooms = new ArrayList<Card>();
+		ArrayList<Card> handRooms = new ArrayList<Card>();
+		ArrayList<Card> seenPeople = new ArrayList<Card>();
+		ArrayList<Card> handPeople = new ArrayList<Card>();
+		
+		if (p.getSeen()!= null) {
+			ArrayList<Card> seen = p.getSeen();
+			for (Card c: seen) {
+				if (c.getCardType() == CardType.ROOM) {
+					seenRooms.add(c);
+				}
+				else if (c.getCardType() == CardType.WEAPON) {
+					seenWeapons.add(c);
+				}
+				else {
+					seenPeople.add(c);
+				}
+
+			}
+		}
+		
+		ArrayList<Card> hand = p.getHand();
+		
+		for (Card c: hand) {
+			if (c.getCardType() == CardType.ROOM) {
+				handRooms.add(c);
+			}
+			else if (c.getCardType() == CardType.WEAPON) {
+				handWeapons.add(c);
+			}
+			else {
+				handPeople.add(c);
+			}
+		}
+		
+		this.cardPanel.updateDisplay(seenWeapons, handWeapons, "Weapons", cardPanel.getWeaponsPanel());
+		this.cardPanel.updateDisplay(seenRooms, handRooms, "Rooms", cardPanel.getRoomsPanel());
+		this.cardPanel.updateDisplay(seenPeople, handPeople, "People", cardPanel.getPeoplePanel());
+		
+		repaint();
+		revalidate();
+	}
+	
+	
+	
 	// helper to above, set targets to true
 	public void drawTargets() {
 		for (BoardCell cell: targets) {
@@ -169,14 +290,36 @@ public class Board extends JPanel{
 	}
 	
 	public void humanMove() {
-		// accusation option- mouse listener
-		
 		drawTargets();
 		
 		// check mouse listener
 		
 		if (playerCell.isRoomCenter()) {
-			// suggestion pop up
+			JFrame suggestionFrame = new JFrame();
+			suggestionFrame.setSize(325,200);
+			suggestionFrame.setTitle("Make a Suggestion");
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(4,2));
+			suggestionFrame.add(panel);
+			
+			JLabel roomLabelSuggestion = new JLabel("Room");
+			JLabel personLabelSuggestion = new JLabel("Person");
+			JLabel weaponLabelSuggestion = new JLabel("Weapon");
+			String[] currentRoom = new String[1];
+			currentRoom[0] = roomMap.get(playerCell.getInitial()).getName();
+			JComboBox allRooms = new JComboBox(currentRoom);
+			panel.add(roomLabelSuggestion);
+			panel.add(allRooms);
+			panel.add(personLabelSuggestion);
+			panel.add(allPlayersSuggestion);
+			panel.add(weaponLabelSuggestion);
+			panel.add(allWeaponsSuggestion);
+			JButton sumbitButton = new JButton("Sumbit");
+			JButton cancelButton = new JButton("Cancel");
+			panel.add(sumbitButton);
+			panel.add(cancelButton);
+			
+			suggestionFrame.setVisible(true);
 		}
 		
 	}

@@ -1,5 +1,6 @@
 package clueGame;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,12 +12,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class CardPanel extends JPanel{
-	private static Set<Card> peopleSeen = new HashSet<Card>();
-	private static Set<Card> weaponsSeen = new HashSet<Card>();
-	private static Set<Card> roomsSeen = new HashSet<Card>();
-	private static Set<Card> peopleHand = new HashSet<Card>();
-	private static Set<Card> weaponsHand = new HashSet<Card>();
-	private static Set<Card> roomsHand = new HashSet<Card>();
+	private static ArrayList<Card> peopleSeen = new ArrayList<Card>();
+	private static ArrayList<Card> weaponsSeen = new ArrayList<Card>();
+	private static ArrayList<Card> roomsSeen = new ArrayList<Card>();
+	private static ArrayList<Card> peopleHand = new ArrayList<Card>();
+	private static ArrayList<Card> weaponsHand = new ArrayList<Card>();
+	private static ArrayList<Card> roomsHand = new ArrayList<Card>();
 	
 	private static JPanel peoplePanel;
 	private static JPanel weaponsPanel;
@@ -81,7 +82,7 @@ public class CardPanel extends JPanel{
 	}
 	
 	
-	public JPanel updateDisplay(Set<Card> seenCards, Set<Card> handCards, String name, JPanel panel) {
+	public JPanel updateDisplay(ArrayList<Card> seenCards, ArrayList<Card> handCards, String name, JPanel panel) {
 		panel.removeAll();
 		
 		HashSet<JTextField> handBoxes = new HashSet<JTextField>();
@@ -125,8 +126,17 @@ public class CardPanel extends JPanel{
 		return panel;
 	}
 	
+	public JPanel getPeoplePanel() {
+		return this.peoplePanel;
+	}
 	
+	public JPanel getWeaponsPanel() {
+		return this.weaponsPanel;
+	}
 	
+	public JPanel getRoomsPanel() {
+		return this.roomsPanel;
+	}
 	
 	
 	public static void main(String[] args) {

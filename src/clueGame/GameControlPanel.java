@@ -61,6 +61,7 @@ public class GameControlPanel extends JPanel {
 		panel.add(this.makeAccusation);
 		panel.add(this.next);
 		next.addActionListener(new NextListener());
+		makeAccusation.addActionListener(new AccusationListener());
 
 		return panel;
 	}
@@ -116,9 +117,16 @@ public class GameControlPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			board.nextClicked();
 		}
-		
-	}
 
+	}
+	
+	private class AccusationListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			board.accusationClicked();
+		}
+	}
+	
 	public static void main(String[] args) {
 		GameControlPanel panel = new GameControlPanel();  // create the panel
 		JFrame frame = new JFrame();  // create the frame 

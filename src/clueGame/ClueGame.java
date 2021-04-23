@@ -34,6 +34,8 @@ public class ClueGame extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		board.setCardPanel(panel);
 		board.setControlPanel(gameControlPanel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue Game");
