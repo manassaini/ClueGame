@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 public abstract class Player {
 	protected String name;
 	protected Color color;
@@ -90,7 +92,7 @@ public abstract class Player {
 	
 	public abstract void updateHand(Card card);
 	
-	public abstract void updateSeen(Card seenCard);
+	public abstract void updateSeen(Card seenCard, CardPanel panel);
 
 	protected abstract Solution createSuggestion(Card currentRoom);
 	
@@ -104,5 +106,7 @@ public abstract class Player {
 	public ArrayList<Card> getHand() {
 		return this.hand;
 	}
+
+	protected abstract Solution makeAccusation();
 		
 }

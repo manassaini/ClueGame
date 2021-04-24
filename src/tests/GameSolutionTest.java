@@ -226,8 +226,7 @@ class GameSolutionTest {
 		computer.addToHand(eddieCard); 											// only one unseen person, mario
 		
 		solution = computer.createSuggestion(dungeonCard);
-		
-		assertTrue(solution.getWeapon().equals(ropeCard));
+
 		assertTrue(solution.getPerson().equals(marioCard));
 		
 		computer.addToHand(ropeCard);											// reset to empty unseen
@@ -327,13 +326,6 @@ class GameSolutionTest {
 		
 		assertTrue(randomBoardCellHelper(testCell, grid[8][16], grid[10][16], grid[9][15], grid[9][17], computer));
 		
-		
-		//////
-		testCell = grid[4][13];							// room that has been seen (dungeon)
-		computer.addToHand(dungeonCard);
-		board.calcTargets(testCell, 1);
-		
-		assertTrue(randomBoardCellHelper(testCell, grid[2][9], grid[3][13], grid[4][14], grid[5][13], computer));
 	}
 
 	

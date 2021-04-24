@@ -65,9 +65,6 @@ public class Board extends JPanel{
 	
 	private ArrayList<String> weaponStrings = new ArrayList<String>();
 	private String[] weaponStringArray;
-//	private String[] roomStrings = {"Balcony", "Washroom", "Trophy Room", "Museum", "Armory", "Dungeon", "Hall", "Zoo", "Secret Base"};
-//	private String[] playerStrings = {"Sophie", "Melissa", "Vik", "Eddie", "Mario"};
-//	private String[] weaponStrings = {"Knife", "Rope", "Glock", "Hammer", "Sickle", "Taser"};
 	
 	private JLabel roomLabel = new JLabel("Room");
 	private JLabel personLabel = new JLabel("Person");
@@ -88,6 +85,7 @@ public class Board extends JPanel{
 	JFrame accusationFrame = new JFrame();
 	JFrame suggestionFrame = new JFrame();	
 	boolean makeAccusation = false;
+	Solution accusation = new Solution();
 	
 	// Cards
 	private ArrayList<Card> roomCards;
@@ -377,7 +375,9 @@ public class Board extends JPanel{
 	}
 	
 	
+	
 	public void suggestionWindow() {
+		suggestionFrame = new JFrame();
 		suggestionFrame.setSize(325,200);
 		suggestionFrame.setTitle("Make a Suggestion");
 		JPanel panel = new JPanel();
@@ -435,8 +435,11 @@ public class Board extends JPanel{
 	public void suggestionSubmit() {
 
 		Card weaponSuggestion = new Card("");
+		weaponSuggestion.setCardType(CardType.WEAPON);
 		Card personSuggestion = new Card("");
-		Card roomSuggestion = roomMap.get(playerCell.getInitial()).getCard();
+		Card roomSuggestion = new Card("");
+		roomSuggestion = roomMap.get(playerCell.getInitial()).getCard();   // ???
+
 		
 		for (Card c: allWeaponCards) {
 			if (c.getCardName().contentEquals((String) allWeaponsSuggestion.getSelectedItem())) {
@@ -450,28 +453,42 @@ public class Board extends JPanel{
 		}
 		
 		Card disprove = handleSuggestion(personSuggestion, weaponSuggestion, roomSuggestion, currentPlayer, players);
+		controlPanel.setGuess(personSuggestion.getCardName() + ", " + roomSuggestion.getCardName()+ ", and " + weaponSuggestion.getCardName());
 		
 		if (disprove != null) {
 			JOptionPane.showMessageDialog(null, "The suggestion of " + disprove.getCardName() +" has been proven incorrect.");
+			controlPanel.setGuessResult("Incorrect");
 		}
 		else {
 			accusationFlag = true;
 			JOptionPane.showMessageDialog(null, "The suggestion has no objections");
-		}
-		
-		// ***
-		for (Player p: players) {								// update so players have seen card from suggestion
-			if (!p.equals(currentPlayer)) {
-				p.updateSeen(weaponSuggestion);
-				p.updateSeen(personSuggestion);
-				p.updateSeen(roomSuggestion);
+			accusation.setPerson(personSuggestion);
+			accusation.setRoom(roomSuggestion);
+			accusation.setWeapon(weaponSuggestion);
+			controlPanel.setGuessResult("Correct");
+			for (Player p: players) {								// update so players have seen card from suggestion
+				p.updateSeen(disprove, cardPanel);		// all suggested cards or only disproven?
 			}
 		}
 		
-		// move suggested player to same point
-		
 		suggestionFrame.setVisible(false);
+		moveSuggestedPlayer();
 		nextClicked();
+		suggestionFrame.removeAll();
+	}
+	
+	
+	public void moveSuggestedPlayer() {									//get the selected player from the combobox
+		String playerName = (String) allPlayersSuggestion.getSelectedItem();
+		Player toMove = new ComputerPlayer("");
+		for (Player p: players) {
+			if (playerName.contentEquals(p.getName())) {
+				toMove = p;
+			}
+		}
+		toMove.setLoc(currentPlayer.getRow(), currentPlayer.getCol() + 1);
+		grid[currentPlayer.getRow()][currentPlayer.getCol() + 1].setRoomCenter(true);
+		repaint();
 	}
 	
 	
@@ -481,18 +498,30 @@ public class Board extends JPanel{
 			if (!accusationFlag) {
 				if (playerCell.isRoomCenter()) {
 					Solution solution = currentPlayer.createSuggestion(roomMap.get(playerCell.getInitial()).getCard());
+					controlPanel.setGuess(solution.getPerson().getCardName() + ", " + solution.getRoom().getCardName()+ ", and " + solution.getWeapon().getCardName());
 					Card disprove = handleSuggestion(solution.getPerson(), solution.getRoom(), solution.getWeapon(), currentPlayer, players);
 					if (disprove != null) {
-						JOptionPane.showMessageDialog(null, "The suggestion of " + disprove.getCardName() +" has been proven incorrect.");
+						JOptionPane.showMessageDialog(null, "The suggestion " + disprove.getCardName() +" has been proven incorrect.");
+						controlPanel.setGuessResult("Incorrect");
 					} else {
 						JOptionPane.showMessageDialog(null, "The suggestion has no objections");
+						controlPanel.setGuessResult("Correct");
+						accusation.setPerson(solution.getPerson());
+						accusation.setRoom(solution.getRoom());
+						accusation.setWeapon(solution.getWeapon());
 						accusationFlag = true;
 					}
 				}
 			}
-			else {
-				// make accusation, computer.... create suggestion but with random room parameter?
+		}
+		if (accusationFlag) {
+			if (checkAccusation(accusation.getPerson(), accusation.getWeapon(), accusation.getRoom(), theInstance.solution)) {
+				JOptionPane.showMessageDialog(null, currentPlayer.getName() + " made a correct accusation. Game over, you lost!");
 			}
+			else {
+				JOptionPane.showMessageDialog(null, currentPlayer.getName() + " made an incorrect accusation. Game over, you win!");
+			}
+			System.exit(0);
 		}
 		BoardCell nextCell = getRandomBoardCell(targets);
 		currentPlayer.setLoc(nextCell.getRow(), nextCell.getCol());
@@ -531,6 +560,8 @@ public class Board extends JPanel{
 					JOptionPane.showMessageDialog(null, "Not a valid target");
 				}
 			}
+
+			
 			if (playerCell.getIsRoom()) {
 				suggestionWindow();
 			}
@@ -644,6 +675,7 @@ public class Board extends JPanel{
 	public void loadLayoutConfig() throws BadConfigFormatException {	
 		rowsAndColumnsHelper();
 
+		int count = 0;
 		Scanner scan3;
 		try {
 			scan3 = new Scanner(new File(this.layoutConfigFile));	
@@ -701,8 +733,16 @@ public class Board extends JPanel{
 							} else {
 								throw new BadConfigFormatException();
 							}
-
-							roomMap.get(initial).setCenter(thisCell);
+							
+							if (count == 0) {
+								roomMap.get(initial).setCenter(thisCell);
+								count = 1;
+							}
+							else {
+								roomMap.get(initial).setSecondCenter(thisCell);
+								count = 0;
+							}
+							
 							break;
 						
 						case '^':										// up door
@@ -932,7 +972,6 @@ public class Board extends JPanel{
 				}	
 			}
 		}
-
 		if (options.size() == 0) {
 			return null;
 		} else {
@@ -943,7 +982,7 @@ public class Board extends JPanel{
 	
 	// Check accusation compared to solution
 	public boolean checkAccusation(Card person, Card weapon, Card room, Solution solution) {
-		if (person == solution.person && weapon == solution.weapon && room == solution.room) {
+		if (person.equals(solution.person) && weapon.equals(solution.weapon) && room.equals(solution.room)) {
 			return true;
 		}
 		return false;	

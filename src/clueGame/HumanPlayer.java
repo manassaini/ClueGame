@@ -3,6 +3,8 @@ package clueGame;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JPanel;
+
 public class HumanPlayer extends Player{
 
 	public HumanPlayer(String name) {
@@ -94,20 +96,29 @@ public class HumanPlayer extends Player{
 	}
 
 	@Override
-	public void updateSeen(Card seenCard) {
+	public void updateSeen(Card seenCard, CardPanel panel) {
 		// TODO Auto-generated method stub
 		this.seen.add(seenCard);
 		if (seenCard.getCardType() == CardType.PERSON) {
 			this.unseenPeople.remove(seenCard);
+			panel.updateDisplay(this.seen, this.hand, "People", panel.getPeoplePanel());
 		} else if (seenCard.getCardType() == CardType.ROOM) {
 			this.unseenRooms.remove(seenCard);
+			panel.updateDisplay(this.seen, this.hand, "Rooms", panel.getRoomsPanel());
 		} else {
 			this.unseenWeapons.remove(seenCard);
+			panel.updateDisplay(this.seen, this.hand, "Weapons", panel.getWeaponsPanel());
 		}
 	}
 
 	@Override
 	protected Solution createSuggestion(Card currentRoom) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Solution makeAccusation() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,3 +1,27 @@
+commit 7ad905c0c588f90ce63cb460e8f8b813031a9251
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Fri Apr 23 18:07:32 2021 -0600
+
+    almost done
+
+commit 8217d5d332f7b0c0206b9850a2e96d97d7e91006
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Fri Apr 23 00:17:47 2021 -0600
+
+    almost done
+
+commit e8dc9a5fa7fcc6b2e9df1c5e2c2f79a38332a107
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Tue Apr 20 18:01:22 2021 -0600
+
+    Final clue started
+
+commit 7ce5e00898959419087557153a9de17df0f89c6b
+Author: tgeis1 <tgeis@mymail.mines.edu>
+Date:   Wed Apr 14 19:44:13 2021 -0600
+
+    git log
+
 commit a75467ced530aca8d49345b8880d3b703cca9bf4
 Author: tgeis1 <tgeis@mymail.mines.edu>
 Date:   Wed Apr 14 19:43:26 2021 -0600

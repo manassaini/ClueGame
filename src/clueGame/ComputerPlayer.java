@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 public class ComputerPlayer extends Player {
 	
 
@@ -42,6 +44,21 @@ public class ComputerPlayer extends Player {
 	}
 	
 	
+	public Solution makeAccusation() {
+		Solution thisSolution = new Solution();
+		
+		Card person = this.getRandomCard(this.unseenPeople);		// random unseen person
+		thisSolution.setPerson(person);
+		
+		Card weapon = this.getRandomCard(this.unseenWeapons);		// random unseen weapon
+		thisSolution.setWeapon(weapon);
+		
+		Card room = this.getRandomCard(this.unseenRooms);
+		thisSolution.setRoom(room);
+		
+		return thisSolution;
+		
+	}
 	
 	
 	@Override
@@ -53,17 +70,23 @@ public class ComputerPlayer extends Player {
 	
 	
 	@Override
-	public void updateSeen(Card seenCard) {								// adding another card to seen list, could be through other player suggestion etc
+	public void updateSeen(Card seenCard, CardPanel panel) {								// adding another card to seen list, could be through other player suggestion etc
 		// TODO Auto-generated method stub
-		this.seen.add(seenCard);
-		this.unseen.remove(seenCard);
-		if (seenCard.getCardType() == CardType.PERSON) {				// if person, removes from unseen people, if room, etc
-			this.unseenPeople.remove(seenCard);
-		} else if (seenCard.getCardType() == CardType.ROOM) {
-			this.unseenRooms.remove(seenCard);
-		} else {
-			this.unseenWeapons.remove(seenCard);
+		if (!this.hand.contains(seenCard) && !this.seen.contains(seenCard)) {
+			this.seen.add(seenCard);
+			this.unseen.remove(seenCard);
+			if (seenCard.getCardType() == CardType.PERSON) {				// if person, removes from unseen people, if room, etc
+				this.unseenPeople.remove(seenCard);
+				panel.updateDisplay(this.seen, this.hand, "People", panel.getPeoplePanel());
+			} else if (seenCard.getCardType() == CardType.ROOM) {
+				this.unseenRooms.remove(seenCard);
+				panel.updateDisplay(this.seen, this.hand, "Rooms", panel.getRoomsPanel());
+			} else {
+				this.unseenWeapons.remove(seenCard);
+				panel.updateDisplay(this.seen, this.hand, "Weapons", panel.getWeaponsPanel());
+			}
 		}
+		
 	}
 	
 	
@@ -116,15 +139,28 @@ public class ComputerPlayer extends Player {
 		ArrayList<Card> options = new ArrayList<Card>();							// arraylist of potential options for matching cards
 		for (Card card: this.seen) {
 			if (card.equals(person)) {
-				options.add(person);
+				options.add(card);
 			} 
 			else if (card.equals(weapon)) {
-				options.add(weapon);
+				options.add(card);
 			}
 			else if (card.equals(room)) {
-				options.add(room);
+				options.add(card);
 			}
 		}
+		
+		for (Card card: this.hand) {
+			if (card.equals(person)) {
+				options.add(card);
+			} 
+			else if (card.equals(weapon)) {
+				options.add(card);
+			}
+			else if (card.equals(room)) {
+				options.add(card);
+			}
+		}
+		
 		// choose matching card
 
 		if (options.size() > 1) {						// more than one option, choose random

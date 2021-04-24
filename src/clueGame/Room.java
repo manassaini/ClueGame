@@ -8,6 +8,7 @@ public class Room {
 	
 	private String name;
 	private BoardCell centerCell;
+	private BoardCell secondCenter;
 	private BoardCell labelCell;
 	private BoardCell secretPassage;
 	private boolean hasSecret;
@@ -31,6 +32,14 @@ public class Room {
 	
 	public BoardCell getCenterCell() {
 		return this.centerCell;
+	}
+	
+	public BoardCell getSecondCenter() {
+		return this.secondCenter;
+	}
+	
+	public void setSecondCenter(BoardCell secondCenter) {
+		this.secondCenter = secondCenter;
 	}
 	
 	public void setCenter(BoardCell center) {
@@ -63,7 +72,7 @@ public class Room {
 	}
 	
 	public void setCard(Card c) {
-		this.card = card;
+		this.card = c;
 	}
 	
 	public Card getCard() {
