@@ -4,6 +4,7 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -29,6 +30,7 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel{
 
+	// General
 	private static Board theInstance = new Board();
 	private int numRows;
 	private int numColumns;
@@ -36,31 +38,58 @@ public class Board extends JPanel{
 	private int yScale;
 	private int counter = 0;
 	private BoardCell[][] grid;
+	private Map<Character, Room> roomMap;
+	private Set<BoardCell> targets;
+	private Set<BoardCell> visited;
+	private Solution solution;
+	private static final int MIN_DICE_ROLL = 1;
+	private static final int MAX_ROLL = 6;
+	private ArrayList<Player> players;
+	
+	// Files
+	private String layoutConfigFile;
+	private String setupConfigFile;
+	
+	// GUI
+	private Graphics g;
 	private GameControlPanel controlPanel;
 	private CardPanel cardPanel;
 	private Player currentPlayer;
 	private MouseListener mListener;
 	
-	private String layoutConfigFile;
-	private String setupConfigFile;
+	private ArrayList<String> roomStrings = new ArrayList<String>();
+	private String[] roomStringArray;
 	
-	private Map<Character, Room> roomMap;
+	private ArrayList<String> playerStrings = new ArrayList<String>();
+	private String[] playerStringArray;
 	
-	private String[] roomStrings = {"Balcony", "Washroom", "Trophy Room", "Museum", "Armory", "Dungeon", "Hall", "Zoo", "Secret Base"};
-	private String[] playerStrings = {"Sophie", "Melissa", "Vik", "Eddie", "Mario"};
-	private String[] weaponStrings = {"Knife", "Rope", "Glock", "Hammer", "Sickle", "Taser"};
+	private ArrayList<String> weaponStrings = new ArrayList<String>();
+	private String[] weaponStringArray;
+//	private String[] roomStrings = {"Balcony", "Washroom", "Trophy Room", "Museum", "Armory", "Dungeon", "Hall", "Zoo", "Secret Base"};
+//	private String[] playerStrings = {"Sophie", "Melissa", "Vik", "Eddie", "Mario"};
+//	private String[] weaponStrings = {"Knife", "Rope", "Glock", "Hammer", "Sickle", "Taser"};
+	
 	private JLabel roomLabel = new JLabel("Room");
 	private JLabel personLabel = new JLabel("Person");
 	private JLabel weaponLabel = new JLabel("Weapon");
-	private JComboBox allRooms = new JComboBox(roomStrings);
-	private JComboBox allPlayers = new JComboBox(playerStrings);
-	private JComboBox allWeapons = new JComboBox(weaponStrings);
-	private JComboBox allPlayersSuggestion = new JComboBox(playerStrings);
-	private JComboBox allWeaponsSuggestion = new JComboBox(weaponStrings);
-	private JButton sumbitButton = new JButton("Sumbit");
+	private JComboBox allRooms;
+	private JComboBox allPlayers;
+	private JComboBox allWeapons;
+	private JComboBox allPlayersSuggestion;
+	private JComboBox allWeaponsSuggestion;
+	private JButton sumbitButton = new JButton("Submit");
 	private JButton cancelButton = new JButton("Cancel");
-	private JButton sumbitButtonSuggestion = new JButton("Sumbit");
+	private JButton sumbitButtonSuggestion = new JButton("Submit");
 	private JButton cancelButtonSuggestion = new JButton("Cancel");
+	private JLabel jLabel;
+	private Board board = Board.getInstance();
+	private boolean accusationFlag = false;
+	private BoardCell playerCell;
+	JFrame accusationFrame = new JFrame();
+	JFrame suggestionFrame = new JFrame();	
+	boolean makeAccusation = false;
+	
+	// Cards
 	private ArrayList<Card> roomCards;
 	private ArrayList<Card> personCards;
 	private ArrayList<Card> weaponCards;
@@ -68,21 +97,8 @@ public class Board extends JPanel{
 	private ArrayList<Card> allRoomCards;
 	private ArrayList<Card> allPersonCards;
 	private ArrayList<Card> allWeaponCards;
-	private ArrayList<Player> players;
-	private BoardCell playerCell;
-	private boolean accusationFlag = false;
 	
-	private Set<BoardCell> targets;
-	private Set<BoardCell> visited;
 	
-	private Solution solution;
-	private Graphics g;
-	
-	private static final int MIN_DICE_ROLL = 1;
-	private static final int MAX_ROLL = 6;
-	
-	private JLabel jLabel;
-	private Board board = Board.getInstance();
 	
 	
 	/////				 ***** CONSTRUCTORS AND INITIALIZING *****
@@ -91,7 +107,46 @@ public class Board extends JPanel{
 	private Board() {
 		super();
 	}
+	
+	
+	// returns the instance
+	public static Board getInstance() {
+		return theInstance;
+	}
+		
+	
+	// initialize the instance, read in files, allocate space to array list, deal cards
+	public void initialize() throws BadConfigFormatException {
+		theInstance.loadConfigFiles();
+		
+		theInstance.targets = new HashSet<BoardCell>();
+		theInstance.visited = new HashSet<BoardCell>();
+		
+		theInstance.dealCards();
+		theInstance.mListener = new TargetClick();
+		theInstance.addMouseListener(mListener);
+	}
 
+	
+	// calls to 2 load files methods
+	public void loadConfigFiles() throws BadConfigFormatException {
+		loadSetupConfig();
+		loadLayoutConfig();
+	}
+
+
+	// Parameters: text files to be read in
+	public void setConfigFiles(String csvFile, String txtFile) {		// takes in files to read
+		this.layoutConfigFile = csvFile;
+		this.setupConfigFile = txtFile;
+	}
+	
+	
+	
+	
+
+	/////						 ***** GUI AND DRAWING *****
+	
 	public void setControlPanel(GameControlPanel gameControl) {
 		controlPanel = gameControl;
 	}
@@ -100,12 +155,9 @@ public class Board extends JPanel{
 		this.cardPanel = cardPanel;
 	}
 	
-	// returns the instance
-	public static Board getInstance() {
-		return theInstance;
-	}
-		
-	// draw the board
+	
+	
+	// draw the board, rooms, labels, players included
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.g = g;
@@ -137,7 +189,6 @@ public class Board extends JPanel{
 				
 			}
 		}
-		
 		for (int i = 0; i < numRows; ++i) {								// reiterate for room labels
 			for (int j = 0; j < numColumns; ++j) {
 				if (grid[i][j].isLabel()) {
@@ -148,12 +199,12 @@ public class Board extends JPanel{
 				}
 			}
 		}
-		
 		for (Player p: theInstance.players) {							// players
 			p.draw(g, yScale, xScale);
 		}
 		setVisible(true);
 	}
+	
 	
 	
 	// display start message
@@ -162,8 +213,10 @@ public class Board extends JPanel{
 	}
 	
 	
+	
 	// next button
 	public void nextClicked() {
+		makeAccusation = false;
 		
 		for (BoardCell c: targets) {			// clear targets before next turn
 			c.setIsTarget(false);
@@ -184,6 +237,7 @@ public class Board extends JPanel{
 		playerCell = grid[currentPlayer.getRow()][currentPlayer.getCol()];
 		calcTargets(playerCell, roll);
 		if (!currentPlayer.isComputer()) {							// human or computer branch
+			makeAccusation = true;									// something can/will happen when accusation button clicked
 			humanMove();
 		}
 		else {
@@ -192,10 +246,10 @@ public class Board extends JPanel{
 	}
 	
 	
-	// accusation clicked
+	
+	// accusation button clicked, load frame
 	public void accusationClicked() {
-		if (!currentPlayer.isComputer()) {
-			JFrame accusationFrame = new JFrame();
+		if (!currentPlayer.isComputer() && makeAccusation) {
 			accusationFrame.setSize(325,200);
 			accusationFrame.setTitle("Make an Accusation");
 			JPanel panel = new JPanel();
@@ -211,28 +265,54 @@ public class Board extends JPanel{
 			panel.add(sumbitButton);
 			panel.add(cancelButton);
 			
-			accusationFrame.setVisible(true);
+			sumbitButton.addActionListener(new SumbitListener());
+			cancelButton.addActionListener(new CancelListener());
 			
+			accusationFrame.setVisible(true);
 		}
 	}
 	
-	public void sumbitClicked() {
-		if (solution.getRoom().getCardName() == allRooms.getSelectedItem() && solution.getPerson().getCardName() == allPlayers.getSelectedItem() && solution.getWeapon().getCardName() == allWeapons.getSelectedItem()) {
-			JOptionPane.showConfirmDialog(null, "Congratulations! You guessed correctly and have won the game!");
-		}
-		else {
-			JOptionPane.showConfirmDialog(null, "You guessed incorrectly. You have lost and the game is over!");
-		}
-	}
-		
+	
+	
+	// submit button listener for accusation
 	private class SumbitListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			board.sumbitClicked();	
+			sumbitClicked();	
 		}
 	}
 	
 	
+	// cancel button for both suggestion and accusation
+	private class CancelListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) { //close current frame
+			cancelCloseFrames();
+		}
+	}
+	
+	
+	// Cancel button hit, close either/both frames
+	public void cancelCloseFrames() { 
+		accusationFrame.setVisible(false);
+		suggestionFrame.setVisible(false);
+	}
+	
+		
+	// submit button listener for accusation
+	public void sumbitClicked() {
+		if (solution.getRoom().getCardName() == allRooms.getSelectedItem() && solution.getPerson().getCardName() == allPlayers.getSelectedItem() && solution.getWeapon().getCardName() == allWeapons.getSelectedItem()) {
+			JOptionPane.showMessageDialog(null, "Congratulations! You guessed correctly and have won the game!");
+			System.exit(0);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "You guessed incorrectly. You have lost and the game is over!");
+			System.exit(0);
+		}
+	}
+	
+	
+	// update cards panel for each player, seen and in hand
 	public void updateCardsPanel(Player p) {
 		ArrayList<Card> seenWeapons = new ArrayList<Card>();
 		ArrayList<Card> handWeapons = new ArrayList<Card>();
@@ -258,7 +338,6 @@ public class Board extends JPanel{
 		}
 		
 		ArrayList<Card> hand = p.getHand();
-		
 		for (Card c: hand) {
 			if (c.getCardType() == CardType.ROOM) {
 				handRooms.add(c);
@@ -281,7 +360,7 @@ public class Board extends JPanel{
 	
 	
 	
-	// helper to above, set targets to true
+	// helper to human move (below), set targets to true
 	public void drawTargets() {
 		for (BoardCell cell: targets) {
 			cell.setIsTarget(true);
@@ -289,51 +368,130 @@ public class Board extends JPanel{
 		repaint();
 	}
 	
+	
+	
+	// draw targets, if in room offer suggestion
 	public void humanMove() {
+		makeAccusation = true;
 		drawTargets();
-		
-		// check mouse listener
-		
-		if (playerCell.isRoomCenter()) {
-			JFrame suggestionFrame = new JFrame();
-			suggestionFrame.setSize(325,200);
-			suggestionFrame.setTitle("Make a Suggestion");
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(4,2));
-			suggestionFrame.add(panel);
-			
-			JLabel roomLabelSuggestion = new JLabel("Room");
-			JLabel personLabelSuggestion = new JLabel("Person");
-			JLabel weaponLabelSuggestion = new JLabel("Weapon");
-			String[] currentRoom = new String[1];
-			currentRoom[0] = roomMap.get(playerCell.getInitial()).getName();
-			JComboBox allRooms = new JComboBox(currentRoom);
-			panel.add(roomLabelSuggestion);
-			panel.add(allRooms);
-			panel.add(personLabelSuggestion);
-			panel.add(allPlayersSuggestion);
-			panel.add(weaponLabelSuggestion);
-			panel.add(allWeaponsSuggestion);
-			JButton sumbitButton = new JButton("Sumbit");
-			JButton cancelButton = new JButton("Cancel");
-			panel.add(sumbitButton);
-			panel.add(cancelButton);
-			
-			suggestionFrame.setVisible(true);
-		}
-		
 	}
 	
 	
-	public void computerMove() {								// random computer movement
+	public void suggestionWindow() {
+		suggestionFrame.setSize(325,200);
+		suggestionFrame.setTitle("Make a Suggestion");
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(4,2));
+		suggestionFrame.add(panel);
+		
+		JLabel roomLabelSuggestion = new JLabel("Room");
+		JLabel personLabelSuggestion = new JLabel("Person");
+		JLabel weaponLabelSuggestion = new JLabel("Weapon");
+		
+		String[] currentRoom = new String[1];				// one object array with current room
+		currentRoom[0] = roomMap.get(playerCell.getInitial()).getName();
+		JComboBox allRooms = new JComboBox(currentRoom);
+		panel.add(roomLabelSuggestion);
+		panel.add(allRooms);
+		
+		panel.add(personLabelSuggestion);
+		panel.add(allPlayersSuggestion);
+		panel.add(weaponLabelSuggestion);
+		panel.add(allWeaponsSuggestion);
+		
+		sumbitButtonSuggestion = new JButton("Submit");
+		cancelButtonSuggestion = new JButton("Cancel");
+		
+		panel.add(sumbitButtonSuggestion);
+		panel.add(cancelButtonSuggestion);
+		
+		sumbitButtonSuggestion.addMouseListener(new SubmitSuggestionClick());
+		cancelButtonSuggestion.addActionListener(new CancelListener());
+		
+		suggestionFrame.setVisible(true);
+	}
+	
+	
+	
+	// Submit button clicked suggestion
+	private class SubmitSuggestionClick implements MouseListener {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			suggestionSubmit();
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {}
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+		@Override
+		public void mouseExited(MouseEvent e) {}
+	}
+	
+	
+	// suggestion submit button clicked
+	public void suggestionSubmit() {
+
+		Card weaponSuggestion = new Card("");
+		Card personSuggestion = new Card("");
+		Card roomSuggestion = roomMap.get(playerCell.getInitial()).getCard();
+		
+		for (Card c: allWeaponCards) {
+			if (c.getCardName().contentEquals((String) allWeaponsSuggestion.getSelectedItem())) {
+				weaponSuggestion = c;
+			}
+		}
+		for (Card c: allPersonCards) {
+			if (c.getCardName().contentEquals((String) allPlayersSuggestion.getSelectedItem())) {
+				personSuggestion = c;
+			}
+		}
+		
+		Card disprove = handleSuggestion(personSuggestion, weaponSuggestion, roomSuggestion, currentPlayer, players);
+		
+		if (disprove != null) {
+			JOptionPane.showMessageDialog(null, "The suggestion of " + disprove.getCardName() +" has been proven incorrect.");
+		}
+		else {
+			accusationFlag = true;
+			JOptionPane.showMessageDialog(null, "The suggestion has no objections");
+		}
+		
+		// ***
+		for (Player p: players) {								// update so players have seen card from suggestion
+			if (!p.equals(currentPlayer)) {
+				p.updateSeen(weaponSuggestion);
+				p.updateSeen(personSuggestion);
+				p.updateSeen(roomSuggestion);
+			}
+		}
+		
+		// move suggested player to same point
+		
+		suggestionFrame.setVisible(false);
+		nextClicked();
+	}
+	
+	
+	// computer move- accusation if flag set, suggestion if in room, normal move otherwise
+	public void computerMove() {								
 		if (playerCell.isRoomCenter()) {
 			if (!accusationFlag) {
-				Solution solution = currentPlayer.createSuggestion(roomMap.get(playerCell.getInitial()).getCard());
-				handleSuggestion(solution.getPerson(), solution.getRoom(), solution.getWeapon(), currentPlayer, players);
-				// show this
+				if (playerCell.isRoomCenter()) {
+					Solution solution = currentPlayer.createSuggestion(roomMap.get(playerCell.getInitial()).getCard());
+					Card disprove = handleSuggestion(solution.getPerson(), solution.getRoom(), solution.getWeapon(), currentPlayer, players);
+					if (disprove != null) {
+						JOptionPane.showMessageDialog(null, "The suggestion of " + disprove.getCardName() +" has been proven incorrect.");
+					} else {
+						JOptionPane.showMessageDialog(null, "The suggestion has no objections");
+						accusationFlag = true;
+					}
+				}
 			}
 			else {
-				// make accusation
+				// make accusation, computer.... create suggestion but with random room parameter?
 			}
 		}
 		BoardCell nextCell = getRandomBoardCell(targets);
@@ -342,71 +500,58 @@ public class Board extends JPanel{
 	}
 	
 	
-	public BoardCell getRandomBoardCell(Set<BoardCell> targets) {		// based off code from geeks for geeks
+	
+	// returns random board cell from parameter
+	public BoardCell getRandomBoardCell(Set<BoardCell> targets) {			// based off code from geeks for geeks
 		BoardCell[] copy = targets.toArray(new BoardCell[targets.size()]);
 		Random random = new Random();
 		int rndm = random.nextInt(targets.size());
 		return copy[rndm];
 	}
 	
+	
+	
+	// target clicked, human turn
 	public class TargetClick implements MouseListener {
 		BoardCell clicked;
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			int clickedCol = e.getX()/xScale;
-			int clickedRow = e.getY()/yScale;
-			BoardCell clicked = grid[clickedRow][clickedCol];					// if clicked spot is in set of targets
-			if (targets.contains(clicked)) {
-				currentPlayer.setLoc(clickedRow, clickedCol);
-				repaint();
+			if (!currentPlayer.isComputer()) {
+				makeAccusation = false;
+				int clickedCol = e.getX()/xScale;
+				int clickedRow = e.getY()/yScale;
+				BoardCell clicked = grid[clickedRow][clickedCol];					// if clicked spot is in set of targets
+				if (targets.contains(clicked)) {
+					currentPlayer.setLoc(clickedRow, clickedCol);
+					playerCell = grid[clickedRow][clickedCol];
+					repaint();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Not a valid target");
+				}
 			}
-			else {
-				JOptionPane.showMessageDialog(null, "Not a valid target");
+			if (playerCell.getIsRoom()) {
+				suggestionWindow();
 			}
-			
 		}
 
+		// required for mouse listener
 		public void mousePressed(MouseEvent e) {}
 		public void mouseReleased(MouseEvent e) {}
 		public void mouseEntered(MouseEvent e) {}
 		public void mouseExited(MouseEvent e) {}
-		
-		
-		
 	}
 	
-	// initialize the instance, read in files, allocate space to array list, deal cards
-	public void initialize() throws BadConfigFormatException {
-		theInstance.loadConfigFiles();
-		
-		theInstance.targets = new HashSet<BoardCell>();
-		theInstance.visited = new HashSet<BoardCell>();
-		
-		theInstance.dealCards();
-		theInstance.mListener = new TargetClick();
-		theInstance.addMouseListener(mListener);
-	}
-
 	
-	// calls to 2 load files methods
-	public void loadConfigFiles() throws BadConfigFormatException {
-		loadSetupConfig();
-		loadLayoutConfig();
-	}
-
-
-	// Parameters: text files to be read in
-	public void setConfigFiles(String csvFile, String txtFile) {		// takes in files to read
-		this.layoutConfigFile = csvFile;
-		this.setupConfigFile = txtFile;
-	}
+	
+	
 	
 	/////						 ***** READ IN FILES *****
 
 	// create room map and initialize cards
 	public void loadSetupConfig() throws BadConfigFormatException {
-		theInstance.roomMap = new HashMap<Character, Room>();
+		theInstance.roomMap = new HashMap<Character, Room>();				// filled in load setup helper
 		theInstance.roomCards = new ArrayList<Card>();
 		theInstance.personCards = new ArrayList<Card>();
 		theInstance.weaponCards = new ArrayList<Card>();
@@ -433,36 +578,62 @@ public class Board extends JPanel{
 	public void loadSetupHelper(String[] line) throws BadConfigFormatException {
 		String firstWord = line[0];
 		if (firstWord.charAt(0) != '/') {
+			
+			Card newCard = new Card(line[1]);
+			Card cardCopy = new Card(line[1]);
+			
 			if (firstWord.contentEquals("Room") || firstWord.contentEquals("Space")) {		// room or space, need put in room map
 				Room room = new Room(line[1]);
-				theInstance.roomMap.put(line[2].charAt(0), room);							
-				if (firstWord.contentEquals("Room")) {										// rooms need card, spaces do not
-					Card newCard = new Card(line[1]);
+				theInstance.roomMap.put(line[2].charAt(0), room);				
+				
+				if (firstWord.contentEquals("Room")) {										// rooms need card, spaces do not; space cards get made but not added to anything
 					theInstance.roomCards.add(newCard);
-					Card cardCopy = new Card(line[1]);
 					theInstance.allRoomCards.add(cardCopy);
 					newCard.setCardType(CardType.ROOM);
 					room.setCard(newCard);
+					roomStrings.add(line[1]);
 				}
 			}
+			
 			else if (firstWord.contentEquals("Person")) {									// person
-				Card newCard = new Card(line[1]);
 				theInstance.personCards.add(newCard);
-				Card cardCopy = new Card(line[1]);
 				theInstance.allPersonCards.add(cardCopy);
 				newCard.setCardType(CardType.PERSON);
+				playerStrings.add(line[1]);
 			} 
+			
 			else if (firstWord.contentEquals("Weapon")) {									// weapon
-				Card newCard = new Card(line[1]);
 				theInstance.weaponCards.add(newCard);
-				Card cardCopy = new Card(line[1]);
 				theInstance.allWeaponCards.add(cardCopy);
 				newCard.setCardType(CardType.WEAPON);
+				weaponStrings.add(line[1]);
 			}
 			else {
-				throw new BadConfigFormatException("Layout Config error");					// typo
+				throw new BadConfigFormatException("Layout Config error");					// typo or other error
 			}
 		}
+		
+		roomStringArray = new String[roomStrings.size()];
+		playerStringArray = new String[playerStrings.size()];
+		weaponStringArray = new String[weaponStrings.size()];
+		
+		for (int i = 0; i < roomStrings.size(); i ++) {
+			roomStringArray[i] = roomStrings.get(i);
+		}
+		
+		for (int i = 0; i < playerStrings.size(); i ++) {
+			playerStringArray[i] = playerStrings.get(i);
+		}
+		
+		for (int i = 0; i < weaponStrings.size(); i ++) {
+			weaponStringArray[i] = weaponStrings.get(i);
+		}
+		
+		allRooms = new JComboBox(roomStringArray);
+		allPlayers = new JComboBox(playerStringArray);
+		allWeapons = new JComboBox(weaponStringArray);
+		allPlayersSuggestion = new JComboBox(playerStringArray);
+		allWeaponsSuggestion = new JComboBox(weaponStringArray);
 	}
 	
 	

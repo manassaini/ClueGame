@@ -47,7 +47,7 @@ public class ComputerPlayer extends Player {
 	@Override
 	public void addToHand(Card card) {							// adds card to hand, removes the card from unseen list using method below
 		this.hand.add(card);
-		this.updateSeen(card);
+//		this.updateSeen(card);
 	}
 	
 	
